@@ -96,3 +96,9 @@ services:
         condition: service_healthy
     ports:
       - 3001:3000
+
+  xslt:
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-afc3e88c-20230803.1222
+    restart: always
+    ports:
+      - 3004:80
