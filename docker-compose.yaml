@@ -102,3 +102,34 @@ services:
     restart: always
     ports:
       - 3004:80
+
+  worker:
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-4d0d7b17-20230912.0852
+    depends_on:
+      createbucket:
+        condition: service_completed_successfully
+      temporal:
+        condition: service_healthy
+      xslt:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    environment:
+      EPP_SERVER_URI: http://api:3000
+      TEMPORAL_SERVER: temporal:7233
+
+      # EPP S3 bucket
+      S3_ENDPOINT: http://minio:9000
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: miniotest
+      BUCKET_NAME: epp
+
+      # Meca S3 Bucket (on minio)
+      MECA_S3_ENDPOINT: http://minio:9000
+      MECA_AWS_ACCESS_KEY_ID: minio
+      MECA_AWS_SECRET_ACCESS_KEY: miniotest
+      XSLT_TRANSFORM_ADDRESS: http://xslt:80
+    restart: on-failure:5
+    command:
+      - yarn
+      - start:worker:dev
