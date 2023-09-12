@@ -59,3 +59,22 @@ services:
       timeout: 5s
       retries: 10
       start_period: 2s
+
+  api:
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-05bda5c1-20230912.0943
+    healthcheck:
+      test: sh -c 'apk add curl; curl http://api:3000/'
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      REPO_TYPE: MongoDB
+      REPO_CONNECTION: mongodb:27017
+      REPO_USERNAME: admin
+      REPO_PASSWORD: testtest
+    ports:
+      - 3000:3000
