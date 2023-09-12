@@ -10,6 +10,26 @@ services:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: miniotest
     command: server --console-address ":9001" /data
+    healthcheck:
+      test: curl http://minio:9000/minio/health/live
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
+
+
+  createbucket:
+    image: minio/mc:RELEASE.2022-12-24T15-21-38Z
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 minio miniotest;
+      /usr/bin/mc mb myminio/epp;
+      /usr/bin/mc mb myminio/meca;
+      exit 0;
+      "
 
 volumes:
   minio_storage: {}
