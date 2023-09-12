@@ -17,7 +17,6 @@ services:
       retries: 10
       start_period: 2s
 
-
   createbucket:
     image: minio/mc:RELEASE.2022-12-24T15-21-38Z
     depends_on:
@@ -30,6 +29,28 @@ services:
       /usr/bin/mc mb myminio/meca;
       exit 0;
       "
+
+  temporal:
+    image: ghcr.io/elifesciences/temporal-cli:master-c12351f4-20230517.1457
+    command:
+      - "/temporal"
+      - "server"
+      - "start-dev"
+      - "--namespace"
+      - "default"
+      - "--ip"
+      - "0.0.0.0"
+    ports:
+      - 7233:7233
+      - 8233:8233
+    healthcheck:
+      test: /temporal operator namespace list
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
+
+  
 
 volumes:
   minio_storage: {}
