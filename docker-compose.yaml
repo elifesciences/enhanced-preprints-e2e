@@ -78,3 +78,21 @@ services:
       REPO_PASSWORD: testtest
     ports:
       - 3000:3000
+
+  app:
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-1b8f614e-20230907.1843
+    healthcheck:
+      test: sh -c 'apk add curl; curl -X POST http://app:3000/'
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    environment:
+      API_SERVER: http://api:3000
+      NEXT_PUBLIC_IMAGE_SERVER: /iiif
+      IS_AUTOMATED: true
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - 3001:3000
