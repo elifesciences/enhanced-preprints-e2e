@@ -132,7 +132,7 @@ services:
     restart: on-failure:5
     command:
       - yarn
-      - start:worker:dev
+      - start:worker
 
   wiremock:
     image: wiremock/wiremock:3.0.3-1

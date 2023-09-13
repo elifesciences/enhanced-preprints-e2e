@@ -1,6 +1,7 @@
 {
   "private": true,
   "dependencies": {
+    "@temporalio/client": "^1.8.5",
     "jest": "^29.7.0"
   },
   "devDependencies": {
