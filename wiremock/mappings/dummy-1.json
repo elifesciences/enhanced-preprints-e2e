@@ -1,0 +1,10 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/dummy-1.json"
+    }
+}
