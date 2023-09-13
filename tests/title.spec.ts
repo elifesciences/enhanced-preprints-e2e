@@ -25,7 +25,10 @@ test.describe('that it displays title on the page', () => {
   });
 
   test('display the title', async ({ page }) => {
-    await page.goto('http://localhost:3001/reviewed-preprints/000001v1');
+    await expect(async () => {
+      const response = await page.goto('http://localhost:3001/reviewed-preprints/000001v1');
+      expect(response?.status()).toBe(200);
+    }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toContainText('OpenApePose: a database of annotated ape photographs for pose estimation');
   });
