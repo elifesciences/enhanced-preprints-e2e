@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import { Client } from '@temporalio/client';
 import axios from 'axios';
 
-describe('that it displays title on the page', () => {
+test.describe('that it displays title on the page', () => {
   const temporal = new Client();
 
-  beforeAll(async () => {
+  test.beforeAll(async () => {
     // Change state of wiremock to 'title'
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state', {
       state: 'title',
@@ -17,12 +18,15 @@ describe('that it displays title on the page', () => {
     });
   });
 
-  afterAll(async () => {
+  test.afterAll(async () => {
     // Reset state
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state');
     await temporal.workflow.getHandle('title').terminate('end of title test');
   });
 
-  it('display the title', () => {
+  test('display the title', async ({ page }) => {
+    await page.goto('http://localhost:3001/reviewed-preprints/000001v1');
+    await expect(page.locator('h1.title')).toBeVisible();
+    await expect(page.locator('h1.title')).toContainText('OpenApePose: a database of annotated ape photographs for pose estimation');
   });
 });
