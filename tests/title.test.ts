@@ -7,7 +7,7 @@ describe('that it displays title on the page', () => {
   beforeAll(async () => {
     // Change state of wiremock to 'title'
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state', {
-      state: 'title'
+      state: 'title',
     });
 
     await temporal.workflow.start('pollDocMapIndex', {
