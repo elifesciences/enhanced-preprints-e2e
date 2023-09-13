@@ -76,7 +76,7 @@
           "content": [
             {
               "type": "computer-file",
-              "url": "s3://biorxiv/dummy-1.meca"
+              "url": "s3://meca/dummy-1.meca"
             }
           ]
         }
