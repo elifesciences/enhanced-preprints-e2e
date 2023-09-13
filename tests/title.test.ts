@@ -1,4 +1,4 @@
-import { Client } from "@temporalio/client";
+import { Client } from '@temporalio/client';
 
 describe('that it displays title on the page', () => {
   const temporal = new Client();
