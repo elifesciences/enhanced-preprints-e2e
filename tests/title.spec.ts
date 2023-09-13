@@ -22,6 +22,7 @@ test.describe('that it displays title on the page', () => {
     // Reset state
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state');
     await temporal.workflow.getHandle('title').terminate('end of title test');
+    await axios.delete('http://localhost:3000/preprints/000001v1');
   });
 
   test('display the title', async ({ page }) => {
