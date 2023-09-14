@@ -35,4 +35,4 @@ jobs:
       - name: Bring up EPP
         run: docker compose up --wait
       - name: run tests
-        run: yarn playwright test
+        run: yarn test
