@@ -33,6 +33,8 @@ jobs:
       - name: install browsers
         run: yarn playwright install
       - name: Bring up EPP
-        run: docker compose up --wait
+        run: |
+          docker compose up -d
+          ./wait-for-it.sh localhost:3000 -t 180 # replace with your service host and port
       - name: run tests
         run: yarn test
