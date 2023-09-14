@@ -35,6 +35,6 @@ jobs:
       - name: Bring up EPP
         run: |
           docker compose up -d
-          ./wait-for-it.sh localhost:3000 -t 180 # replace with your service host and port
+          timeout 180s sh -c 'until docker ps | grep worker; do echo "Waiting for worker service to start..."; sleep 2; done'
       - name: run tests
         run: yarn test
