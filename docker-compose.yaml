@@ -36,7 +36,9 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc config host add myminio http://minio:9000 minio miniotest;
-      /usr/bin/mc cp --recursive /mock-meca/* myminio/meca/;
+      /usr/bin/mc rm --recursive --force myminio/meca;
+      /usr/bin/mc rm --recursive --force myminio/epp;
+      /usr/bin/mc cp --recursive /mock-meca/* myminio/meca;
       exit 0;
       "
     volumes:
