@@ -28,6 +28,20 @@ services:
       exit 0;
       "
 
+  loadbucket:
+    image: minio/mc:RELEASE.2022-12-24T15-21-38Z
+    depends_on:
+      createbucket:
+        condition: service_completed_successfully
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 minio miniotest;
+      /usr/bin/mc cp --recursive /mock-meca/* myminio/meca/;
+      exit 0;
+      "
+    volumes:
+      - ./mock-data/meca:/mock-meca
+
   temporal:
     image: ghcr.io/elifesciences/temporal-cli:master-c12351f4-20230517.1457
     command:
@@ -108,6 +122,8 @@ services:
     depends_on:
       createbucket:
         condition: service_completed_successfully
+      loadbucket:
+        condition: service_completed_successfully
       temporal:
         condition: service_healthy
       xslt:
@@ -132,7 +148,7 @@ services:
     restart: on-failure:5
     command:
       - yarn
-      - start:worker:dev
+      - start:worker
 
   wiremock:
     image: wiremock/wiremock:3.0.3-1
