@@ -83,7 +83,7 @@ services:
         condition: service_healthy
     entrypoint: >
       /bin/sh -c "
-      echo 'db.dropDatabase()' | mongosh mongodb:27017/epp -u admin -p testtest --authenticationDatabase admin --quiet
+      echo 'db.dropDatabase()' | mongosh mongodb:27017/epp -u admin -p testtest --authenticationDatabase admin --quiet;
       exit 0
       "
 
