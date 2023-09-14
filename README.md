@@ -2,6 +2,10 @@
 
 This repository contains end2end tests for the EPP system.
 
+The tests can be found in /tests/ and are primarily browser tests in the playwright test suite.
+
+We need the applications to be running in order to perform the tests. See instructions below.
+
 ## Prerequisites
 
 - docker
