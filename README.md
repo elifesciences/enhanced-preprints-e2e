@@ -25,8 +25,21 @@ yarn install
 ## Bring up services
 
 ```
-docker compose up
+docker compose up --wait
 ```
+
+Alternatively run `docker compose up` and wait for the services to come up.
+
+### List of services
+
+Here is a list of some of the services (full list in /docker-compose.yaml) and how to access them on the host environment:
+
+- **minio (mock for S3 buckets)**: Available at `http://localhost:9101`.
+- **temporal (EPP import)**: Available at `http://localhost:8233`.
+- **api (EPP server)**: Available at `http://localhost:3000`.
+- **app (EPP client)**: Available at `http://localhost:3001`.
+- **xslt (EPP XSLT API)**: Available at `http://localhost:3004`.
+- **wiremock (mock of DocMap API)**: Available at `http://localhost:8080`.
 
 ## Run tests
 
