@@ -29,14 +29,12 @@ test.describe('that it displays title on the page', () => {
 
     // Run docker compose commands to reset for next run.
     const composeOutputs = await Promise.all(['loadbucket', 'resetdb']
-      .map(async (service) => {
-        return util.promisify(exec)(`docker compose run ${service}`).then(({ stdout }) => stdout);
-      })
-    );
+      .map(async (service) => util.promisify(exec)(`docker compose run ${service}`).then(({ stdout }) => stdout)));
 
     // Restart temporal service.
-    composeOutputs.push(await util.promisify(exec)('docker compose restart temporal').then(({ stdout }) => `Temporal restarted! ${stdout}`))
+    composeOutputs.push(await util.promisify(exec)('docker compose restart temporal').then(({ stdout }) => `Temporal restarted! ${stdout}`));
 
+    // eslint-disable-next-line no-console
     composeOutputs.forEach((output) => console.log('Output ->', output));
   });
 
