@@ -15,13 +15,14 @@
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-plugin-deprecation": "^1.5.0",
     "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-no-only-tests": "^3.1.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint --ext .ts tests/",
+    "lint": "eslint --ext .ts,.json tests/ wiremock/",
     "lint:fix": "eslint --fix --ext .ts tests/"
   }
 }

@@ -5,7 +5,7 @@ module.exports = {
     project: './tsconfig.json',
   },
   plugins: ['@typescript-eslint', "no-only-tests"],
-  extends: ["airbnb/base", "airbnb-typescript/base", "plugin:deprecation/recommended"],
+  extends: ["airbnb/base", "airbnb-typescript/base", "plugin:deprecation/recommended", "plugin:json/recommended"],
   rules: {
     "eol-last": ["error", "always"],
     "deprecation/deprecation": 1,
