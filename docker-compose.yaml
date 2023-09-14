@@ -76,6 +76,16 @@ services:
       retries: 10
       start_period: 2s
 
+  resetdb:
+    image: mongo
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      echo 'db.dropDatabase()' | mongosh mongodb:27017/epp -u admin -p testtest --authenticationDatabase admin --quiet;
+      "
+
   api:
     image: ghcr.io/elifesciences/enhanced-preprints-server:master-05bda5c1-20230912.0943
     healthcheck:

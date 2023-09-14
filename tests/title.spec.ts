@@ -1,17 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { Client } from '@temporalio/client';
 import axios from 'axios';
-import Dockerode from 'dockerode';
-import DockerodeCompose from '@rkesters/dockerode-compose';
+import { exec } from 'child_process';
+import util from 'util';
 
 test.describe('that it displays title on the page', () => {
   const temporal = new Client();
-  const dockerode = new Dockerode();
-  const serviceResetbucket = new DockerodeCompose(dockerode, './docker-compose.reset.yaml', 'resetbucket');
-  const serviceResetdb = new DockerodeCompose(dockerode, './docker-compose.reset.yaml', 'resetdb');
 
-  test.beforeAll(async () => {
-    // Change state of wiremock to 'title'
+  test.beforeEach(async () => {
+    // Change state of wiremock to 'title'.
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state', {
       state: 'title',
     });
@@ -23,14 +20,24 @@ test.describe('that it displays title on the page', () => {
     });
   });
 
-  test.afterAll(async () => {
-    // Reset state
+  test.afterEach(async () => {
+    // Reset state of wiremock.
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state');
 
-    await serviceResetbucket.up();
-    await serviceResetdb.up();
-
+    // Terminate workflow.
     await temporal.workflow.getHandle('title').terminate('end of title test');
+
+    // Run docker compose commands to reset for next run.
+    const composeOutputs = await Promise.all(['loadbucket', 'resetdb']
+      .map(async (service) => {
+        return util.promisify(exec)(`docker compose run ${service}`).then(({ stdout }) => stdout);
+      })
+    );
+
+    // Restart temporal service.
+    composeOutputs.push(await util.promisify(exec)('docker compose restart temporal').then(({ stdout }) => `Temporal restarted! ${stdout}`))
+
+    composeOutputs.forEach((output) => console.log('Output ->', output));
   });
 
   test('display the title', async ({ page }) => {
