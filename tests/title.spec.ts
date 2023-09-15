@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { Client } from '@temporalio/client';
+import { generateWorkflowId } from '../utils/generate-workflow-id';
 import axios from 'axios';
 
 test.describe('that it displays title on the page', () => {
   const temporal = new Client();
-  const workflowId = `title-${new Date().getTime()}`;
-
+  const workflowId = generateWorkflowId('title');
   test.beforeAll(async () => {
     // Change state of wiremock to 'title'
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state', {
