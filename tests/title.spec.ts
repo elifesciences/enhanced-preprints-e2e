@@ -6,6 +6,7 @@ import { generateWorkflowId } from '../utils/generate-workflow-id';
 test.describe('that it displays title on the page', () => {
   const temporal = new Client();
   const workflowId = generateWorkflowId('title');
+
   test.beforeAll(async () => {
     await temporal.workflow.start('pollDocMapIndex', {
       taskQueue: 'epp',
@@ -16,12 +17,12 @@ test.describe('that it displays title on the page', () => {
 
   test.afterAll(async () => {
     await temporal.workflow.getHandle(workflowId).terminate('end of title test');
-    await axios.delete('http://localhost:3000/preprints/000001v1');
+    await axios.delete('http://localhost:3000/preprints/title-msidv1');
   });
 
   test('display the title', async ({ page }) => {
     await expect(async () => {
-      const response = await page.goto('http://localhost:3001/reviewed-preprints/000001v1');
+      const response = await page.goto('http://localhost:3001/reviewed-preprints/title-msidv1');
       expect(response?.status()).toBe(200);
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
