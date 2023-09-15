@@ -7,7 +7,7 @@ import util from 'util';
 test.describe('that it displays title on the page', () => {
   const temporal = new Client();
 
-  test.beforeEach(async () => {
+  test.beforeAll(async () => {
     // Change state of wiremock to 'title'.
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state', {
       state: 'title',
@@ -20,7 +20,7 @@ test.describe('that it displays title on the page', () => {
     });
   });
 
-  test.afterEach(async () => {
+  test.afterAll(async () => {
     // Reset state of wiremock.
     await axios.put('http://localhost:8080/__admin/scenarios/docmap/state');
 
