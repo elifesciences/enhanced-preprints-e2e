@@ -6,6 +6,7 @@ The tests can be found in [/tests](/tests) and are primarily browser tests in th
 
 We need the applications to be running in order to perform the tests. See instructions below.
 
+
 ## Prerequisites
 
 - docker
@@ -47,3 +48,7 @@ Here is a list of some of the services (full list in [/docker-compose.yaml](/doc
 yarn lint
 yarn test
 ```
+
+## Preparing new tests
+
+To avoid conflicts in tests, please ensure that all tests have unique msid in the corresponding docmap files before running them. You should use "[test name]-msid" format. The wiremock mappings should be positioned in wiremock/mappings/[test name] (for example title.spec.ts mappings are here --> [/wiremock/mappings/title](/wiremock/mappings/title)). The corresponding docmaps should be positioned in mock-data/docmaps/[test name] (for example title.spec.ts docmaps are here --> [/mock-data/docmaps/title](/mock-data/docmaps/title)).
