@@ -1,6 +1,6 @@
 {
   "scenarioName": "docmap",
-  "requiredScenarioState": "title",
+  "requiredScenarioState": "Started",
   "request": {
       "method": "GET",
       "url": "/docmaps/title"
