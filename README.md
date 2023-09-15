@@ -25,7 +25,7 @@ yarn install
 ## Bring up services
 
 ```
-docker compose up --wait
+docker compose up -d
 ```
 
 Alternatively run `docker compose up` and wait for the services to come up.
@@ -46,4 +46,12 @@ Here is a list of some of the services (full list in [/docker-compose.yaml](/doc
 ```
 yarn lint
 yarn test
+```
+
+## Reset services
+
+```
+docker compose run loadbucket
+docker compose run resetdb
+docker compose restart temporal
 ```
