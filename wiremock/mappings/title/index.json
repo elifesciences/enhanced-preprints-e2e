@@ -1,15 +1,15 @@
 {
   "scenarioName": "docmap",
-  "requiredScenarioState": "title",
+  "requiredScenarioState": "Started",
   "request": {
       "method": "GET",
-      "url": "/docmaps"
+      "url": "/docmaps/title"
   },
   "response": {
       "status": 200,
       "jsonBody": {
           "docmaps": [
-            { "id":"http://wiremock:8080/docmaps/dummy-1" }
+            { "id":"http://wiremock:8080/docmaps/title/dummy-1" }
           ]
       }
   }
