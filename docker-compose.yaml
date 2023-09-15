@@ -149,6 +149,12 @@ services:
     command:
       - yarn
       - start:worker
+    healthcheck:
+      test: curl -s http://worker:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="epp"}'  | grep 1
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
 
   wiremock:
     image: wiremock/wiremock:3.0.3-1
