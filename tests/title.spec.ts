@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { Client } from '@temporalio/client';
-import { generateWorkflowId } from '../utils/generate-workflow-id';
 import axios from 'axios';
+import { generateWorkflowId } from '../utils/generate-workflow-id';
 
 test.describe('that it displays title on the page', () => {
   const temporal = new Client();
