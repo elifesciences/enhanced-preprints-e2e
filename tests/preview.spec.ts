@@ -31,7 +31,7 @@ test.describe('manuscript available in preview', () => {
     const response1 = await page.goto('http://localhost:3001/previews/preview-msid');
     expect(response1?.status()).toBeGreaterThan(400);
 
-    await axios.put('http://localhost:8080/__admin/scenarios/preview/state', {'state': 'Preview'});
+    await axios.put('http://localhost:8080/__admin/scenarios/preview/state', { state: 'Preview' });
 
     // Wait for preview to become available.
     await expect(async () => {
@@ -41,7 +41,7 @@ test.describe('manuscript available in preview', () => {
     const response3 = await page.goto('http://localhost:3001/reviewed-preprints/preview-msid');
     expect(response3?.status()).toBe(404);
 
-    await axios.put('http://localhost:8080/__admin/scenarios/preview/state', {'state': 'Published'});
+    await axios.put('http://localhost:8080/__admin/scenarios/preview/state', { state: 'Published' });
 
     await expect(async () => {
       const response4 = await page.goto('http://localhost:3001/reviewed-preprints/preview-msid');
