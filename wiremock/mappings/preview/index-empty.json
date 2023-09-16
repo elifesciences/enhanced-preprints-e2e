@@ -1,0 +1,14 @@
+{
+  "scenarioName": "preview",
+  "requiredScenarioState": "Started",
+  "request": {
+      "method": "GET",
+      "url": "/docmaps/preview"
+  },
+  "response": {
+      "status": 200,
+      "jsonBody": {
+          "docmaps": []
+      }
+  }
+}
