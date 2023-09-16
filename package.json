@@ -17,7 +17,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test --workers 5",
     "lint": "eslint --ext .ts,.json tests/ wiremock/",
     "lint:fix": "eslint --fix --ext .ts tests/"
   }
