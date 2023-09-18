@@ -93,10 +93,10 @@ services:
     ports:
       - 3000:3000
 
-  app:
+  client:
     image: ghcr.io/elifesciences/enhanced-preprints-client:master-1b8f614e-20230907.1843
     healthcheck:
-      test: sh -c 'apk add curl; curl -X POST http://app:3000/'
+      test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 5s
       timeout: 5s
       retries: 10
