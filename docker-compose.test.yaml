@@ -1,0 +1,8 @@
+version: '3.4'
+services:
+  test:
+    build:
+      context: .
+    depends_on:
+      app:
+        condition: service_healthy
