@@ -2,10 +2,13 @@ import { test, expect } from '@playwright/test';
 import { Client } from '@temporalio/client';
 import axios from 'axios';
 import { generateWorkflowId } from '../utils/generate-workflow-id';
+import { createS3Client } from '../utils/create-s3-client';
+import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 
 test.describe('that it displays title on the page', () => {
   const temporal = new Client();
   const workflowId = generateWorkflowId('title');
+  const minioClient = createS3Client();
 
   test.beforeAll(async () => {
     await temporal.workflow.start('pollDocMapIndex', {
@@ -16,8 +19,11 @@ test.describe('that it displays title on the page', () => {
   });
 
   test.afterAll(async () => {
-    await temporal.workflow.getHandle(workflowId).terminate('end of title test');
-    await axios.delete('http://localhost:3000/preprints/title-msidv1');
+    await Promise.all([
+      temporal.workflow.getHandle(workflowId).terminate('end of title test'),
+      axios.delete('http://localhost:3000/preprints/title-msidv1'),
+      deleteS3EppFolder(minioClient, 'title-msid'),
+    ]);
   });
 
   test('display the title', async ({ page }) => {
