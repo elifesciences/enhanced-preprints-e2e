@@ -42,6 +42,16 @@ Here is a list of some of the services (full list in [/docker-compose.yaml](/doc
 - **xslt (EPP XSLT API)**: Available at `http://localhost:3004`.
 - **wiremock (mock of DocMap API)**: Available at `http://localhost:8080`.
 
+## Install playwright browsers
+
+Install portable version of the browsers for the tests.
+
+This command should be only run once per version of playwright.
+
+```
+npx playwright install
+```
+
 ## Run tests
 
 ```
