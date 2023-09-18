@@ -18,6 +18,7 @@
   },
   "scripts": {
     "test": "playwright test",
+    "test:docker": "docker compose -f docker-compose.yaml -f docker-compose.test.yaml run --build test",
     "lint": "eslint --ext .ts,.json tests/ wiremock/",
     "lint:fix": "eslint --fix --ext .ts tests/"
   }

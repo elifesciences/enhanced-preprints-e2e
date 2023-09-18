@@ -7,7 +7,7 @@ import { config } from '../utils/config';
 import { createTemporalClient } from '../utils/create-temporal-client';
 
 test.describe('that it displays title on the page', () => {
-  let temporal: any; 
+  let temporal: any;
   const workflowId = generateWorkflowId('title');
   const minioClient = createS3Client();
 
