@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "@aws-sdk/client-s3": "^3.310.0",
-    "@playwright/test": "^1.37.1",
+    "@playwright/test": "^1.38.0",
     "@temporalio/client": "^1.8.5",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
@@ -18,6 +18,7 @@
   },
   "scripts": {
     "test": "playwright test --workers 5",
+    "test:docker": "docker compose -f docker-compose.yaml -f docker-compose.test.yaml run --build test",
     "lint": "eslint --ext .ts,.json tests/ wiremock/",
     "lint:fix": "eslint --fix --ext .ts tests/"
   }
