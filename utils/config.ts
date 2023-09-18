@@ -3,5 +3,6 @@ export const config = {
   client_url: process.env.client_url ?? 'http://localhost:3001',
   api_url: process.env.api_url ?? 'http://localhost:3000',
   temporal_url: process.env.temporal_url ?? '',
+  wiremock_url: process.env.wiremock_url ?? 'http://localhost:8080',
 };
 
