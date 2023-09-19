@@ -62,6 +62,12 @@ To run tests on your host machine:
 yarn test
 ```
 
+To run a single test on your host machine:
+
+```
+yarn test tests/title.spec.ts
+```
+
 To run tests in a docker container:
 
 ```
@@ -78,3 +84,5 @@ yarn lint
 ## Preparing new tests
 
 To avoid conflicts in tests, please ensure that all tests have unique msid in the corresponding docmap files before running them. You should use "[test name]-msid" format. The wiremock mappings should be positioned in wiremock/mappings/[test name] (for example title.spec.ts mappings are here --> [/wiremock/mappings/title](/wiremock/mappings/title)). The corresponding docmaps should be positioned in mock-data/docmaps/[test name] (for example title.spec.ts docmaps are here --> [/mock-data/docmaps/title](/mock-data/docmaps/title)).
+
+Within the wiremock mappings set `scenarioName` to be the value of the test (for example title.spec.ts index mapping we set it to title --> [/wiremock/mappings/title/index.json](/wiremock/mappings/title/index.json)). For info about stateful behaviour see wiremock documentation: [https://wiremock.org/docs/stateful-behaviour](https://wiremock.org/docs/stateful-behaviour).
