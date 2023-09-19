@@ -4,7 +4,9 @@ import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
-import { createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow } from '../utils/temporal';
+import {
+  createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow,
+} from '../utils/temporal';
 
 test.describe('that it displays title on the page', () => {
   let temporal: Client;

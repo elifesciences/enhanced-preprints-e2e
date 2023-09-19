@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 import axios from 'axios';
+import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
-import { Client } from '@temporalio/client';
-import { createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow } from '../utils/temporal';
+import {
+  createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow,
+} from '../utils/temporal';
 import { changeState, resetState } from '../utils/wiremock';
 
 test.describe('progress a manuscript through the manifestations', () => {
@@ -49,4 +51,3 @@ test.describe('progress a manuscript through the manifestations', () => {
     }).toPass();
   });
 });
-
