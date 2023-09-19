@@ -49,7 +49,7 @@ Install portable version of the browsers for the tests.
 This command should be only run once per version of playwright.
 
 ```
-npx playwright install
+yarn playwright install
 ```
 
 ## Run tests
