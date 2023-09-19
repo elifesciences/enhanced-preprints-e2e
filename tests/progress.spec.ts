@@ -5,6 +5,7 @@ import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import { Client } from '@temporalio/client';
 import { createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow } from '../utils/temporal';
+import { changeState, resetState } from '../utils/wiremock';
 
 test.describe('progress a manuscript through the manifestations', () => {
   let temporal: Client;
@@ -22,7 +23,7 @@ test.describe('progress a manuscript through the manifestations', () => {
       stopWorkflow(workflowId, temporal),
       axios.delete(`${config.api_url}/preprints/progress-msidv1`),
       deleteS3EppFolder(minioClient, 'progress-msid'),
-      axios.put(`${config.wiremock_url}/__admin/scenarios/progress/state`),
+      resetState(name),
     ]);
   });
 
@@ -30,7 +31,7 @@ test.describe('progress a manuscript through the manifestations', () => {
     const response1 = await page.goto(`${config.client_url}/previews/progress-msid`);
     expect(response1?.status()).toBeGreaterThan(400);
 
-    await axios.put(`${config.wiremock_url}/__admin/scenarios/progress/state`, { state: 'Preview' });
+    await changeState(name, 'Preview');
 
     // Wait for preview to become available.
     await expect(async () => {
@@ -40,7 +41,7 @@ test.describe('progress a manuscript through the manifestations', () => {
     const response3 = await page.goto(`${config.client_url}/reviewed-preprints/progress-msid`);
     expect(response3?.status()).toBe(404);
 
-    await axios.put(`${config.wiremock_url}/__admin/scenarios/progress/state`, { state: 'Published' });
+    await changeState(name, 'Published');
 
     await expect(async () => {
       const response4 = await page.goto(`${config.client_url}/reviewed-preprints/progress-msid`);
@@ -48,3 +49,4 @@ test.describe('progress a manuscript through the manifestations', () => {
     }).toPass();
   });
 });
+
