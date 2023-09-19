@@ -1,28 +1,25 @@
 import { test, expect } from '@playwright/test';
 import axios from 'axios';
-import { generateWorkflowId } from '../utils/generate-workflow-id';
 import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
-import { createTemporalClient } from '../utils/create-temporal-client';
 import { config } from '../utils/config';
+import { Client } from '@temporalio/client';
+import { createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow } from '../utils/temporal';
 
 test.describe('progress a manuscript through the manifestations', () => {
-  let temporal: any;
-  const workflowId = generateWorkflowId('progress');
+  let temporal: Client;
+  const name = 'progress';
+  const workflowId = generateWorkflowId(name);
   const minioClient = createS3Client();
 
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
-    await temporal.workflow.start('pollDocMapIndex', {
-      taskQueue: 'epp',
-      workflowId,
-      args: ['http://wiremock:8080/docmaps/progress', '30 seconds'],
-    });
+    await startWorkflow(name, workflowId, temporal);
   });
 
   test.afterAll(async () => {
     await Promise.all([
-      temporal.workflow.getHandle(workflowId).terminate('end of preview test'),
+      stopWorkflow(workflowId, temporal),
       axios.delete(`${config.api_url}/preprints/progress-msidv1`),
       deleteS3EppFolder(minioClient, 'progress-msid'),
       axios.put(`${config.wiremock_url}/__admin/scenarios/progress/state`),
