@@ -1,12 +1,12 @@
 {
-    "scenarioName": "preview",
+    "scenarioName": "progress",
     "requiredScenarioState": "Published",
     "request": {
         "method": "GET",
-        "url": "/docmaps/preview/dummy-1"
+        "url": "/docmaps/progress/dummy-1"
     },
     "response": {
         "status": 200,
-        "bodyFileName": "docmaps/preview/dummy-1-published.json"
+        "bodyFileName": "docmaps/progress/dummy-1-published.json"
     }
 }

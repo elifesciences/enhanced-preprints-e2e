@@ -1,9 +1,9 @@
 {
-  "scenarioName": "preview",
+  "scenarioName": "progress",
   "requiredScenarioState": "Started",
   "request": {
       "method": "GET",
-      "url": "/docmaps/preview"
+      "url": "/docmaps/progress"
   },
   "response": {
       "status": 200,

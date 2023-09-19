@@ -1,15 +1,15 @@
 {
-  "scenarioName": "preview",
+  "scenarioName": "progress",
   "requiredScenarioState": "Preview",
   "request": {
       "method": "GET",
-      "url": "/docmaps/preview"
+      "url": "/docmaps/progress"
   },
   "response": {
       "status": 200,
       "jsonBody": {
           "docmaps": [
-            { "id":"http://wiremock:8080/docmaps/preview/dummy-1" }
+            { "id":"http://wiremock:8080/docmaps/progress/dummy-1" }
           ]
       }
   }
