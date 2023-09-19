@@ -52,12 +52,28 @@ This command should be only run once per version of playwright.
 yarn playwright install
 ```
 
+> If you're running tests in docker this is optional.
+
 ## Run tests
+
+To run tests on your host machine:
+
+```
+yarn test
+```
+
+To run tests in a docker container:
+
+```
+yarn test:docker
+```
+
+To run the linter:
 
 ```
 yarn lint
-yarn test
 ```
+
 
 ## Preparing new tests
 
