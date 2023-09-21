@@ -29,10 +29,13 @@ test.describe('that it displays title on the page', () => {
 
   test('display the title', async ({ page }) => {
     await expect(async () => {
-      const response = await page.goto(`${config.client_url}/reviewed-preprints/title-msidv1`);
+      const response = await page.goto(`${config.client_url}/reviewed-preprints/title-msidv1/reviews`);
       expect(response?.status()).toBe(200);
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toContainText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await expect(page.locator('.peer-review-0')).toContainText('evaluation 2');
+    await expect(page.locator('.peer-review-1')).toContainText('evaluation 1');
+    await expect(page.locator('.author-response')).toContainText('author response');
   });
 });
