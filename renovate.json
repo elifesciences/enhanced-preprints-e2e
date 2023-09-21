@@ -2,5 +2,36 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "ghcr.io/elifesciences/enhanced-preprints-server",
+        "ghcr.io/elifesciences/enhanced-preprints-client",
+        "ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api",
+        "ghcr.io/elifesciences/enhanced-preprints-import-worker",
+        "ghcr.io/elifesciences/temporal-cli"
+      ],
+      "versioning": "regex:^master-(.*)-(?<minor>.*)$",
+      "automerge": true
+    },
+    {
+      "packagePatterns": ["^minio"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["node"],
+      "matchDatasources": ["docker"],
+      "versioning": "node"
+    }
   ]
 }
