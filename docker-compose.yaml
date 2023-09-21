@@ -63,7 +63,7 @@ services:
       start_period: 2s
 
   mongodb:
-    image: mongo
+    image: mongo:7.0.1
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
