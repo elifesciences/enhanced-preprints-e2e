@@ -1,15 +1,15 @@
 {
-  "scenarioName": "title",
+  "scenarioName": "reviews",
   "requiredScenarioState": "Started",
   "request": {
       "method": "GET",
-      "url": "/docmaps/title"
+      "url": "/docmaps/reviews"
   },
   "response": {
       "status": 200,
       "jsonBody": {
           "docmaps": [
-            { "id":"http://wiremock:8080/docmaps/title/dummy-1" }
+            { "id":"http://wiremock:8080/docmaps/reviews/dummy-1" }
           ]
       }
   }

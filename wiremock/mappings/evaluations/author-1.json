@@ -1,0 +1,12 @@
+{
+    "scenarioName": "global-evaluation",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/evaluations/hypothesis:author-1/content"
+    },
+    "response": {
+        "status": 200,
+        "body": "<p>author response</p>"
+    }
+}

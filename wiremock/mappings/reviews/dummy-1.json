@@ -1,12 +1,12 @@
 {
-    "scenarioName": "title",
+    "scenarioName": "reviews",
     "requiredScenarioState": "Started",
     "request": {
         "method": "GET",
-        "url": "/docmaps/title/dummy-1"
+        "url": "/docmaps/reviews/dummy-1"
     },
     "response": {
         "status": 200,
-        "bodyFileName": "docmaps/title/dummy-1.json"
+        "bodyFileName": "docmaps/reviews/dummy-1.json"
     }
 }
