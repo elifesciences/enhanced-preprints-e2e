@@ -33,7 +33,10 @@ test.describe('revised preprint', () => {
       const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
       expect(response?.status()).toBe(200);
     }).toPass();
+    await expect(page.locator('.article-status__text')).toContainText('Published from the original preprint after peer review and assessment by eLife.');
+
     const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     expect(response?.status()).toBe(200);
+    await expect(page.locator('.article-status__text')).toContainText('Revised by authors after peer review.');
   });
 });
