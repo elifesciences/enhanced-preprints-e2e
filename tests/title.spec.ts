@@ -22,7 +22,7 @@ test.describe('that it displays title on the page', () => {
   test.afterAll(async () => {
     await Promise.all([
       stopWorkflow(workflowId, temporal),
-      axios.delete(`${config.api_url}/preprints/title-msidv1`),
+      // axios.delete(`${config.api_url}/preprints/title-msidv1`),
       deleteS3EppFolder(minioClient, 'title-msid'),
     ]);
   });
@@ -34,8 +34,8 @@ test.describe('that it displays title on the page', () => {
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toContainText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await expect(page.locator('#peer-review-0')).toContainText('evaluation 2');
-    await expect(page.locator('#peer-review-1')).toContainText('evaluation 1');
+    await expect(page.locator('#peer-review-0')).toContainText('evaluation 1');
+    await expect(page.locator('#peer-review-1')).toContainText('evaluation 2');
     await expect(page.locator('#author-response')).toContainText('author response');
   });
 });
