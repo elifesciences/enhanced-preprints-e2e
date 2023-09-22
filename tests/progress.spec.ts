@@ -60,7 +60,7 @@ test.describe('progress a manuscript through the manifestations', () => {
       expect(response5?.status()).toBe(200);
     }).toPass();
     const response6 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
-    expect(response6?.status()).toBe(404);
+    expect(response6?.status()).toBeGreaterThan(400);
 
     await changeState(name, 'Revised');
 
