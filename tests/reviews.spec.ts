@@ -22,8 +22,8 @@ test.describe('reviewed preprint', () => {
   test.afterAll(async () => {
     await Promise.all([
       stopWorkflow(workflowId, temporal),
-      axios.delete(`${config.api_url}/preprints/reviews-msidv1`),
-      deleteS3EppFolder(minioClient, 'reviews-msid'),
+      axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
+      deleteS3EppFolder(minioClient, `${name}-msid`),
     ]);
   });
 

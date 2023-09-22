@@ -1,0 +1,12 @@
+{
+    "scenarioName": "revised",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/revised/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/revised/dummy-1.json"
+    }
+}
