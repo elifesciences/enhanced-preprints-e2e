@@ -31,23 +31,25 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   test('successful progression of manuscript', async ({ page }) => {
     const response1 = await page.goto(`${config.client_url}/previews/progress-msid`);
-    expect(response1?.status()).toBeGreaterThan(400);
+    expect(response1?.status()).toBe(404);
+    const response2 = await page.goto(`${config.client_url}/reviewed-preprints/progress-msid`);
+    expect(response2?.status()).toBe(404);
 
     await changeState(name, 'Preview');
 
     // Wait for preview to become available.
     await expect(async () => {
-      const response2 = await page.goto(`${config.client_url}/previews/progress-msid`);
-      expect(response2?.status()).toBe(200);
+      const response3 = await page.goto(`${config.client_url}/previews/progress-msid`);
+      expect(response3?.status()).toBe(200);
     }).toPass();
-    const response3 = await page.goto(`${config.client_url}/reviewed-preprints/progress-msid`);
-    expect(response3?.status()).toBe(404);
+    const response4 = await page.goto(`${config.client_url}/reviewed-preprints/progress-msid`);
+    expect(response4?.status()).toBe(404);
 
     await changeState(name, 'Published');
 
     await expect(async () => {
-      const response4 = await page.goto(`${config.client_url}/reviewed-preprints/progress-msid`);
-      expect(response4?.status()).toBe(200);
+      const response5 = await page.goto(`${config.client_url}/reviewed-preprints/progress-msid`);
+      expect(response5?.status()).toBe(200);
     }).toPass();
   });
 });

@@ -1,0 +1,26 @@
+services:
+  yarn:
+    build:
+      context: ${CLIENT_DIR}
+      target: dev
+    command: yarn
+    volumes:
+      - ${CLIENT_DIR}/:/opt/epp-client/
+      - node_modules:/opt/epp-client/node_modules
+  client:
+    image: client-local
+    build:
+      context: ${CLIENT_DIR}
+      dockerfile: Dockerfile
+      target: dev
+    depends_on:
+      yarn:
+        condition: service_completed_successfully
+    ports:
+      - 3001:3000
+    volumes:
+      - ${CLIENT_DIR}/:/opt/epp-client/
+      - node_modules:/opt/epp-client/node_modules
+
+volumes:
+  node_modules:
