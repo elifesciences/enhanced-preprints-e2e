@@ -29,13 +29,13 @@ yarn install
 docker compose up --wait
 ```
 
-## Bring up services (with local versions of server and client)
+Alternatively run `docker compose up` and wait for the services to come up.
+
+## Bring up services with local versions of server and client
 
 ```
 SERVER_DIR="../enhanced-preprints-server" CLIENT_DIR="../enhanced-preprints-client" docker compose -f docker-compose.yaml -f docker-compose.localserver.yaml -f docker-compose.localclient.yaml up
 ```
-
-Alternatively run `docker compose up` and wait for the services to come up.
 
 ### List of services
 
