@@ -1,6 +1,6 @@
 {
   "scenarioName": "progress",
-  "requiredScenarioState": "Published",
+  "requiredScenarioState": "Reviews",
   "request": {
       "method": "GET",
       "url": "/docmaps/progress"
