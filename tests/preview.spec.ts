@@ -8,9 +8,9 @@ import {
   createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow,
 } from '../utils/temporal';
 
-test.describe('reviewed preprint', () => {
+test.describe('preview preprint', () => {
   let temporal: Client;
-  const name = 'reviews';
+  const name = 'preview';
   const workflowId = generateWorkflowId(name);
   const minioClient = createS3Client();
 
@@ -27,15 +27,15 @@ test.describe('reviewed preprint', () => {
     ]);
   });
 
-  test('test reviews are visible on reviewed-preprint', async ({ page }) => {
+  test('test previews are visible', async ({ page }) => {
     await expect(async () => {
-      const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1/reviews`);
+      const response = await page.goto(`${config.client_url}/previews/${name}-msidv1`);
       expect(response?.status()).toBe(200);
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await expect(page.locator('#peer-review-0')).toContainText('evaluation 1');
-    await expect(page.locator('#peer-review-1')).toContainText('evaluation 2');
-    await expect(page.locator('#author-response')).toContainText('author response');
+
+    const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    expect(response?.status()).toBe(404);
   });
 });
