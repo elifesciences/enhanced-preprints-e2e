@@ -31,6 +31,12 @@ docker compose up --wait
 
 Alternatively run `docker compose up` and wait for the services to come up.
 
+## Bring up services with local versions of server and client
+
+```
+SERVER_DIR="../enhanced-preprints-server" CLIENT_DIR="../enhanced-preprints-client" docker compose -f docker-compose.yaml -f docker-compose.localserver.yaml -f docker-compose.localclient.yaml up
+```
+
 ### List of services
 
 Here is a list of some of the services (full list in [/docker-compose.yaml](/docker-compose.yaml)) and how to access them on the host environment:
@@ -62,6 +68,12 @@ To run tests on your host machine:
 yarn test
 ```
 
+To run and debug tests on your host machine:
+
+```
+yarn test:debug
+```
+
 To run a single test on your host machine:
 
 ```
@@ -79,7 +91,6 @@ To run the linter:
 ```
 yarn lint
 ```
-
 
 ## Preparing new tests
 
