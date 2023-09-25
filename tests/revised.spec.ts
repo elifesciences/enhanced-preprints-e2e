@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import axios from 'axios';
-import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
@@ -9,30 +8,52 @@ import {
 } from '../utils/temporal';
 
 test.describe('revised preprint', () => {
-  let temporal: Client;
-  const name = 'revised';
-  const workflowId = generateWorkflowId(name);
   const minioClient = createS3Client();
 
-  test.beforeAll(async () => {
-    temporal = await createTemporalClient();
+  test('higher versions of revised preprint are available', async ({ page }) => {
+    // Setup.
+    const temporal = await createTemporalClient();
+    const name = 'revised-multiple';
+    const workflowId = generateWorkflowId(name);
     await startWorkflow(name, workflowId, temporal);
-  });
 
-  test.afterAll(async () => {
+    // For the test to succeed, we need to wait for all versions to be imported
+    await expect(async () => {
+      const responsev3 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv3`);
+      expect(responsev3?.status()).toBe(200);
+    }).toPass();
+    await expect(async () => {
+      const responsev2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+      expect(responsev2?.status()).toBe(200);
+    }).toPass();
+    await expect(async () => {
+      const responsev1 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+      expect(responsev1?.status()).toBe(200);
+    }).toPass();
+
+    // Tear down.
     await Promise.all([
       stopWorkflow(workflowId, temporal),
       axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
       axios.delete(`${config.api_url}/preprints/${name}-msidv2`),
+      axios.delete(`${config.api_url}/preprints/${name}-msidv3`),
       deleteS3EppFolder(minioClient, `${name}-msid`),
     ]);
   });
 
   test('revised preprints are available', async ({ page }) => {
+    // Setup.
+    const temporal = await createTemporalClient();
+    const name = 'revised';
+    const workflowId = generateWorkflowId(name);
+    await startWorkflow(name, workflowId, temporal);
+
+    // For the test to succeed, we need to wait for both versions to be imported
     await expect(async () => {
-      // For the test to succeed, we need to wait for both versions to be imported
       const responsev2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
       expect(responsev2?.status()).toBe(200);
+    }).toPass();
+    await expect(async () => {
       const responsev1 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
       expect(responsev1?.status()).toBe(200);
     }).toPass();
@@ -69,5 +90,13 @@ test.describe('revised preprint', () => {
     const reviewTimelinePageLocatorLatest = page.locator('.review-timeline__list>.review-timeline__event:nth-child(1)');
     await expect(reviewTimelinePageLocatorLatest).toContainText('Reviewed preprint version 2');
     await expect(reviewTimelinePageLocatorLatest.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
+
+    // Tear down.
+    await Promise.all([
+      stopWorkflow(workflowId, temporal),
+      axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
+      axios.delete(`${config.api_url}/preprints/${name}-msidv2`),
+      deleteS3EppFolder(minioClient, `${name}-msid`),
+    ]);
   });
 });
