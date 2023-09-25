@@ -809,8 +809,8 @@
               {
                 "type": "preprint",
                 "identifier": "revised-multiple-msid",
-                "doi": "10.7554/000001.3",
-                "versionIdentifier": "3",
+                "doi": "10.7554/000001.4",
+                "versionIdentifier": "4",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
                 "partOf": {
                   "type": "manuscript",
@@ -827,16 +827,16 @@
             "item": {
               "type": "preprint",
               "doi": "10.1101/000001",
-              "versionIdentifier": "3"
+              "versionIdentifier": "4"
             },
             "status": "under-review",
-            "happened": "2023-06-07T09:03:08+00:00"
+            "happened": "2023-07-07T09:03:08+00:00"
           },
           {
             "item": {
               "type": "preprint",
-              "doi": "10.7554/000001.3",
-              "versionIdentifier": "3",
+              "doi": "10.7554/000001.4",
+              "versionIdentifier": "4",
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000001",
@@ -855,9 +855,9 @@
           {
             "type": "preprint",
             "doi": "10.1101/000001",
-            "url": "https://www.biorxiv.org/content/10.1101/000001v3",
-            "versionIdentifier": "3",
-            "published": "2023-06-06",
+            "url": "https://www.biorxiv.org/content/10.1101/000001v4",
+            "versionIdentifier": "4",
+            "published": "2023-07-06",
             "content": [
               {
                 "type": "computer-file",
@@ -877,10 +877,10 @@
             "outputs": [
               {
                 "type": "reply",
-                "published": "2023-02-24T14:34:42.571948+00:00",
-                "doi": "10.7554/eLife.000001.3.sa0",
+                "published": "2023-03-24T14:34:42.571948+00:00",
+                "doi": "10.7554/eLife.000001.4.sa0",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
-                "url": "https://doi.org/10.7554/eLife.000001.3.sa0",
+                "url": "https://doi.org/10.7554/eLife.000001.4.sa0",
                 "content": [
                   {
                     "type": "web-page",
@@ -888,7 +888,7 @@
                   },
                   {
                     "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2022.12.08.515698#hypothesis:EzFzxJsrEe28DyfQK4aPhg"
+                    "url": "https://sciety.org/articles/activity/10.1101/2023.01.08.515698#hypothesis:EzFzxJsrEe28DyfQK4aPhg"
                   },
                   {
                     "type": "web-page",
@@ -911,10 +911,10 @@
             "outputs": [
               {
                 "type": "review-article",
-                "published": "2023-02-24T14:34:43.676466+00:00",
-                "doi": "10.7554/eLife.000001.3.sa1",
+                "published": "2023-03-24T14:34:43.676466+00:00",
+                "doi": "10.7554/eLife.000001.4.sa1",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
-                "url": "https://doi.org/10.7554/eLife.000001.3.sa1",
+                "url": "https://doi.org/10.7554/eLife.000001.4.sa1",
                 "content": [
                   {
                     "type": "web-page",
@@ -922,7 +922,7 @@
                   },
                   {
                     "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2022.12.08.515698#hypothesis:E9MOvpsrEe2w6nds1t6xxQ"
+                    "url": "https://sciety.org/articles/activity/10.1101/2023.01.08.515698#hypothesis:E9MOvpsrEe2w6nds1t6xxQ"
                   },
                   {
                     "type": "web-page",
@@ -945,10 +945,10 @@
             "outputs": [
               {
                 "type": "review-article",
-                "published": "2023-02-23T14:34:44.369019+00:00",
-                "doi": "10.7554/eLife.000001.3.sa2",
+                "published": "2023-03-23T14:34:44.369019+00:00",
+                "doi": "10.7554/eLife.000001.4.sa2",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
-                "url": "https://doi.org/10.7554/eLife.000001.3.sa2",
+                "url": "https://doi.org/10.7554/eLife.000001.4.sa2",
                 "content": [
                   {
                     "type": "web-page",
@@ -956,7 +956,7 @@
                   },
                   {
                     "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2022.12.08.515698#hypothesis:FD5EmpsrEe28RaOWOszMEw"
+                    "url": "https://sciety.org/articles/activity/10.1101/2023.01.08.515698#hypothesis:FD5EmpsrEe28RaOWOszMEw"
                   },
                   {
                     "type": "web-page",
@@ -1003,10 +1003,10 @@
             "outputs": [
               {
                 "type": "evaluation-summary",
-                "published": "2023-02-23T14:34:45.299882+00:00",
-                "doi": "10.7554/eLife.000001.3.sa3",
+                "published": "2023-03-23T14:34:45.299882+00:00",
+                "doi": "10.7554/eLife.000001.4.sa3",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
-                "url": "https://doi.org/10.7554/eLife.000001.3.sa3",
+                "url": "https://doi.org/10.7554/eLife.000001.4.sa3",
                 "content": [
                   {
                     "type": "web-page",
@@ -1014,7 +1014,7 @@
                   },
                   {
                     "type": "web-page",
-                    "url": "https://sciety.org/articles/activity/10.1101/2022.12.08.515698#hypothesis:FMwbnpsrEe2mVPtbQf2X2w"
+                    "url": "https://sciety.org/articles/activity/10.1101/2023.01.08.515698#hypothesis:FMwbnpsrEe2mVPtbQf2X2w"
                   },
                   {
                     "type": "web-page",
@@ -1029,8 +1029,8 @@
           {
             "item": {
               "type": "preprint",
-              "doi": "10.1101/2022.12.09.515698",
-              "versionIdentifier": "3"
+              "doi": "10.1101/2023.01.09.515698",
+              "versionIdentifier": "4"
             },
             "status": "peer-reviewed"
           }
@@ -1038,9 +1038,9 @@
         "inputs": [
           {
             "type": "preprint",
-            "doi": "10.7554/000001.3",
-            "url": "https://www.biorxiv.org/content/10.1101/2022.12.09.515698v3",
-            "versionIdentifier": "3"
+            "doi": "10.7554/000001.4",
+            "url": "https://www.biorxiv.org/content/10.1101/2023.01.09.515698v4",
+            "versionIdentifier": "4"
           }
         ],
         "next-step": "_:b11",
@@ -1053,11 +1053,11 @@
           {
             "item": {
               "type": "preprint",
-              "doi": "10.7554/000001.3",
-              "versionIdentifier": "3"
+              "doi": "10.7554/000001.4",
+              "versionIdentifier": "4"
             },
             "status": "manuscript-published",
-            "happened": "2023-07-08T09:03:08+00:00"
+            "happened": "2023-08-08T09:03:08+00:00"
           }
         ],
         "previous-step": "_:b10"
