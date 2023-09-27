@@ -28,8 +28,8 @@
       },
       "original": {
         "owner": "NixOS",
-        "ref": "master",
         "repo": "nixpkgs",
+        "rev": "5e05bf13858a4240d99190b9fd651a25b696c651",
         "type": "github"
       }
     },

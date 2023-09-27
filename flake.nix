@@ -1,6 +1,6 @@
 {
   # Override nixpkgs to use the latest set of node packages
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/master";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/5e05bf13858a4240d99190b9fd651a25b696c651";
   inputs.systems.url = "github:nix-systems/default";
 
   outputs = {
