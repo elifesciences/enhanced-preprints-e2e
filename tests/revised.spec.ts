@@ -11,29 +11,24 @@ import {
 test.describe('revised preprint', () => {
   const minioClient = createS3Client();
   let temporal: Client;
-  let name: string;
+  const name = 'revised';
   let workflowId: string;
 
   // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(async ({}, testInfo) => {
+  test.beforeAll(async () => {
     temporal = await createTemporalClient();
-    name = testInfo.title.includes('multiple') ? 'revised-multiple' : 'revised';
     workflowId = generateWorkflowId(name);
 
     await startWorkflow(name, workflowId, temporal);
   });
 
-  test.afterEach(async () => {
-    const tearDowns: Promise<any>[] = [
+  test.afterAll(async () => {
+    await Promise.all([
       stopWorkflow(workflowId, temporal),
       deleteS3EppFolder(minioClient, `${name}-msid`),
-    ];
-
-    const versions = (name === 'revised-multiple') ? 4 : 2;
-    for (let i = 1; i <= versions; i += 1) {
-      tearDowns.push(axios.delete(`${config.api_url}/preprints/${name}-msidv${i}`));
-    }
-    await Promise.all(tearDowns);
+      axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
+      axios.delete(`${config.api_url}/preprints/${name}-msidv2`),
+    ]);
   });
 
   test('revised preprints are available', async ({ page }) => {
