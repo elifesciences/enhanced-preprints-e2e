@@ -23,14 +23,14 @@
             "outputs": [
               {
                 "type": "preprint",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "doi": "10.7554/000001.1",
                 "versionIdentifier": "1",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
                 "partOf": {
                   "type": "manuscript",
                   "doi": "10.7554/000001",
-                  "identifier": "revised-multiple-msid",
+                  "identifier": "versions-msid",
                   "volumeIdentifier": "1"
                 }
               }
@@ -55,7 +55,7 @@
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000001",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "electronicArticleIdentifier": "RP000001",
                 "subjectDisciplines": [
                   "Cell Biology",
@@ -284,14 +284,14 @@
             "outputs": [
               {
                 "type": "preprint",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "doi": "10.7554/000001.2",
                 "versionIdentifier": "2",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
                 "partOf": {
                   "type": "manuscript",
                   "doi": "10.7554/000001",
-                  "identifier": "revised-multiple-msid",
+                  "identifier": "versions-msid",
                   "volumeIdentifier": "1"
                 }
               }
@@ -316,7 +316,7 @@
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000001",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "electronicArticleIdentifier": "RP000001",
                 "subjectDisciplines": [
                   "Cell Biology",
@@ -546,14 +546,14 @@
             "outputs": [
               {
                 "type": "preprint",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "doi": "10.7554/000001.3",
                 "versionIdentifier": "3",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
                 "partOf": {
                   "type": "manuscript",
                   "doi": "10.7554/000001",
-                  "identifier": "revised-multiple-msid",
+                  "identifier": "versions-msid",
                   "volumeIdentifier": "1"
                 }
               }
@@ -578,7 +578,7 @@
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000001",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "electronicArticleIdentifier": "RP000001",
                 "subjectDisciplines": [
                   "Cell Biology",
@@ -808,14 +808,14 @@
             "outputs": [
               {
                 "type": "preprint",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "doi": "10.7554/000001.4",
                 "versionIdentifier": "4",
                 "license": "http://creativecommons.org/licenses/by/4.0/",
                 "partOf": {
                   "type": "manuscript",
                   "doi": "10.7554/000001",
-                  "identifier": "revised-multiple-msid",
+                  "identifier": "versions-msid",
                   "volumeIdentifier": "1"
                 }
               }
@@ -840,7 +840,7 @@
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000001",
-                "identifier": "revised-multiple-msid",
+                "identifier": "versions-msid",
                 "electronicArticleIdentifier": "RP000001",
                 "subjectDisciplines": [
                   "Cell Biology",
