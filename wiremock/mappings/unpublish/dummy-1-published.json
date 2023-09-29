@@ -3,10 +3,10 @@
     "requiredScenarioState": "Started",
     "request": {
         "method": "GET",
-        "url": "/docmaps/unpublish/dummy-1"
+        "url": "/docmaps/unpublish/dummy-1-published"
     },
     "response": {
         "status": 200,
-        "bodyFileName": "docmaps/unpublish/dummy-1.json"
+        "bodyFileName": "docmaps/unpublish/dummy-1-published.json"
     }
 }
