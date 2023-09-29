@@ -112,7 +112,7 @@ services:
       - 3001:3000
 
   xslt:
-    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-f70c388d-20230925.1340
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-2f0af9f0-20230928.1447
     restart: always
     ports:
       - 3004:80
