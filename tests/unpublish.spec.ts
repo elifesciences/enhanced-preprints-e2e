@@ -7,6 +7,7 @@ import { config } from '../utils/config';
 import {
   createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow,
 } from '../utils/temporal';
+import { changeState, resetState } from '../utils/wiremock';
 
 test.describe('unpublished preprint', () => {
   let temporal: Client;
@@ -24,6 +25,7 @@ test.describe('unpublished preprint', () => {
       stopWorkflow(workflowId, temporal),
       axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
       deleteS3EppFolder(minioClient, `${name}-msid`),
+      resetState(name),
     ]);
   });
 
@@ -36,5 +38,12 @@ test.describe('unpublished preprint', () => {
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
+    await changeState(name, 'unpublished');
+
+    // Wait for unpublished article to become unavailable
+    await expect(async () => {
+      const response5 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+      expect(response5?.status()).toBe(404);
+    }).toPass();
   });
 });

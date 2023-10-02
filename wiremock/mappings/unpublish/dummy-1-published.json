@@ -3,7 +3,7 @@
     "requiredScenarioState": "Started",
     "request": {
         "method": "GET",
-        "url": "/docmaps/unpublish/dummy-1-published"
+        "url": "/docmaps/unpublish/dummy-1"
     },
     "response": {
         "status": 200,

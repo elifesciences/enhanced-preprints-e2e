@@ -9,7 +9,7 @@
         "status": 200,
         "jsonBody": {
             "docmaps": [
-              { "id":"http://wiremock:8080/docmaps/unpublish/dummy-1-published" }
+              { "id":"http://wiremock:8080/docmaps/unpublish/dummy-1" }
             ]
         }
     }
