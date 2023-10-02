@@ -10,7 +10,7 @@ import {
 
 test.describe('unpublished preprint', () => {
   let temporal: Client;
-  const name = 'unpublished';
+  const name = 'unpublish';
   const workflowId = generateWorkflowId(name);
   const minioClient = createS3Client();
 
