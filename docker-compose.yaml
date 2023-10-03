@@ -1,3 +1,4 @@
+
 services:
   minio:
     image: minio/minio:RELEASE.2023-01-02T09-40-09Z
@@ -75,7 +76,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-124f9264-20231002.0940
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-081772a4-20231003.0044
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
