@@ -34,6 +34,8 @@ test.describe('preview preprint', () => {
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    // eslint-disable-next-line max-len
+    await expect(page.locator('.copyright')).toContainText('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
 
     const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     expect(response?.status()).toBe(404);
