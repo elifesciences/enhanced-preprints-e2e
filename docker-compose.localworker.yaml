@@ -1,0 +1,9 @@
+services:
+  api:
+    image: worker-local
+    build:
+      context: ${IMPORT_DIR}
+      dockerfile: Dockerfile
+      target: worker
+    volumes:
+      - ${IMPORT_DIR}/src:/app/src
