@@ -1,0 +1,17 @@
+{
+    "scenarioName": "unpublish",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/unpublish"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "docmaps": [
+              { "id":"http://wiremock:8080/docmaps/unpublish/dummy-1" }
+            ]
+        }
+    }
+  }
+  

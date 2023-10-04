@@ -1,0 +1,12 @@
+{
+    "scenarioName": "unpublish",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/unpublish/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/unpublish/dummy-1-published.json"
+    }
+}
