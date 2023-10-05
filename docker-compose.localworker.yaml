@@ -1,0 +1,12 @@
+services:
+  worker:
+    image: worker-local
+    build:
+      context: ${IMPORT_DIR}
+      dockerfile: Dockerfile
+      target: worker
+    command:
+      - yarn
+      - start:worker:dev
+    volumes:
+      - ${IMPORT_DIR}/src:/app/src
