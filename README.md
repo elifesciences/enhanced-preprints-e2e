@@ -34,7 +34,7 @@ Alternatively run `docker compose up` and wait for the services to come up.
 ## Bring up services with local versions of server, client and worker
 
 ```
-SERVER_DIR="../enhanced-preprints-server" CLIENT_DIR="../enhanced-preprints-client" IMPORT_DIR="../enhanced-preprints-import" docker compose -f docker-compose.yaml -f docker-compose.localserver.yaml -f docker-compose.localclient.yaml -f docker-compose.localworker.yaml up
+SERVER_DIR="../enhanced-preprints-server" CLIENT_DIR="../enhanced-preprints-client" IMPORT_DIR="../enhanced-preprints-import" docker compose -f docker-compose.yaml -f docker-compose.localserver.yaml -f docker-compose.localclient.yaml -f docker-compose.localworker.yaml up --wait
 ```
 
 ### List of services
