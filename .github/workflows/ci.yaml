@@ -45,21 +45,23 @@ jobs:
       - name: Temporal workflow status
         if: failure()
         run: |
+          curl -LO https://github.com/temporalio/tctl/releases/download/v1.18.0/tctl_1.18.0_linux_amd64.tar.gz
+          tar -xf tctl_1.18.0_linux_amd64.tar.gz
           echo "Running Workflows"
-          docmapWorkflows=$(tctl -ns epp--staging wf list --ps 1000 --open -wt importDocmap --pjson | jq '.[].execution.workflowId' -r)
+          docmapWorkflows=$(./tctl -ns epp--staging wf list --ps 1000 --open -wt importDocmap --pjson | jq '.[].execution.workflowId' -r)
           for workflowId in $docmapWorkflows; do
-            tctl -ns epp--staging wf describe -praw -wid $workflowId | jq -r '"'$workflowId'\t\t\t"+(.|select(.pendingActivities != null)|.pendingActivities[]|.activityType.name+"\t"+.lastFailure.message)'
+            ./tctl -ns epp--staging wf describe -praw -wid $workflowId | jq -r '"'$workflowId'\t\t\t"+(.|select(.pendingActivities != null)|.pendingActivities[]|.activityType.name+"\t"+.lastFailure.message)'
 
-            childWorkflows=$(tctl -ns epp--staging wf describe -praw -wid $workflowId | jq -r '.|select(.pendingChildren != null)|.pendingChildren[].workflowId')
+            childWorkflows=$(./tctl -ns epp--staging wf describe -praw -wid $workflowId | jq -r '.|select(.pendingChildren != null)|.pendingChildren[].workflowId')
 
             for childWorkflowId in $childWorkflows; do
               echo -n "$workflowId"
-              tctl -ns epp--staging wf describe -praw -wid $childWorkflowId | jq -r '"\t"+.workflowExecutionInfo.execution.workflowId+"\t"+.workflowExecutionInfo.type.name+"\t"+(.pendingActivities[]|.activityType.name+"\t"+.lastFailure.message)'
+              ./tctl -ns epp--staging wf describe -praw -wid $childWorkflowId | jq -r '"\t"+.workflowExecutionInfo.execution.workflowId+"\t"+.workflowExecutionInfo.type.name+"\t"+(.pendingActivities[]|.activityType.name+"\t"+.lastFailure.message)'
             done;
           done;
 
           echo "Successful workflows"
-          docmapWorkflows=$(tctl -ns epp--staging wf list --ps 1000 -wt importDocmap --pjson | jq '.[].execution.workflowId' -r)
+          docmapWorkflows=$(./tctl -ns epp--staging wf list --ps 1000 -wt importDocmap --pjson | jq '.[].execution.workflowId' -r)
           for workflowId in $docmapWorkflows; do
             echo $workflowId;
           done;
