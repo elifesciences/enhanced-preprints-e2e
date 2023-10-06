@@ -14,12 +14,12 @@ export const createTemporalClient = async () => {
   return new Client({ connection });
 };
 
-export const startWorkflow = async (testName: string, workflowId: string, client: Client) => {
+export const startWorkflow = async (testName: string, workflowId: string, client: Client, duration: string = '1 minute') => {
   return client.workflow.start('pollDocMapIndex', {
     taskQueue: 'epp',
     workflowId,
     // Because this url is submitted to temporal it must be the url available to the temporal worker.
-    args: [`http://wiremock:8080/docmaps/${testName}`, '1 minute'],
+    args: [`http://wiremock:8080/docmaps/${testName}`, duration],
   });
 };
 
