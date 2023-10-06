@@ -43,7 +43,7 @@ jobs:
           name: playwright-report
           path: playwright-report/index.html
       - name: Temporal workflow status
-        if: fail()
+        if: failure()
         run: |
           echo "Running Workflows"
           docmapWorkflows=$(tctl -ns epp--staging wf list --ps 1000 --open -wt importDocmap --pjson | jq '.[].execution.workflowId' -r)
