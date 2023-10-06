@@ -35,7 +35,7 @@ jobs:
       - name: Bring up EPP
         run: docker compose up --wait
       - name: run tests
-        run: yarn test
+        run: yarn test --retries 0 --max-failures 1
       - name: Playwright report upload
         uses: actions/upload-artifact@v3
         if: always()
