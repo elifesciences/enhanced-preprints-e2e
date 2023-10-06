@@ -65,3 +65,17 @@ jobs:
           for workflowId in $docmapWorkflows; do
             echo $workflowId;
           done;
+
+      - name: List article summaries in EPP server
+        if: failure()
+        run: curl http://localhost:3000/api/preprints/ | jq .
+      - name: Download client index page
+        if: failure()
+        run: wget -r -l 2 --page-requisites --convert-links -P client-index/ -nH http://localhost:3001/
+      - name: Upload client index page
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: client-index
+          path: client-index/*
+
