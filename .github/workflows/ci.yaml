@@ -36,7 +36,9 @@ jobs:
         run: docker compose up --wait
       - name: run tests
         run: yarn test
-      - uses: actions/upload-artifact@v3
+      - name: Playwright report upload
+        uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: playwright-report
           path: playwright-report/*
