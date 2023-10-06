@@ -33,7 +33,7 @@ test.describe('preview preprint', () => {
       expect(response?.status()).toBe(200);
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await expect(page.locator('h1.title')).toHaveText('THIS IS BROKEN: OpenApePose: a database of annotated ape photographs for pose estimation');
     // eslint-disable-next-line max-len
     await expect(page.locator('.copyright')).toContainText('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
 
