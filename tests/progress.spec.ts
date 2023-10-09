@@ -58,7 +58,7 @@ test.describe('progress a manuscript through the manifestations', () => {
 
     // Wait for preview of revised preprint to become available.
     await expect(async () => {
-      const response6 = await page.goto(`${config.client_url}/previews/${name}-msid`);
+      const response6 = await page.goto(`${config.client_url}/previews/${name}-msidv2`);
       expect(response6?.status()).toBe(200);
     }).toPass();
     const response7 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
