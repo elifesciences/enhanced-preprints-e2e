@@ -145,6 +145,11 @@ services:
       MECA_AWS_ACCESS_KEY_ID: minio
       MECA_AWS_SECRET_ACCESS_KEY: miniotest
       XSLT_TRANSFORM_ADDRESS: http://xslt:80
+
+      # control concurrency
+      TEMPORAL_MAX_CONCURRENT_ACTIVITY_TASK_EXECUTIONS: "2"
+      TEMPORAL_MAX_CONCURRENT_WORKFLOW_TASK_EXECUTIONS: "1"
+      TEMPORAL_MAX_CACHED_WORKFLOWS: "1"
     restart: on-failure:5
     command:
       - yarn
