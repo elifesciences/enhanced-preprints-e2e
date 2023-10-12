@@ -62,11 +62,12 @@ jobs:
             {
               "text": "EPP GitHub Action e2e test result: ${{ job.status }} :fire:",
               "blocks": [
-                {
-                  "type": "section",
+              {
+                  "type": "header",
                   "text": {
-                    "type": "mrkdwn",
-                    "text": "EPP GitHub Action e2e test result: ${{ job.status }} :fire:"
+                    "type": "plain_text",
+                    "text": "EPP e2e test success :tada:",
+                    "emoji": true
                   }
                 },
                 {
