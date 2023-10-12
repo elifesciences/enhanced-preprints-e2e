@@ -79,22 +79,16 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Get images from docker-compose
         run: |
-          echo "SERVER_IMAGE_TAG=$(yq '.services.api.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
-          echo "CLIENT_IMAGE_TAG=$(yq '.services.client.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
-          echo "IMPORT_IMAGE_TAG=$(yq '.services.worker.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "SERVER_IMAGE_AND_TAG=$(yq '.services.api.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "CLIENT_IMAGE_AND_TAG=$(yq '.services.client.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "IMPORT_IMAGE_AND_TAG=$(yq '.services.worker.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "XSLT_IMAGE_AND_TAG=$(yq '.services.xslt.image' docker-compose.yaml)" >> $GITHUB_ENV
       - name: create new manifest for accepted tags
         run: |
-          docker buildx imagetools create -t ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG-approved ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG
-
-          # echo client manifests line $(docker manifest inspect ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG | jq -r '.manifests|map("ghcr.io/elifesciences/enhanced-preprints-client@"+.digest)|join(" ")')
-          # docker manifest create ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG-approved $(docker manifest inspect ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG | jq -r '.manifests|map("ghcr.io/elifesciences/enhanced-preprints-client@"+.digest)|join(" ")')
-          # docker manifest push ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG-approved
-
-          # docker manifest create ghcr.io/elifesciences/enhanced-preprints-client:$SERVER_IMAGE_TAG-approved $(docker manifest inspect ghcr.io/elifesciences/enhanced-preprints-client:$SERVER_IMAGE_TAG | jq -r '.manifests|map("ghcr.io/elifesciences/enhanced-preprints-client@"+.digest)|join(" ")')
-          # docker manifest push ghcr.io/elifesciences/enhanced-preprints-server:$SERVER_IMAGE_TAG-approved
-
-          # docker manifest create ghcr.io/elifesciences/enhanced-preprints-client:$IMPORT_IMAGE_TAG-approved $(docker manifest inspect ghcr.io/elifesciences/enhanced-preprints-client:$IMPORT_IMAGE_TAG | jq -r '.manifests|map("ghcr.io/elifesciences/enhanced-preprints-client@"+.digest)|join(" ")')
-          # docker manifest push ghcr.io/elifesciences/enhanced-preprints-import-worker:$IMPORT_IMAGE_TAG-approved
+          docker buildx imagetools create -t $CLIENT_IMAGE_AND_TAG-approved $CLIENT_IMAGE_AND_TAG
+          docker buildx imagetools create -t $SERVER_IMAGE_AND_TAG-approved $SERVER_IMAGE_AND_TAG
+          docker buildx imagetools create -t $IMPORT_IMAGE_AND_TAG-approved $IMPORT_IMAGE_AND_TAG
+          docker buildx imagetools create -t $XSLT_IMAGE_AND_TAG-approved $XSLT_IMAGE_AND_TAG
       - name: Success Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
         env:
@@ -118,15 +112,19 @@ jobs:
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Client image:*\n ${{ env.CLIENT_IMAGE_TAG }}"
+                      "text": "*Client image:*\n ${{ env.CLIENT_IMAGE_AND_TAG }}"
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Server image:*\n ${{ env.SERVER_IMAGE_TAG }}"
+                      "text": "*Server image:*\n ${{ env.SERVER_IMAGE_AND_TAG }}"
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*import image:*\n ${{ env.IMPORT_IMAGE_TAG }}"
+                      "text": "*import image:*\n ${{ env.IMPORT_IMAGE_AND_TAG }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*xslt image:*\n ${{ env.XSLT_IMAGE_AND_TAG }}"
                     }
                   ]
                 },
