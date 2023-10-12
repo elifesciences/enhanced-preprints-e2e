@@ -48,15 +48,18 @@ jobs:
         with:
           payload: |
             {
-              "text": ":fire: EPP GitHub Action e2e test failure ",
+              "text": ":fire: EPP GitHub Action e2e test failure",
               "blocks": [
-              {
+                {
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "EPP e2e test failure :fire:",
+                    "text": ":fire: EPP e2e test failure",
                     "emoji": true
                   }
+                },
+                {
+                  "type": "divider"
                 },
                 {
                   "type": "section",
@@ -99,15 +102,18 @@ jobs:
         with:
           payload: |
             {
-              "text": ":tada: EPP GitHub Action e2e test success and new images approved ",
+              "text": ":tada: EPP GitHub Action e2e test success and new images approved",
               "blocks": [
                 {
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "EPP GitHub Action e2e test success and new images approved :tada:",
+                    "text": ":tada: EPP GitHub Action e2e test success and new images approved",
                     "emoji": true
                   }
+                },
+                {
+                  "type": "divider"
                 },
                 {
                   "type": "section",
@@ -154,9 +160,12 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "EPP GitHub Action e2e test success, but new images failed to approved :fire:",
+                    "text": ":fire: EPP GitHub Action e2e test success, but new images failed to approved",
                     "emoji": true
                   }
+                },
+                {
+                  "type": "divider"
                 },
                 {
                   "type": "section",
