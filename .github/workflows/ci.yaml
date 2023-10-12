@@ -71,7 +71,7 @@ jobs:
             }
       - name: Success Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
-        if: failure()
+        if: success()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
