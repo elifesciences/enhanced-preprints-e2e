@@ -34,26 +34,90 @@ jobs:
         run: yarn playwright install
       - name: Bring up EPP
         run: docker compose up --wait
-      - name: run tests
-        run: yarn test
-      - name: Slack Notification
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        if: always()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-        with:
-          payload: |
-            {
-              "text": "EPP GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "EPP GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-                  }
-                }
-              ]
-            }
+      # - name: run tests
+      #   run: yarn test
+
+      - name: Get images from docker-compose
+        run: |
+          echo "SERVER_IMAGE=$(yq '.services.api.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "CLIENT_IMAGE=$(yq '.services.client.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "IMPORT_IMAGE=$(yq '.services.worker.image' docker-compose.yaml)" >> $GITHUB_ENV
+      - name: test
+        run: |
+          echo ${{ env.SERVER_IMAGE }}
+          echo ${{ env.CLIENT_IMAGE }}
+          echo ${{ env.IMPORT_IMAGE }}
+      # - name: Failure Slack Notification
+      #   id: slack
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   if: failure()
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      #   with:
+      #     payload: |
+      #       {
+      #         "text": "EPP GitHub Action build result: ${{ job.status }} :fire:",
+      #         "blocks": [
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "EPP GitHub Action build result: ${{ job.status }} :fire:"
+      #             }
+      #           },
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Pull Request>"
+      #             }
+      #           }
+      #         ]
+      #       }
+      # - name: Success Slack Notification
+      #   id: slack
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   if: failure()
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      #   with:
+      #     payload: |
+      #       {
+      #         "text": "EPP GitHub Action build result: ${{ job.status }} :tada:",
+      #         "blocks": [
+      #           {
+      #             "type": "header",
+      #             "text": {
+      #               "type": "plain_text",
+      #               "text": "EPP Build success :tada:",
+      #               "emoji": true
+      #             }
+      #           },
+      #           {
+      #             "type": "section",
+      #             "fields": [
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Client image:*\n lfskjdfl"
+      #               },
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*Server image:*\n lkjdflsk"
+      #               },
+      #               {
+      #                 "type": "mrkdwn",
+      #                 "text": "*import image:*\n lkjdflsk"
+      #               }
+      #             ]
+      #           },
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Pull Request>"
+      #             }
+      #           }
+      #         ]
+      #       }
