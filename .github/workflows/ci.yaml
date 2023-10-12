@@ -68,7 +68,7 @@ jobs:
   approve-images:
     runs-on: ubuntu-latest
     needs: [test]
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
     steps:
       - name: Get images from docker-compose
         run: |
@@ -83,7 +83,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target: "${{ env.SERVER_IMAGE_TAG }}"
           tags: |
-            ${{ env.SERVER_IMAGE_TAG }}-approved
+            ${{ env.SERVER_IMAGE_TAG }}-test
       - name: add accepted tag to client image
         uses: shrink/actions-docker-registry-tag@v3
         with:
@@ -92,7 +92,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target: "${{ env.CLIENT_IMAGE_TAG }}"
           tags: |
-            ${{ env.CLIENT_IMAGE_TAG }}-approved
+            ${{ env.CLIENT_IMAGE_TAG }}-test
       - name: add accepted tag to client image
         uses: shrink/actions-docker-registry-tag@v3
         with:
@@ -101,7 +101,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target: "${{ env.IMPORT_IMAGE_TAG }}"
           tags: |
-            ${{ env.IMPORT_IMAGE_TAG }}-approved
+            ${{ env.IMPORT_IMAGE_TAG }}-test
       - name: Success Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
         env:
