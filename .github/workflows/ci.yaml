@@ -70,6 +70,12 @@ jobs:
     needs: [test]
     # if: github.ref == 'refs/heads/master'
     steps:
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Get images from docker-compose
         run: |
           echo "SERVER_IMAGE_TAG=$(yq '.services.api.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
@@ -80,7 +86,6 @@ jobs:
         with:
           registry: ghcr.io
           repository: elifesciences/enhanced-preprints-server
-          token: ${{ secrets.GITHUB_TOKEN }}
           target: "${{ env.SERVER_IMAGE_TAG }}"
           tags: |
             ${{ env.SERVER_IMAGE_TAG }}-test
@@ -89,7 +94,6 @@ jobs:
         with:
           registry: ghcr.io
           repository: elifesciences/enhanced-preprints-client
-          token: ${{ secrets.GITHUB_TOKEN }}
           target: "${{ env.CLIENT_IMAGE_TAG }}"
           tags: |
             ${{ env.CLIENT_IMAGE_TAG }}-test
@@ -98,7 +102,6 @@ jobs:
         with:
           registry: ghcr.io
           repository: elifesciences/enhanced-preprints-import-worker
-          token: ${{ secrets.GITHUB_TOKEN }}
           target: "${{ env.IMPORT_IMAGE_TAG }}"
           tags: |
             ${{ env.IMPORT_IMAGE_TAG }}-test
