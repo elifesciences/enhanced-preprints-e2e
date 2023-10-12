@@ -84,6 +84,7 @@ jobs:
           echo "IMPORT_IMAGE_TAG=$(yq '.services.worker.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
       - name: create new manifest for accepted tags
         run: |
+          echo client manifests line $(docker manifest inspect ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG | jq -r '.manifests|map("ghcr.io/elifesciences/enhanced-preprints-client@"+.digest)|join(" ")')
           docker manifest create ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG-approved $(docker manifest inspect ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG | jq -r '.manifests|map("ghcr.io/elifesciences/enhanced-preprints-client@"+.digest)|join(" ")')
           docker manifest push ghcr.io/elifesciences/enhanced-preprints-client:$CLIENT_IMAGE_TAG-approved
 
