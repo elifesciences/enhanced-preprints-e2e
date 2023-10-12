@@ -48,7 +48,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "EPP GitHub Action e2e test failure :fire:",
+              "text": ":fire: EPP GitHub Action e2e test failure ",
               "blocks": [
               {
                   "type": "header",
@@ -99,7 +99,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "EPP GitHub Action e2e test success and new images approved :tada:",
+              "text": ":tada: EPP GitHub Action e2e test success and new images approved ",
               "blocks": [
                 {
                   "type": "header",
@@ -148,7 +148,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "EPP GitHub Action e2e test success, but new images failed to approved :fire:",
+              "text": ":fire: EPP GitHub Action e2e test success, but new images failed to approved",
               "blocks": [
               {
                   "type": "header",
