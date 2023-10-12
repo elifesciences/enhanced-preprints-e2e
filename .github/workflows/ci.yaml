@@ -110,7 +110,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*import image:*\n ${{ env.WORKER_IMAGE_TAG }}"
+                      "text": "*import image:*\n ${{ env.IMPORT_IMAGE_TAG }}"
                     }
                   ]
                 },
