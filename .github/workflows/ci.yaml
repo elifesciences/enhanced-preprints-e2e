@@ -42,15 +42,15 @@ jobs:
           echo "SERVER_IMAGE_TAG=$(yq '.services.api.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
           echo "CLIENT_IMAGE_TAG=$(yq '.services.client.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
           echo "IMPORT_IMAGE_TAG=$(yq '.services.worker.image | capture("(?P<repo>.*):(?P<tag>.*)").tag' docker-compose.yaml)" >> $GITHUB_ENV
-      - name: Search latest semver Image
-        uses: tinact/docker.image-retag@master
-        with:
-          image_name: test
-          image_old_tag: do_not_use
-          image_new_tag: retag
-          registry: docker.pkg.github.com/tinact/docker.image
-          registry_username: sbaerlocher
-          registry_password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Search latest semver Image
+      #   uses: tinact/docker.image-retag@master
+      #   with:
+      #     image_name: test
+      #     image_old_tag: do_not_use
+      #     image_new_tag: retag
+      #     registry: docker.pkg.github.com/tinact/docker.image
+      #     registry_username: sbaerlocher
+      #     registry_password: ${{ secrets.GITHUB_TOKEN }}
       - name: Failure Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
         if: failure()
