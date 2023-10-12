@@ -32,12 +32,10 @@ jobs:
         run: yarn lint
       - name: install browsers
         run: yarn playwright install
-      # - name: Bring up EPP
-      #   run: docker compose up --wait
-      # - name: run tests
-      #   run: yarn test
-      - name: simulate a failing test
-        run: exit 1
+      - name: Bring up EPP
+        run: docker compose up --wait
+      - name: run tests
+        run: yarn test
 
       - name: Failure Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
