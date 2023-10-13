@@ -21,7 +21,7 @@
         "ghcr.io/elifesciences/enhanced-preprints-import-worker",
         "ghcr.io/elifesciences/temporal-cli"
       ],
-      "versioning": "regex:^master-(.*)-(?<minor>.*)$",
+      "versioning": "regex:^master-(.*)-(?<minor>[\d]+)\.(?<patch>[\d]+)$",
       "automerge": true
     },
     {
