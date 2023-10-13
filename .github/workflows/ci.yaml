@@ -65,3 +65,140 @@ jobs:
           for workflowId in $docmapWorkflows; do
             echo $workflowId;
           done;
+      - name: Failure Slack Notification
+        uses: slackapi/slack-github-action@v1.24.0
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        with:
+          payload: |
+            {
+              "text": ":fire: EPP GitHub Action e2e test failure",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": ":fire: EPP e2e test failure",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Pull Request>"
+                  }
+                }
+              ]
+            }
+  approve-images:
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get images from docker-compose
+        run: |
+          echo "SERVER_IMAGE_AND_TAG=$(yq '.services.api.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "CLIENT_IMAGE_AND_TAG=$(yq '.services.client.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "IMPORT_IMAGE_AND_TAG=$(yq '.services.worker.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "XSLT_IMAGE_AND_TAG=$(yq '.services.xslt.image' docker-compose.yaml)" >> $GITHUB_ENV
+      - name: create new manifest for accepted tags
+        run: |
+          docker buildx imagetools create -t $CLIENT_IMAGE_AND_TAG-approved $CLIENT_IMAGE_AND_TAG
+          docker buildx imagetools create -t $SERVER_IMAGE_AND_TAG-approved $SERVER_IMAGE_AND_TAG
+          docker buildx imagetools create -t $IMPORT_IMAGE_AND_TAG-approved $IMPORT_IMAGE_AND_TAG
+          docker buildx imagetools create -t $XSLT_IMAGE_AND_TAG-approved $XSLT_IMAGE_AND_TAG
+      - name: Success Slack Notification
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        with:
+          payload: |
+            {
+              "text": ":tada: EPP GitHub Action e2e test success and new images approved",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": ":tada: EPP GitHub Action e2e test success and new images approved",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Client image:*\n ${{ env.CLIENT_IMAGE_AND_TAG }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Server image:*\n ${{ env.SERVER_IMAGE_AND_TAG }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*import image:*\n ${{ env.IMPORT_IMAGE_AND_TAG }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*xslt image:*\n ${{ env.XSLT_IMAGE_AND_TAG }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Commit>"
+                  }
+                }
+              ]
+            }
+      - name: Failure Slack Notification
+        uses: slackapi/slack-github-action@v1.24.0
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        with:
+          payload: |
+            {
+              "text": ":fire: EPP GitHub Action e2e test success, but new images failed to approved",
+              "blocks": [
+              {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": ":fire: EPP GitHub Action e2e test success, but new images failed to approved",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Commit>"
+                  }
+                }
+              ]
+            }
