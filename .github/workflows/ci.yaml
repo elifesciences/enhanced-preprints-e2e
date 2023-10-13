@@ -15,7 +15,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: "bigger-ubuntu-4c-16ram'
     steps:
       - uses: actions/checkout@v3
       - name: Read .nvmrc
