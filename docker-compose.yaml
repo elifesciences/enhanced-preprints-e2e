@@ -157,7 +157,7 @@ services:
       start_period: 2s
 
   wiremock:
-    image: wiremock/wiremock:3.1.0-1
+    image: wiremock/wiremock:3.2.0-1
     ports:
       - 8080:8080
     healthcheck:
