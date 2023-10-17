@@ -22,7 +22,10 @@
         "ghcr.io/elifesciences/temporal-cli"
       ],
       "versioning": "regex:^master-(.*)-(?<minor>[\\d]+)\\.(?<patch>[\\d]+)$",
-      "automerge": true
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+
     },
     {
       "packagePatterns": ["^minio"],
