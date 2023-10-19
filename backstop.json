@@ -17,14 +17,14 @@
       "height": 900
     }
   ],
-  "onBeforeScript": "puppet/onBefore.js",
-  "onReadyScript": "puppet/onReady.js",
+  "onBeforeScript": "playwright/onBefore.js",
+  "onReadyScript": "playwright/onReady.js",
   "scenarios": [
     {
       "label": "Enhanced Article",
-      "cookiePath": "backstop_data/engine_scripts/cookies.json",
       "url": "https://prod-automation--epp.elifesciences.org/reviewed-preprints/85111v2",
-      "referenceUrl": "https://prod--epp.elifesciences.org/reviewed-preprints/85111v2"
+      "referenceUrl": "https://prod--epp.elifesciences.org/reviewed-preprints/85111v2",
+      "removeSelectors": ["#CybotCookiebotDialog"]
     }
   ],
   "paths": {
@@ -35,8 +35,10 @@
     "ci_report": "backstop_data/ci_report"
   },
   "report": ["browser"],
-  "engine": "puppeteer",
+  "engine": "playwright",
   "engineOptions": {
+    "browser": "chromium",
+    "gotoParameters": { "waitUntil": "networkidle0" },
     "args": ["--no-sandbox"]
   },
   "asyncCaptureLimit": 5,
