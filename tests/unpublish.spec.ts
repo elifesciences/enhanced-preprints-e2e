@@ -40,7 +40,7 @@ test.describe('unpublished preprint', () => {
 
     await changeState(name, 'unpublished');
 
-    await expect(page.locator('#assessment .descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.000001.1.sa3`);
+    await expect(page.locator('#assessment .descriptors__identifier')).toHaveText('https://doi.org/10.7554/eLife.000001.1.sa3');
 
     // Wait for unpublished article to become unavailable
     await expect(async () => {
