@@ -25,6 +25,7 @@
         ];
         shellHook = ''
           # Remove playwright from node_modules, so it will be taken from playwright-test
+          # This command will fail on subsequent runs but that is expected and fine
           rm node_modules/@playwright/ -R
           rm node_modules/playwright-core/ -R
         '';
