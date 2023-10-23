@@ -32,10 +32,12 @@ jobs:
         run: yarn lint
       - name: install browsers
         run: yarn playwright install
+      - name: Pull images
+        run: docker compose pull --quiet
       - name: Bring up EPP
         run: docker compose up --wait
       - name: run tests
-        run: yarn test --workers 1
+        run: yarn test --workers 5
       - name: Playwright report upload
         uses: actions/upload-artifact@v3
         if: always()
