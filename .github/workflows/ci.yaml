@@ -37,7 +37,7 @@ jobs:
       - name: install browsers
         run: yarn playwright install
       - name: Pull images
-        run: docker compose pull
+        run: docker compose pull --quiet
       - name: Bring up EPP
         run: docker compose up --wait
       - name: run tests
