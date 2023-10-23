@@ -75,7 +75,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-0441cc89-20231019.0501
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-d03cf21b-20231021.0520
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
@@ -118,7 +118,7 @@ services:
       - 3004:80
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-670da4c7-20231020.1004
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-1177cbe9-20231021.1819
     depends_on:
       createbucket:
         condition: service_completed_successfully
@@ -144,7 +144,7 @@ services:
       MECA_S3_ENDPOINT: http://minio:9000
       MECA_AWS_ACCESS_KEY_ID: minio
       MECA_AWS_SECRET_ACCESS_KEY: miniotest
-      XSLT_TRANSFORM_ADDRESS: http://xslt:80
+      XSLT_TRANSFORM_ADDRESS: http://wiremock:8080/xslt-transform
     restart: on-failure:5
     command:
       - yarn
