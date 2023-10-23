@@ -15,7 +15,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-4c-16g
     steps:
       - uses: actions/checkout@v4
       - name: Read .nvmrc
