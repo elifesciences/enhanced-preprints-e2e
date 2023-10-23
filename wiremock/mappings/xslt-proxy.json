@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/xslt-transform"
+  },
+  "response": {
+    "proxyBaseUrl": "http://xslt",
+    "proxyUrlPrefixToRemove": "/xslt-transform",
+    "additionalProxyRequestHeaders": {
+        "x-passthrough": "true"
+    }
+  }
+}
