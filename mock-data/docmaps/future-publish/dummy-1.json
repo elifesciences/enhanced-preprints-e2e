@@ -271,7 +271,7 @@
             "versionIdentifier": "1"
           },
           "status": "manuscript-published",
-          "happened": "{{now offset='5 minutes'}}"
+          "happened": "{{now offset='2 minutes'}}"
         }
       ],
       "previous-step": "_:b1"
