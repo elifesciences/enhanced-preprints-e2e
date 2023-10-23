@@ -61,7 +61,7 @@ test.describe('progress a manuscript through the manifestations', () => {
       const response6 = await page.goto(`${config.client_url}/previews/${name}-msidv2`);
       expect(response6?.status()).toBe(200);
     }).toPass();
-    const response7 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    const response7 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     expect(response7?.status()).toBe(404);
 
     await changeState(name, 'Revised');
