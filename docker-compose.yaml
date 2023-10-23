@@ -75,7 +75,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-d03cf21b-20231021.0520
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-743d9665-20231023.1142
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
@@ -112,7 +112,7 @@ services:
       - 3001:3000
 
   xslt:
-    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-7d1d4fbf-20231013.1444
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-fff9526d-20231023.1202
     restart: always
     ports:
       - 3004:80
