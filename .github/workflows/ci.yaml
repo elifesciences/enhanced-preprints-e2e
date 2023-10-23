@@ -26,10 +26,6 @@ jobs:
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
           cache: yarn
-      - name: Cache Docker images
-        uses: ScribeMD/docker-cache@0.3.6
-        with:
-          key: docker-${{ hashFiles('docker-compose.yaml') }}
       - name: yarn install
         run: yarn
       - name: Lint
