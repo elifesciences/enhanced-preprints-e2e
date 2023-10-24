@@ -43,7 +43,7 @@ test.describe('revised preprint', () => {
     }).toPass();
 
     await expect(page.locator('.article-status__text')).toHaveText('Published from the original preprint after peer review and assessment by eLife.');
-    await expect(page.locator('.descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.1`);
+    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.1`);
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
     // 3rd child is 2nd description details (<dd>) from the timeline definition list
@@ -52,9 +52,10 @@ test.describe('revised preprint', () => {
     await expect(reviewTimelinePageLocatorV1.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
     await page.getByLabel('Reviewed preprint version 2').click();
+    await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await expect(page.locator('.article-status__text')).toHaveText('Revised by authors after peer review.');
-    await expect(page.locator('.descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.2`);
+    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.2`);
 
     // 1st child is 1st description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorV2 = page.locator('.review-timeline__list>.review-timeline__event:nth-child(1)');
@@ -62,13 +63,14 @@ test.describe('revised preprint', () => {
     await expect(reviewTimelinePageLocatorV2.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
     await page.getByLabel('Reviewed preprint version 1').click();
-    await expect(page.locator('.descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.1`);
+    await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.1`);
 
     const responseMsid = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
     expect(responseMsid?.status()).toBe(200);
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await expect(page.locator('.article-status__text')).toHaveText('Revised by authors after peer review.');
-    await expect(page.locator('.descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.2`);
+    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText(`https://doi.org/10.7554/eLife.${name}-msid.2`);
 
     // 1st child is 1st description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorLatest = page.locator('.review-timeline__list>.review-timeline__event:nth-child(1)');
