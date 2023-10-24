@@ -33,12 +33,15 @@ test.describe('revised preprint', () => {
 
   test('revised preprints are available', async ({ page }) => {
     // For the test to succeed, we need to wait for both versions to be imported
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     await expect(async () => {
-      const responsev2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+      const responsev2 = await page.reload();
       expect(responsev2?.status()).toBe(200);
     }).toPass();
+
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await expect(async () => {
-      const responsev1 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+      const responsev1 = await page.reload();
       expect(responsev1?.status()).toBe(200);
     }).toPass();
 

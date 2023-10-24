@@ -29,8 +29,9 @@ test.describe('reviewed preprint', () => {
 
   test('test reviewed-preprint with future published date is not available until published time has passed', async ({ page }) => {
     // first wait for the preview to be published
+    await page.goto(`${config.client_url}/previews/${name}-msidv1`);
     await expect(async () => {
-      const previewResponse = await page.goto(`${config.client_url}/previews/${name}-msidv1`);
+      const previewResponse = await page.reload();
       expect(previewResponse?.status()).toBe(200);
     }).toPass();
 
@@ -39,8 +40,9 @@ test.describe('reviewed preprint', () => {
     expect(prePublishedResponse?.status()).toBe(404);
 
     // then, wait for the reviewed preprint to be published (with the passage of time)
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await expect(async () => {
-      const postPublishedResponse = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+      const postPublishedResponse = await page.reload();
       expect(postPublishedResponse?.status()).toBe(200);
     }).toPass();
   });

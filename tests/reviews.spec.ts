@@ -28,8 +28,9 @@ test.describe('reviewed preprint', () => {
   });
 
   test('test reviews and DOIs are visible on reviewed-preprint', async ({ page }) => {
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1/reviews`);
     await expect(async () => {
-      const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1/reviews`);
+      const response = await page.reload();
       expect(response?.status()).toBe(200);
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
