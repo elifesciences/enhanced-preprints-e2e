@@ -21,13 +21,13 @@
   "onReadyScript": "playwright/onReady.js",
   "scenarios": [
     {
-      "label": "Enhanced Article",
+      "label": "Enhanced Article 85111v2",
       "url": "https://prod-automation--epp.elifesciences.org/reviewed-preprints/85111v2",
       "referenceUrl": "https://prod--epp.elifesciences.org/reviewed-preprints/85111v2",
       "removeSelectors": ["#CybotCookiebotDialog", "#assessment>.descriptors"]
     },
     {
-      "label": "Enhanced Article",
+      "label": "Enhanced Article 86324v1",
       "url": "https://prod-automation--epp.elifesciences.org/reviewed-preprints/86324v1",
       "referenceUrl": "https://prod--epp.elifesciences.org/reviewed-preprints/86324v1",
       "removeSelectors": ["#CybotCookiebotDialog", "#assessment>.descriptors"]
