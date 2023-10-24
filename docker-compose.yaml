@@ -94,7 +94,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-2215e63a-20231023.1027
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-f5da4808-20231024.0631
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 5s
@@ -112,13 +112,13 @@ services:
       - 3001:3000
 
   xslt:
-    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-fff9526d-20231023.1202
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-93d707dd-20231023.1450
     restart: always
     ports:
       - 3004:80
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-1177cbe9-20231021.1819
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-16d62c39-20231024.0912
     depends_on:
       createbucket:
         condition: service_completed_successfully
