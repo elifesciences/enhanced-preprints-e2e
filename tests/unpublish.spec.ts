@@ -30,8 +30,9 @@ test.describe('unpublished preprint', () => {
   });
 
   test('preprints can be unpublished', async ({ page }) => {
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await expect(async () => {
-      const responsev1 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+      const responsev1 = await page.reload();
       expect(responsev1?.status()).toBe(200);
     }).toPass();
 
@@ -43,8 +44,9 @@ test.describe('unpublished preprint', () => {
     await expect(page.locator('#assessment .descriptors__identifier')).toHaveText('https://doi.org/10.7554/eLife.000001.1.sa3');
 
     // Wait for unpublished article to become unavailable
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await expect(async () => {
-      const response2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+      const response2 = await page.reload();
       expect(response2?.status()).toBe(404);
     }).toPass();
     const response3 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);

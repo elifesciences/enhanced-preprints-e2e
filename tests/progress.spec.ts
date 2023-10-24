@@ -39,8 +39,9 @@ test.describe('progress a manuscript through the manifestations', () => {
     await changeState(name, 'Preview');
 
     // Wait for preview to become available.
+    await page.goto(`${config.client_url}/previews/${name}-msid`);
     await expect(async () => {
-      const response3 = await page.goto(`${config.client_url}/previews/${name}-msid`);
+      const response3 = await page.reload();
       expect(response3?.status()).toBe(200);
     }).toPass();
     const response4 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
@@ -49,16 +50,18 @@ test.describe('progress a manuscript through the manifestations', () => {
     await changeState(name, 'Reviews');
 
     // Wait for reviewed preprint to become available.
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
     await expect(async () => {
-      const response5 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+      const response5 = await page.reload();
       expect(response5?.status()).toBe(200);
     }).toPass();
 
     await changeState(name, 'Preview Revised');
 
     // Wait for preview of revised preprint to become available.
+    await page.goto(`${config.client_url}/previews/${name}-msidv2`);
     await expect(async () => {
-      const response6 = await page.goto(`${config.client_url}/previews/${name}-msidv2`);
+      const response6 = await page.reload();
       expect(response6?.status()).toBe(200);
     }).toPass();
     const response7 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
@@ -67,8 +70,9 @@ test.describe('progress a manuscript through the manifestations', () => {
     await changeState(name, 'Revised');
 
     // Wait for revised preprint to become available.
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     await expect(async () => {
-      const response8 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+      const response8 = await page.reload();
       expect(response8?.status()).toBe(200);
     }).toPass();
   });

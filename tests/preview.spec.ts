@@ -28,8 +28,9 @@ test.describe('preview preprint', () => {
   });
 
   test('test previews are visible', async ({ page }) => {
+    await page.goto(`${config.client_url}/previews/${name}-msidv1`);
     await expect(async () => {
-      const response = await page.goto(`${config.client_url}/previews/${name}-msidv1`);
+      const response = await page.reload();
       expect(response?.status()).toBe(200);
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
