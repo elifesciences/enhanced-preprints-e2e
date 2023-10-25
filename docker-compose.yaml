@@ -72,7 +72,7 @@ services:
       SKIP_ADD_CUSTOM_SEARCH_ATTRIBUTES: true
       TEMPORAL_ADDRESS: temporal:7233
     healthcheck:
-      test: temporal operator namespace list
+      test: temporal operator namespace describe default
       interval: 5s
       timeout: 5s
       retries: 10
@@ -82,7 +82,7 @@ services:
         condition: service_healthy
 
   temporal-setup-search:
-    image: temporalio/admin-tools:1.22.0
+    image: temporalio/admin-tools:1.22.1
     environment:
       TEMPORAL_ADDRESS: temporal:7233
     entrypoint: bash -c 'temporal operator search-attribute create --name ManuscriptId --type Text && temporal operator search-attribute create --name DocmapURL --type Text'
