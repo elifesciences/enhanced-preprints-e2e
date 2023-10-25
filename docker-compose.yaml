@@ -158,6 +158,12 @@ services:
     restart: always
     ports:
       - 3004:80
+    healthcheck:
+      test: "curl  -H 'X-Passthrough: true' -f http://localhost:80/ -d '<test></test>' || exit 1"
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s
 
   worker:
     image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-bb48a574-20231025.1544
