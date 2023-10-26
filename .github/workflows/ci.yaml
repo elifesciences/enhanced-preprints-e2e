@@ -36,6 +36,62 @@ jobs:
         run: docker compose pull --quiet
       - name: Bring up EPP
         run: docker compose up --wait
+      - name: Docker compose status
+        if: failure()
+        run: |
+          docker compose ps
+
+          echo "Docker logs for minio"
+          echo ""
+          docker compose logs minio
+          echo ""
+
+          echo "Docker logs for createbucket"
+          echo ""
+          docker compose logs createbucket
+          echo ""
+
+          echo "Docker logs for loadbucket"
+          echo ""
+          docker compose logs loadbucket
+          echo ""
+
+          echo "Docker logs for temporal"
+          echo ""
+          docker compose logs temporal
+          echo ""
+
+          echo "Docker logs for mongodb"
+          echo ""
+          docker compose logs mongodb
+          echo ""
+
+          echo "Docker logs for api"
+          echo ""
+          docker compose logs api
+          echo ""
+
+          echo "Docker logs for client"
+          echo ""
+          docker compose logs client
+          echo ""
+
+          echo "Docker logs for xslt"
+          echo ""
+          docker compose logs xslt
+          echo ""
+
+          echo "Docker logs for worker"
+          echo ""
+          docker compose logs worker
+          echo ""
+
+          echo "Docker logs for wiremock"
+          echo ""
+          docker compose logs wiremock
+          echo ""
+
+
       - name: run tests
         run: yarn test --workers 5
       - name: Playwright report upload
