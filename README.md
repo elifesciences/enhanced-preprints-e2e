@@ -77,7 +77,7 @@ yarn test:debug
 To run a single test on your host machine:
 
 ```
-yarn test tests/title.spec.ts
+yarn test tests/reviews.spec.ts
 ```
 
 To run tests in a docker container:
