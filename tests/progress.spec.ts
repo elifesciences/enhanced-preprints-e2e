@@ -40,7 +40,7 @@ test.describe('progress a manuscript through the manifestations', () => {
         Accept: 'application/vnd.elife.reviewed-preprint-list+json; version=1',
       },
     });
-    expect(await response2a?.body()).toStrictEqual({ total: 0, items: [] });
+    expect(await response2a?.json()).toStrictEqual({ total: 0, items: [] });
     const response2b = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
       headers: {
         Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
