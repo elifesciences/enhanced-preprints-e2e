@@ -30,11 +30,23 @@ test.describe('progress a manuscript through the manifestations', () => {
     ]);
   });
 
-  test('successful progression of manuscript', async ({ page }) => {
+  test('successful progression of manuscript', async ({ page, request }) => {
     const response1 = await page.goto(`${config.client_url}/previews/${name}-msid`);
     expect(response1?.status()).toBe(404);
     const response2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
     expect(response2?.status()).toBe(404);
+    const response2a = await request.get(`${config.client_url}/api/reviewed-preprints`, {
+      headers: {
+        Accept: 'application/vnd.elife.reviewed-preprint-list+json; version=1',
+      },
+    });
+    expect(response2a?.body()).toStrictEqual({ total: 0, items: [] });
+    const response2b = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
+      headers: {
+        Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
+      },
+    });
+    expect(response2b?.status()).toBe(404);
 
     await changeState(name, 'Preview');
 
