@@ -43,7 +43,37 @@ test.describe('continuum api', () => {
       },
     });
 
+    const expectSnippet = {
+      title: 'OpenApePose: a database of annotated ape photographs for pose estimation',
+      id: `${name}-msid`,
+      doi: '10.1101/000001',
+      authorLine: 'Nisarg Desai, Praneet Bala ... Benjamin Hayden',
+      published: '2023-05-07T09:03:08.000Z',
+      reviewedDate: '2023-05-07T09:03:08.000Z',
+      statusDate: '2023-05-07T09:03:08.000Z',
+      versionDate: '2023-05-07T09:03:08.000Z',
+      stage: 'published',
+      status: 'reviewed',
+      subjects: [
+        {
+          id: 'cell-biology',
+          name: 'Cell Biology',
+        },
+        {
+          id: 'structural-biology-molecular-biophysics',
+          name: 'Structural Biology and Molecular Biophysics',
+        },
+      ],
+    };
+
     expect(list.ok()).toBeTruthy();
-    expect(await list?.json()).toStrictEqual({ total: 1 });
+    expect(await list.json()).toStrictEqual({ total: 1, items: [expectSnippet] });
+
+    const item = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
+      headers: {
+        Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
+      },
+    });
+    expect(await item.json()).toStrictEqual({ ...expectSnippet, indexContent: '' });
   });
 });
