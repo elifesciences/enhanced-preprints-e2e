@@ -28,6 +28,15 @@ test.describe('continuum api', () => {
   });
 
   test('test data on continuum api', async ({ request }) => {
+    await expect(async () => {
+      const item = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
+        headers: {
+          Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
+        },
+      });
+      expect(item.ok()).toBeTruthy();
+    }).toPass();
+
     const list = await request.get(`${config.client_url}/api/reviewed-preprints`, {
       headers: {
         Accept: 'application/vnd.elife.reviewed-preprint-list+json; version=1',
@@ -35,13 +44,6 @@ test.describe('continuum api', () => {
     });
 
     expect(list.ok()).toBeTruthy();
-    expect(await list?.json()).toStrictEqual({ total: 0, items: [] });
-
-    const response2b = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
-      headers: {
-        Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
-      },
-    });
-    expect(response2b?.status()).toBe(404);
+    expect(await list?.json()).toStrictEqual({ total: 1 });
   });
 });
