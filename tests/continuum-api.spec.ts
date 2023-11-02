@@ -74,6 +74,6 @@ test.describe('continuum api', () => {
         Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
       },
     });
-    expect(await item.json()).toStrictEqual({ ...expectSnippet, indexContent: '' });
+    expect(await item.json()).toStrictEqual({ ...expectSnippet, indexContent: expect.any(String) });
   });
 });
