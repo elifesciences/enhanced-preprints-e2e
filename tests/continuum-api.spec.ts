@@ -74,8 +74,15 @@ test.describe('continuum api', () => {
         Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
       },
     });
+
     const itemJson = await item.json();
     expect(itemJson).toStrictEqual({ ...expectSnippet, indexContent: expect.any(String) });
-    expect(itemJson.indexContent).toContainText('Nisarg Desai, Praneet Bala, Rebecca Richardson, Jessica Raper, Jan Zimmermann, Benjamin Hayden');
+    expect(itemJson.indexContent.includes('Nisarg Desai, Praneet Bala, Rebecca Richardson, Jessica Raper, Jan Zimmermann, Benjamin Hayden'));
+    expect(itemJson.indexContent.includes('Such systems allow data collected from digital video cameras to be used to infer the positions of body landmarks such as head, hands, and feet, without the use of specialized markers.'));
+    expect(itemJson.indexContent.includes('We thank Estelle Reballand from Chimpanzee Conservation Center, Fred Rubio from Project Chimps, Adam Thompson from Zoo Atlanta, Reba Collins from Chimp Haven, and Amanda Epping and Jared Taglialatela from Ape Initiative for permissions to take photographs from these sanctuaries as well as contributing images for the dataset.'));
+
+    const headers = item.headers();
+    expect(headers['content-type']).toBe('application/vnd.elife.reviewed-preprint-item+json; version=1');
+    expect(headers['cache-control']).toBe('max-age=300, public, stale-if-error=86400, stale-while-revalidate=300');
   });
 });
