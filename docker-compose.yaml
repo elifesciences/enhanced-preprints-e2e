@@ -92,7 +92,7 @@ services:
 
 
   temporal-ui:
-    image: temporalio/ui:2.19.0
+    image: temporalio/ui:2.20.0
     ports:
       - 8233:8233
     environment:
@@ -136,7 +136,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-e93f08f6-20231031.1700
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-150dcdf7-20231102.1438
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -154,7 +154,7 @@ services:
       - 3001:3000
 
   xslt:
-    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-996b93f9-20231030.1555
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-0611990f-20231102.0820
     restart: always
     ports:
       - 3004:80
@@ -166,7 +166,7 @@ services:
       start_period: 5s
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-e8883345-20231031.2007
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-f998fd60-20231101.2124
     depends_on:
       createbucket:
         condition: service_completed_successfully
