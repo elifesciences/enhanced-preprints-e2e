@@ -74,6 +74,8 @@ test.describe('continuum api', () => {
         Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
       },
     });
-    expect(await item.json()).toStrictEqual({ ...expectSnippet, indexContent: expect.any(String) });
+    const itemJson = await item.json();
+    expect(itemJson).toStrictEqual({ ...expectSnippet, indexContent: expect.any(String) });
+    expect(itemJson.indexContent).toContainText('Nisarg Desai, Praneet Bala, Rebecca Richardson, Jessica Raper, Jan Zimmermann, Benjamin Hayden');
   });
 });
