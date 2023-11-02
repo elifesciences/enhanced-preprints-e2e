@@ -27,7 +27,7 @@ test.describe('continuum api', () => {
     ]);
   });
 
-  test('test data on continuum api', async ({ request }) => {
+  test('response from continuum api after import of reviewed preprint', async ({ request }) => {
     await expect(async () => {
       const item = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
         headers: {
@@ -39,7 +39,7 @@ test.describe('continuum api', () => {
 
     const list = await request.get(`${config.client_url}/api/reviewed-preprints`, {
       headers: {
-        Accept: 'application/vnd.elife.reviewed-preprint-list+json; version=1',
+        Accept: 'application/vnd.elife.reviewed-preprint-list+json; version=`',
       },
     });
 
@@ -69,6 +69,14 @@ test.describe('continuum api', () => {
     expect(list.ok()).toBeTruthy();
     expect(await list.json()).toStrictEqual({ total: 1, items: [expectSnippet] });
 
+    const listHeaders = list.headers();
+    expect(listHeaders['content-type']).toBe('application/vnd.elife.reviewed-preprint-list+json; version=1');
+    expect(listHeaders['cache-control']).toBe('max-age=300, public, stale-if-error=86400, stale-while-revalidate=300');
+
+    const listHeaderVary = listHeaders.vary.split(', ');
+    expect(listHeaderVary).toContain('Accept');
+    expect(listHeaderVary).toContain('Authorization');
+
     const item = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
       headers: {
         Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
@@ -82,12 +90,12 @@ test.describe('continuum api', () => {
     // eslint-disable-next-line max-len
     expect(itemJson.indexContent.includes('We thank Estelle Reballand from Chimpanzee Conservation Center, Fred Rubio from Project Chimps, Adam Thompson from Zoo Atlanta, Reba Collins from Chimp Haven, and Amanda Epping and Jared Taglialatela from Ape Initiative for permissions to take photographs from these sanctuaries as well as contributing images for the dataset.'));
 
-    const headers = item.headers();
-    expect(headers['content-type']).toBe('application/vnd.elife.reviewed-preprint-item+json; version=1');
-    expect(headers['cache-control']).toBe('max-age=300, public, stale-if-error=86400, stale-while-revalidate=300');
+    const itemHeaders = item.headers();
+    expect(itemHeaders['content-type']).toBe('application/vnd.elife.reviewed-preprint-item+json; version=1');
+    expect(itemHeaders['cache-control']).toBe('max-age=300, public, stale-if-error=86400, stale-while-revalidate=300');
 
-    const headerVary = headers.vary.split(', ');
-    expect(headerVary).toContain('Accept');
-    expect(headerVary).toContain('Authorization');
+    const itemHeaderVary = itemHeaders.vary.split(', ');
+    expect(itemHeaderVary).toContain('Accept');
+    expect(itemHeaderVary).toContain('Authorization');
   });
 });
