@@ -36,5 +36,12 @@ test.describe('continuum api', () => {
 
     expect(list.ok()).toBeTruthy();
     expect(await list?.json()).toStrictEqual({ total: 0, items: [] });
+
+    const response2b = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
+      headers: {
+        Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
+      },
+    });
+    expect(response2b?.status()).toBe(404);
   });
 });
