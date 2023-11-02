@@ -30,7 +30,7 @@ test.describe('progress a manuscript through the manifestations', () => {
     ]);
   });
 
-  test('successful progression of manuscript', async ({ page, request }) => {
+  test('successful progression of manuscript', async ({ page }) => {
     const response1 = await page.goto(`${config.client_url}/previews/${name}-msid`);
     expect(response1?.status()).toBe(404);
     const response2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
