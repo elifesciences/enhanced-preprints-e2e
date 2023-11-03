@@ -1,0 +1,12 @@
+{
+    "scenarioName": "continuum-api",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/continuum-api/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/continuum-api/dummy-1.json"
+    }
+}
