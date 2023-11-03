@@ -85,10 +85,10 @@ test.describe('continuum api', () => {
 
     const itemJson = await item.json();
     expect(itemJson).toStrictEqual({ ...expectSnippet, indexContent: expect.any(String) });
-    expect(itemJson.indexContent.includes('Nisarg Desai, Praneet Bala, Rebecca Richardson, Jessica Raper, Jan Zimmermann, Benjamin Hayden'));
-    expect(itemJson.indexContent.includes('Such systems allow data collected from digital video cameras to be used to infer the positions of body landmarks such as head, hands, and feet, without the use of specialized markers.'));
+    expect(itemJson.indexContent).toContain('Nisarg Desai, Praneet Bala, Rebecca Richardson, Jessica Raper, Jan Zimmermann, Benjamin Hayden');
+    expect(itemJson.indexContent).toContain('Such systems allow data collected from digital video cameras to be used to infer the positions of body landmarks such as head, hands, and feet, without the use of specialized markers.');
     // eslint-disable-next-line max-len
-    expect(itemJson.indexContent.includes('We thank Estelle Reballand from Chimpanzee Conservation Center, Fred Rubio from Project Chimps, Adam Thompson from Zoo Atlanta, Reba Collins from Chimp Haven, and Amanda Epping and Jared Taglialatela from Ape Initiative for permissions to take photographs from these sanctuaries as well as contributing images for the dataset.'));
+    expect(itemJson.indexContent).toContain('We thank Estelle Reballand from Chimpanzee Conservation Center, Fred Rubio from Project Chimps, Adam Thompson from Zoo Atlanta, Reba Collins from Chimp Haven, and Amanda Epping and Jared Taglialatela from Ape Initiative for permissions to take photographs from these sanctuaries as well as contributing images for the dataset.');
 
     const itemHeaders = item.headers();
     expect(itemHeaders['content-type']).toBe('application/vnd.elife.reviewed-preprint+json; version=1');
