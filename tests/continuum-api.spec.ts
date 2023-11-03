@@ -39,7 +39,7 @@ test.describe('continuum api', () => {
 
     const list = await request.get(`${config.client_url}/api/reviewed-preprints`, {
       headers: {
-        Accept: 'application/vnd.elife.reviewed-preprint-list+json; version=`',
+        Accept: 'application/vnd.elife.reviewed-preprint-list+json; version=1',
       },
     });
 
