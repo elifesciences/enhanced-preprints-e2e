@@ -31,7 +31,7 @@ test.describe('continuum api', () => {
     await expect(async () => {
       const item = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
         headers: {
-          Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
+          Accept: 'application/vnd.elife.reviewed-preprint+json; version=1',
         },
       });
       expect(item.ok()).toBeTruthy();
@@ -79,7 +79,7 @@ test.describe('continuum api', () => {
 
     const item = await request.get(`${config.client_url}/api/reviewed-preprints/${name}-msid`, {
       headers: {
-        Accept: 'application/vnd.elife.reviewed-preprint-item+json; version=1',
+        Accept: 'application/vnd.elife.reviewed-preprint+json; version=1',
       },
     });
 
@@ -91,7 +91,7 @@ test.describe('continuum api', () => {
     expect(itemJson.indexContent.includes('We thank Estelle Reballand from Chimpanzee Conservation Center, Fred Rubio from Project Chimps, Adam Thompson from Zoo Atlanta, Reba Collins from Chimp Haven, and Amanda Epping and Jared Taglialatela from Ape Initiative for permissions to take photographs from these sanctuaries as well as contributing images for the dataset.'));
 
     const itemHeaders = item.headers();
-    expect(itemHeaders['content-type']).toBe('application/vnd.elife.reviewed-preprint-item+json; version=1');
+    expect(itemHeaders['content-type']).toBe('application/vnd.elife.reviewed-preprint+json; version=1');
     expect(itemHeaders['cache-control']).toBe('max-age=300, public, stale-if-error=86400, stale-while-revalidate=300');
 
     const itemHeaderVary = itemHeaders.vary.split(', ');
