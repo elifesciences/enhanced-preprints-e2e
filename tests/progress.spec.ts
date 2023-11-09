@@ -66,14 +66,18 @@ test.describe('progress a manuscript through the manifestations', () => {
     }).toPass();
     const response7 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     expect(response7?.status()).toBe(404);
+    // Ensure that umbrella id still works with preview available
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    const response8 = await page.reload();
+    expect(response8?.status()).toBe(200);
 
     await changeState(name, 'Revised');
 
     // Wait for revised preprint to become available.
     await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     await expect(async () => {
-      const response8 = await page.reload();
-      expect(response8?.status()).toBe(200);
+      const response9 = await page.reload();
+      expect(response9?.status()).toBe(200);
     }).toPass();
   });
 });
