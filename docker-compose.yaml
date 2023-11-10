@@ -92,7 +92,7 @@ services:
 
 
   temporal-ui:
-    image: temporalio/ui:2.21.2
+    image: temporalio/ui:2.21.3
     ports:
       - 8233:8233
     environment:
@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-df8892f5-20231104.0112
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-d84ee803-20231110.1625
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
@@ -166,7 +166,7 @@ services:
       start_period: 5s
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-6dec2daa-20231109.1619
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-e13ffaac-20231110.1306
     depends_on:
       createbucket:
         condition: service_completed_successfully
