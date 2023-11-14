@@ -5,7 +5,7 @@ import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import {
-  createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow,
+  createTemporalClient, generateWorkflowId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 import { changeState, resetState } from '../utils/wiremock';
 
@@ -17,12 +17,12 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
-    await startWorkflow(name, workflowId, temporal);
+    await startScheduledImportWorkflow(name, workflowId, temporal);
   });
 
   test.afterAll(async () => {
     await Promise.all([
-      stopWorkflow(workflowId, temporal),
+      stopScheduledImportWorkflow(workflowId, temporal),
       axios.delete(`${config.api_url}/preprints/progress-msidv1`),
       axios.delete(`${config.api_url}/preprints/progress-msidv2`),
       deleteS3EppFolder(minioClient, 'progress-msid'),

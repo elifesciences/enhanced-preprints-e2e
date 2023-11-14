@@ -5,7 +5,7 @@ import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import {
-  createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow,
+  createTemporalClient, generateWorkflowId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 
 test.describe('revised preprint', () => {
@@ -19,12 +19,12 @@ test.describe('revised preprint', () => {
     temporal = await createTemporalClient();
     workflowId = generateWorkflowId(name);
 
-    await startWorkflow(name, workflowId, temporal);
+    await startScheduledImportWorkflow(name, workflowId, temporal);
   });
 
   test.afterAll(async () => {
     await Promise.all([
-      stopWorkflow(workflowId, temporal),
+      stopScheduledImportWorkflow(workflowId, temporal),
       deleteS3EppFolder(minioClient, `${name}-msid`),
       axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
       axios.delete(`${config.api_url}/preprints/${name}-msidv2`),

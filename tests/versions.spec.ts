@@ -5,7 +5,7 @@ import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import {
-  createTemporalClient, generateWorkflowId, startWorkflow, stopWorkflow,
+  createTemporalClient, generateWorkflowId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 
 test.describe('versions', () => {
@@ -19,12 +19,12 @@ test.describe('versions', () => {
     temporal = await createTemporalClient();
     workflowId = generateWorkflowId(name);
 
-    await startWorkflow(name, workflowId, temporal);
+    await startScheduledImportWorkflow(name, workflowId, temporal);
   });
 
   test.afterEach(async () => {
     const tearDowns: Promise<any>[] = [
-      stopWorkflow(workflowId, temporal),
+      stopScheduledImportWorkflow(workflowId, temporal),
       deleteS3EppFolder(minioClient, `${name}-msid`),
     ];
 
