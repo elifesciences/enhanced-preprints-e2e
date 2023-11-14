@@ -57,7 +57,7 @@ services:
 
 
   temporal:
-    image: temporalio/auto-setup:1.22.1
+    image: temporalio/auto-setup:v1.22.2
     ports:
       - 7233:7233
     environment:
@@ -82,7 +82,7 @@ services:
         condition: service_healthy
 
   temporal-setup-search:
-    image: temporalio/admin-tools:1.22.1
+    image: temporalio/admin-tools:v1.22.2
     environment:
       TEMPORAL_ADDRESS: temporal:7233
     entrypoint: bash -c 'temporal operator search-attribute create --name ManuscriptId --type Text && temporal operator search-attribute create --name DocmapURL --type Text'
@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-89fe44c5-20231113.1237
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-bfee418e-20231113.1928
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
