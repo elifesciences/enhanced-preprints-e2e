@@ -57,7 +57,7 @@ services:
 
 
   temporal:
-    image: temporalio/auto-setup:v1.22.2
+    image: temporalio/auto-setup:1.22.2
     ports:
       - 7233:7233
     environment:
@@ -82,7 +82,7 @@ services:
         condition: service_healthy
 
   temporal-setup-search:
-    image: temporalio/admin-tools:v1.22.2
+    image: temporalio/admin-tools:1.22.2
     environment:
       TEMPORAL_ADDRESS: temporal:7233
     entrypoint: bash -c 'temporal operator search-attribute create --name ManuscriptId --type Text && temporal operator search-attribute create --name DocmapURL --type Text'
@@ -105,7 +105,7 @@ services:
         condition: service_healthy
 
   mongodb:
-    image: mongo:7.0.2
+    image: mongo:7.0.3
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-bfee418e-20231113.1928
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-247b7cdb-20231115.0244
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
@@ -136,7 +136,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-48c6fca5-20231113.2302
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-2ef4615f-20231115.0349
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -154,7 +154,7 @@ services:
       - 3001:3000
 
   xslt:
-    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-dc73c1be-20231110.0940
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-d3ad9bdc-20231114.1633
     restart: always
     ports:
       - 3004:80
@@ -166,7 +166,7 @@ services:
       start_period: 5s
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-c81a3955-20231113.2157
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-a697c7ab-20231115.0723
     depends_on:
       createbucket:
         condition: service_completed_successfully
