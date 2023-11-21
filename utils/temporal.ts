@@ -1,5 +1,5 @@
+import { Client, Connection, ScheduleOverlapPolicy } from '@temporalio/client';
 import { config } from './config';
-import { Client, Connection } from '@temporalio/client';
 
 export const generateWorkflowId = (prefix: string): string => {
   if (prefix.trim().length === 0) {
@@ -14,16 +14,30 @@ export const createTemporalClient = async () => {
   return new Client({ connection });
 };
 
-export const startWorkflow = async (testName: string, workflowId: string, client: Client, duration: string = '1 minute') => {
-  return client.workflow.start('pollDocMapIndex', {
-    taskQueue: 'epp',
-    workflowId,
-    // Because this url is submitted to temporal it must be the url available to the temporal worker.
-    args: [`http://wiremock:8080/docmaps/${testName}`, duration],
+export const startScheduledImportWorkflow = async (testName: string, workflowId: string, client: Client, duration: any = '1 minute') => {
+  const handle = await client.schedule.create({
+    scheduleId: workflowId,
+    spec: {
+      intervals: [{ every: duration }],
+    },
+    policies: {
+      overlap: ScheduleOverlapPolicy.ALLOW_ALL,
+    },
+    action: {
+      type: 'startWorkflow',
+      workflowType: 'importDocmaps',
+      taskQueue: 'epp',
+      args: [`http://wiremock:8080/docmaps/${testName}`, testName],
+    },
   });
+
+  // trigger immediately
+  await handle.trigger();
+  return handle;
 };
 
-export const stopWorkflow = async (workflowId: string, client: Client, message = 'end of test') => {
-  return client.workflow.getHandle(workflowId)
-    .terminate(message);
+export const stopScheduledImportWorkflow = async (workflowId: string, client: Client) => {
+  const handle = client.schedule.getHandle(workflowId);
+  await handle.delete();
+  return handle;
 };
