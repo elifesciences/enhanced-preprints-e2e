@@ -85,9 +85,9 @@
     tslib "^1.11.1"
 
 "@aws-sdk/client-s3@^3.310.0":
-  version "3.470.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.470.0.tgz#35b0f8004487e83133f9bea993cfaa66a14fc824"
-  integrity sha512-HdhNlz25ImxID17qK7qfLXileJPYdPT7kgC+gm083edhFk0JI0+N8y7N9ybnVYpoHzZZPXeO1KZkmfdWK4IQhw==
+  version "3.472.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.472.0.tgz#a4f5e3f2e7daaa345068ae205d95785d8343fead"
+  integrity sha512-Gth+HNhCIjEE6YoeC59ypGqaJ+cZuznuLJ2t3PL+9BQ/2pWXaxhZ5QXFxaJidtzdyebOAgY87/7g3D6PHnWQDg==
   dependencies:
     "@aws-crypto/sha1-browser" "3.0.0"
     "@aws-crypto/sha256-browser" "3.0.0"
@@ -112,7 +112,7 @@
     "@aws-sdk/util-endpoints" "3.470.0"
     "@aws-sdk/util-user-agent-browser" "3.468.0"
     "@aws-sdk/util-user-agent-node" "3.470.0"
-    "@aws-sdk/xml-builder" "3.465.0"
+    "@aws-sdk/xml-builder" "3.472.0"
     "@smithy/config-resolver" "^2.0.21"
     "@smithy/eventstream-serde-browser" "^2.0.15"
     "@smithy/eventstream-serde-config-resolver" "^2.0.15"
@@ -577,11 +577,12 @@
   dependencies:
     tslib "^2.3.1"
 
-"@aws-sdk/xml-builder@3.465.0":
-  version "3.465.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/xml-builder/-/xml-builder-3.465.0.tgz#0914bc0b9708848f1fa509dd6e474e8c691a0cb2"
-  integrity sha512-9TKW5ZgsReygePTnAUdvaqxr/k1HXsEz2yDnk/jTLaUeRPsd5la8fFjb6OfgYYlbEVNlxTcKzaqOdrqxpUkmyQ==
+"@aws-sdk/xml-builder@3.472.0":
+  version "3.472.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/xml-builder/-/xml-builder-3.472.0.tgz#fe804e26517779868f7093e361dce4816be546d6"
+  integrity sha512-PwjVxz1hr9up8QkddabuScPZ/d5aDHgvHYgK4acHYzltXL4wngfvimi5ZqXTzVWF2QANxHmWnHUr45QJX71oJQ==
   dependencies:
+    "@smithy/types" "^2.7.0"
     tslib "^2.5.0"
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
@@ -1016,9 +1017,9 @@
     tslib "^2.5.0"
 
 "@smithy/signature-v4@^2.0.0":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@smithy/signature-v4/-/signature-v4-2.0.17.tgz#3ce17d8143f18670ca9bd5f99738dfadb3a7f3fc"
-  integrity sha512-ru5IUbHUAYgJ5ZqZaBi6PEsMjFT/do0Eu21Qt7b07NuRuPlwAMhlqNRDy/KE9QAF20ygehb+xe9ebmyZ26/BSA==
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/@smithy/signature-v4/-/signature-v4-2.0.18.tgz#53b78b238edaa84cc8d61faf67d2b3c926cdd698"
+  integrity sha512-SJRAj9jT/l9ocm8D0GojMbnA1sp7I4JeStOQ4lEXI8A5eHE73vbjlzlqIFB7cLvIgau0oUl4cGVpF9IGCrvjlw==
   dependencies:
     "@smithy/eventstream-codec" "^2.0.15"
     "@smithy/is-array-buffer" "^2.0.0"
