@@ -165,6 +165,18 @@ services:
       retries: 3
       start_period: 5s
 
+  encoda:
+    image: ghcr.io/elifesciences/enhanced-preprints-encoda:master-f949f23d-20231221.0746
+    healthcheck:
+      test: "wget --post-data '<test></test>' -O - http://localhost:3000/"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 3s
+    restart: always
+    ports:
+      - 3005:3000
+
   worker:
     image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-8e0470f5-20231207.1241
     depends_on:
@@ -177,6 +189,8 @@ services:
       temporal-setup-search:
         condition: service_completed_successfully
       xslt:
+        condition: service_healthy
+      encoda:
         condition: service_healthy
       api:
         condition: service_healthy
@@ -194,12 +208,16 @@ services:
       MECA_S3_ENDPOINT: http://minio:9000
       MECA_AWS_ACCESS_KEY_ID: minio
       MECA_AWS_SECRET_ACCESS_KEY: miniotest
-      XSLT_TRANSFORM_ADDRESS: http://wiremock:8080/xslt-transform
 
       # control concurrency
       TEMPORAL_MAX_CONCURRENT_ACTIVITY_TASK_EXECUTIONS: "25"
       TEMPORAL_MAX_CONCURRENT_WORKFLOW_TASK_EXECUTIONS: "5"
       TEMPORAL_MAX_CACHED_WORKFLOWS: "5"
+
+      # Other services
+      XSLT_TRANSFORM_ADDRESS: http://wiremock:8080/xslt-transform
+      ENCODA_TRANSFORM_ADDRESS: http://encoda:3000
+
     restart: on-failure:5
     command:
       - yarn
