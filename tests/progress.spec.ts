@@ -26,6 +26,7 @@ test.describe('progress a manuscript through the manifestations', () => {
       axios.delete(`${config.api_url}/preprints/progress-msidv1`),
       axios.delete(`${config.api_url}/preprints/progress-msidv2`),
       deleteS3EppFolder(minioClient, 'progress-msid'),
+      deleteS3EppFolder(minioClient, `state/${name}`),
       resetState(name),
     ]);
   });
