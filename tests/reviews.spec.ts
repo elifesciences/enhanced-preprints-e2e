@@ -38,8 +38,8 @@ test.describe('reviewed preprint', () => {
     await expect(page.locator('#peer-review-0')).toContainText('evaluation 2');
     await expect(page.locator('#peer-review-1')).toContainText('evaluation 1');
     await expect(page.locator('#author-response')).toContainText('author response');
-    await expect(page.locator('#peer-review-0 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa1');
-    await expect(page.locator('#peer-review-1 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa2');
+    await expect(page.locator('#peer-review-0 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa2');
+    await expect(page.locator('#peer-review-1 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa1');
     await expect(page.locator('#author-response .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa0');
   });
 });
