@@ -35,8 +35,8 @@ test.describe('reviewed preprint', () => {
     }).toPass();
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await expect(page.locator('#peer-review-0')).toContainText('evaluation 1');
-    await expect(page.locator('#peer-review-1')).toContainText('evaluation 2');
+    await expect(page.locator('#peer-review-0')).toContainText('evaluation 2');
+    await expect(page.locator('#peer-review-1')).toContainText('evaluation 1');
     await expect(page.locator('#author-response')).toContainText('author response');
     await expect(page.locator('#peer-review-0 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa1');
     await expect(page.locator('#peer-review-1 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa2');
