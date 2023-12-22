@@ -183,6 +183,7 @@ services:
     environment:
       EPP_SERVER_URI: http://api:3000
       TEMPORAL_SERVER: temporal:7233
+      TEMPORAL_TASK_QUEUE: epp
 
       # EPP S3 bucket
       S3_ENDPOINT: http://minio:9000
@@ -205,11 +206,19 @@ services:
       - yarn
       - start:worker
     healthcheck:
-      test: curl -s http://worker:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="epp"}'  | grep 1
+      test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="epp"}'  | grep 1
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 2s
+
+  worker-import-docmaps:
+    extends:
+      service: worker
+    environment:
+      TEMPORAL_TASK_QUEUE: import-docmaps
+    healthcheck:
+      test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="import-docmaps"}'  | grep 1
 
   wiremock:
     image: wiremock/wiremock:3.3.1-1
