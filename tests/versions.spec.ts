@@ -26,6 +26,7 @@ test.describe('versions', () => {
     const tearDowns: Promise<any>[] = [
       stopScheduledImportWorkflow(workflowId, temporal),
       deleteS3EppFolder(minioClient, `${name}-msid`),
+      deleteS3EppFolder(minioClient, `state/${name}`),
     ];
 
     for (let i = 1; i <= 4; i += 1) {
