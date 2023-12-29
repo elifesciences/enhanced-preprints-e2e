@@ -166,7 +166,7 @@ services:
       start_period: 5s
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-e3fae1e2-20231228.1630
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-dd487aec-20231228.2005
     depends_on:
       createbucket:
         condition: service_completed_successfully
