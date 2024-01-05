@@ -24,6 +24,7 @@ test.describe('continuum api', () => {
       stopScheduledImportWorkflow(workflowId, temporal),
       axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
       deleteS3EppFolder(minioClient, `${name}-msid`),
+      deleteS3EppFolder(minioClient, `state/${name}`),
     ]);
   });
 
@@ -48,10 +49,10 @@ test.describe('continuum api', () => {
       id: `${name}-msid`,
       doi: '10.1101/000001',
       authorLine: 'Nisarg Desai, Praneet Bala ... Benjamin Hayden',
-      published: '2023-05-07T09:03:08.000Z',
-      reviewedDate: '2023-05-07T09:03:08.000Z',
-      statusDate: '2023-05-07T09:03:08.000Z',
-      versionDate: '2023-05-07T09:03:08.000Z',
+      published: '2023-05-07T09:03:08Z',
+      reviewedDate: '2023-05-07T09:03:08Z',
+      statusDate: '2023-05-07T09:03:08Z',
+      versionDate: '2023-05-07T09:03:08Z',
       stage: 'published',
       status: 'reviewed',
       subjects: [

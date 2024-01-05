@@ -24,6 +24,7 @@ test.describe('reviewed preprint', () => {
       stopScheduledImportWorkflow(workflowId, temporal),
       axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
       deleteS3EppFolder(minioClient, `${name}-msid`),
+      deleteS3EppFolder(minioClient, `state/${name}`),
     ]);
   });
 

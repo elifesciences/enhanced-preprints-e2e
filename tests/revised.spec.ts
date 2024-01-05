@@ -26,6 +26,7 @@ test.describe('revised preprint', () => {
     await Promise.all([
       stopScheduledImportWorkflow(workflowId, temporal),
       deleteS3EppFolder(minioClient, `${name}-msid`),
+      deleteS3EppFolder(minioClient, `state/${name}`),
       axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
       axios.delete(`${config.api_url}/preprints/${name}-msidv2`),
     ]);
