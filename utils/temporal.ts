@@ -27,7 +27,7 @@ export const startScheduledImportWorkflow = async (testName: string, workflowId:
       type: 'startWorkflow',
       workflowType: 'importDocmaps',
       taskQueue: 'epp',
-      args: [`http://wiremock:8080/docmaps/${testName}`, testName],
+      args: [`{ "docMapIndexUrl": "http://wiremock:8080/docmaps/${testName}" }`, testName],
     },
   });
 
