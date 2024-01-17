@@ -14,7 +14,7 @@ export const createTemporalClient = async () => {
   return new Client({ connection });
 };
 
-export const startScheduledImportWorkflow = async (testName: string, workflowId: string, client: Client, duration: any = '1 minute') => {
+export const startScheduledImportWorkflow = async (testName: string, workflowId: string, client: Client, duration: any = '1 minute', docMapThreshold?: number) => {
   const handle = await client.schedule.create({
     scheduleId: workflowId,
     spec: {
@@ -27,7 +27,7 @@ export const startScheduledImportWorkflow = async (testName: string, workflowId:
       type: 'startWorkflow',
       workflowType: 'importDocmaps',
       taskQueue: 'epp',
-      args: [{ docMapIndexUrl: `http://wiremock:8080/docmaps/${testName}`, s3StateFileUrl: testName }],
+      args: [{ docMapIndexUrl: `http://wiremock:8080/docmaps/${testName}`, s3StateFileUrl: testName, docMapThreshold }],
     },
   });
 
