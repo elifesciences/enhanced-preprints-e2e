@@ -14,9 +14,9 @@ export const createTemporalClient = async () => {
   return new Client({ connection });
 };
 
-export const startScheduledImportWorkflow = async (testName: string, workflowId: string, client: Client, duration: any = '1 minute', docMapThreshold?: number) => {
+export const startScheduledImportWorkflow = async (testName: string, scheduleId: string, client: Client, duration: any = '1 minute', docMapThreshold?: number) => {
   const handle = await client.schedule.create({
-    scheduleId: workflowId,
+    scheduleId: scheduleId,
     spec: {
       intervals: [{ every: duration }],
     },
@@ -36,8 +36,8 @@ export const startScheduledImportWorkflow = async (testName: string, workflowId:
   return handle;
 };
 
-export const stopScheduledImportWorkflow = async (workflowId: string, client: Client) => {
-  const handle = client.schedule.getHandle(workflowId);
+export const stopScheduledImportWorkflow = async (scheduleId: string, client: Client) => {
+  const handle = client.schedule.getHandle(scheduleId);
   await handle.delete();
   return handle;
 };

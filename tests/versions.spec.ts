@@ -5,26 +5,26 @@ import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import {
-  createTemporalClient, generateWorkflowId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
+  createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 
 test.describe('versions', () => {
   const minioClient = createS3Client();
   let temporal: Client;
   const name = 'versions';
-  let workflowId: string;
+  let scheduleId: string;
 
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async () => {
     temporal = await createTemporalClient();
-    workflowId = generateWorkflowId(name);
+    scheduleId = generateScheduleId(name);
 
-    await startScheduledImportWorkflow(name, workflowId, temporal);
+    await startScheduledImportWorkflow(name, scheduleId, temporal);
   });
 
   test.afterEach(async () => {
     const tearDowns: Promise<any>[] = [
-      stopScheduledImportWorkflow(workflowId, temporal),
+      stopScheduledImportWorkflow(scheduleId, temporal),
       deleteS3EppFolder(minioClient, `${name}-msid`),
       deleteS3EppFolder(minioClient, `state/${name}`),
     ];
