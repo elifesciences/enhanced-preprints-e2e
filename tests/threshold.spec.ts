@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import {Client, ScheduleDescription} from '@temporalio/client';
+import { Client, ScheduleDescription } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
 import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
@@ -10,7 +10,6 @@ test.describe('threshold', () => {
   let schedule: ScheduleDescription;
   const name = 'threshold';
   const scheduleId = generateScheduleId(name);
-  const minioClient = createS3Client();
 
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
@@ -34,6 +33,5 @@ test.describe('threshold', () => {
       expect(response.docMapUrls).not.toBeNull();
       expect(response.docMapUrls).toHaveLength(2);
     }).toPass();
-
   });
 });
