@@ -35,8 +35,7 @@ test.describe('threshold', () => {
     try {
       let handle = temporal.schedule.getHandle(workflowId);
       let message = await handle.describe();
-      // @ts-ignore
-      const workflowId2 = message.raw.info?.runningWorkflows[message.raw.info?.runningWorkflows?.length -1].workflowId
+      const workflowId2 = message.raw.info!.runningWorkflows![0].workflowId;
       const response = await temporal.workflow.getHandle(workflowId2!)
         .query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
       console.log(JSON.stringify(response, null, 4));
