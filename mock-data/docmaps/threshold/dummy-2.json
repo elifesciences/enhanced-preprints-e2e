@@ -1,7 +1,7 @@
  {
   "@context": "https://w3id.org/docmaps/context.jsonld",
   "type": "docmap",
-  "id": "http://mock-datahub/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi/10.1101%2F000001",
+  "id": "http://mock-datahub/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi/10.1101%2F000002",
   "created": "2022-11-11T05:02:51+00:00",
   "updated": "2022-11-11T05:02:51+00:00",
   "publisher": {
@@ -56,7 +56,7 @@
               "type": "manuscript",
               "doi": "10.7554/000002",
               "identifier": "threshold-msid-2",
-              "electronicArticleIdentifier": "RP000001",
+              "electronicArticleIdentifier": "RP000002",
               "subjectDisciplines": [
                 "Cell Biology",
                 "Structural Biology and Molecular Biophysics"
@@ -81,7 +81,7 @@
           ]
         }
       ]
-    } 
+    }
   }
 }
 
