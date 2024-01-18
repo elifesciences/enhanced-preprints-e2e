@@ -30,22 +30,18 @@ test.describe('threshold', () => {
   });
 
   test('test that the docmap threshold triggers workflow pause', async () => {
-    await setTimeout(10000);
-
-    try {
-      let handle = temporal.schedule.getHandle(workflowId);
-      let message = await handle.describe();
-      const workflowId2 = message.raw.info!.runningWorkflows![0].workflowId;
-      const response = await temporal.workflow.getHandle(workflowId2!)
-        .query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
-      console.log(JSON.stringify(response, null, 4));
-    } catch (er) {
-      console.log('not working yet:', er);
+    let wId: string | null = null;
+    while (!wId) {
+      const possibleWorkflowId = (await temporal.schedule.getHandle(workflowId).describe()).raw.info!.runningWorkflows![0].workflowId;
+      if (typeof possibleWorkflowId === 'string') {
+        wId = possibleWorkflowId;
+      }
     }
-
     await expect(async () => {
-      const response = await temporal.workflow.getHandle(workflowId).query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
+      const response = await temporal.workflow.getHandle(wId).query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
       expect(response.docMapUrls).not.toBeNull();
+      expect(response.docMapUrls).toHaveLength(2);
     }).toPass();
+
   });
 });
