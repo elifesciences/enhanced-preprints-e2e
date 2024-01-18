@@ -1,20 +1,25 @@
 import { test, expect } from '@playwright/test';
-import { Client, ScheduleDescription } from '@temporalio/client';
-import { createS3Client } from '../utils/create-s3-client';
+import { Client, ScheduleHandle } from '@temporalio/client';
 import {
-  createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
+  createTemporalClient,
+  generateScheduleId,
+  getScheduleHandle,
+  getScheduleRunningWorkflows,
+  getWorkflowHandle,
+  startScheduledImportWorkflow,
+  stopScheduledImportWorkflow,
 } from '../utils/temporal';
 
 test.describe('threshold', () => {
   let temporal: Client;
-  let schedule: ScheduleDescription;
+  let scheduleHandle: ScheduleHandle;
   const name = 'threshold';
   const scheduleId = generateScheduleId(name);
 
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
     await startScheduledImportWorkflow(name, scheduleId, temporal, '1 minute', 1);
-    schedule = await temporal.schedule.getHandle(scheduleId).describe();
+    scheduleHandle = getScheduleHandle(scheduleId, temporal);
   });
 
   test.afterAll(async () => {
@@ -24,12 +29,9 @@ test.describe('threshold', () => {
   });
 
   test('test that the docmap threshold triggers workflow pause', async () => {
-    let workflowId: string | null = null;
-    while (!workflowId) {
-      workflowId = schedule.raw.info!.runningWorkflows![0].workflowId ?? null;
-    }
+    const [workflowId] = await getScheduleRunningWorkflows(scheduleHandle);
     await expect(async () => {
-      const response = await temporal.workflow.getHandle(workflowId!).query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
+      const response = await getWorkflowHandle(workflowId, temporal).query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
       expect(response.docMapUrls).not.toBeNull();
       expect(response.docMapUrls).toHaveLength(2);
     }).toPass();
