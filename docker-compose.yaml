@@ -57,7 +57,7 @@ services:
 
 
   temporal:
-    image: temporalio/auto-setup:1.22.3
+    image: temporalio/auto-setup:1.22.4
     ports:
       - 7233:7233
     environment:
@@ -82,7 +82,7 @@ services:
         condition: service_healthy
 
   temporal-setup-search:
-    image: temporalio/admin-tools:1.22.3
+    image: temporalio/admin-tools:1.22.4
     environment:
       TEMPORAL_ADDRESS: temporal:7233
     entrypoint: bash -c 'temporal operator search-attribute create --name ManuscriptId --type Text && temporal operator search-attribute create --name DocmapURL --type Text'
@@ -92,7 +92,7 @@ services:
 
 
   temporal-ui:
-    image: temporalio/ui:2.21.4
+    image: temporalio/ui:2.22.1
     ports:
       - 8233:8233
     environment:
@@ -105,7 +105,7 @@ services:
         condition: service_healthy
 
   mongodb:
-    image: mongo:7.0.4
+    image: mongo:7.0.5
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-7a2ef7ce-20240104.0550
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-ee04dd90-20240118.0053
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
@@ -136,7 +136,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-8810ac93-20240104.1425
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-d5d74d3b-20240118.0842
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -154,7 +154,7 @@ services:
       - 3001:3000
 
   xslt:
-    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-39fa50ec-20231220.1532
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-4be2a13f-20240111.1330
     restart: always
     ports:
       - 3004:80
@@ -178,7 +178,7 @@ services:
       - 3005:3000
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-6afe17b1-20240105.0826
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-9215f3a4-20240118.1336
     depends_on:
       createbucket:
         condition: service_completed_successfully
