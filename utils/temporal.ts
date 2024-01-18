@@ -16,7 +16,7 @@ export const createTemporalClient = async () => {
 
 export const startScheduledImportWorkflow = async (testName: string, scheduleId: string, client: Client, duration: any = '1 minute', docMapThreshold?: number) => {
   const handle = await client.schedule.create({
-    scheduleId: scheduleId,
+    scheduleId,
     spec: {
       intervals: [{ every: duration }],
     },
