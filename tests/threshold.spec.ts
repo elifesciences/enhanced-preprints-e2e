@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { setTimeout } from 'timers/promises';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -29,6 +30,20 @@ test.describe('threshold', () => {
   });
 
   test('test that the docmap threshold triggers workflow pause', async () => {
+    await setTimeout(10000);
+
+    try {
+      let handle = temporal.schedule.getHandle(workflowId);
+      let message = await handle.describe();
+      // @ts-ignore
+      const workflowId2 = message.raw.info?.runningWorkflows[message.raw.info?.runningWorkflows?.length -1].workflowId
+      const response = await temporal.workflow.getHandle(workflowId2!)
+        .query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
+      console.log(JSON.stringify(response, null, 4));
+    } catch (er) {
+      console.log('not working yet:', er);
+    }
+
     await expect(async () => {
       const response = await temporal.workflow.getHandle(workflowId).query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
       expect(response.docMapUrls).not.toBeNull();
