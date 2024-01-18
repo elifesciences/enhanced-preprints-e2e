@@ -35,5 +35,12 @@ test.describe('threshold', () => {
       expect(response.docMapUrls).not.toBeNull();
       expect(response.docMapUrls).toHaveLength(2);
     }).toPass();
+    await getWorkflowHandle(workflowId, temporal).signal('approval', false);
+    await expect(async () => {
+      const workflowStatus = await getWorkflowHandle(workflowId, temporal).describe().then((wf) => wf.status.name);
+      expect(workflowStatus).toBe('COMPLETED');
+    }).toPass();
+    const response = await getWorkflowHandle(workflowId, temporal).query('awaitingApproval');
+    expect(response).toBeNull();
   });
 });
