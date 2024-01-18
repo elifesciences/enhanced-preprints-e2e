@@ -1,7 +1,7 @@
 import { Client, Connection, ScheduleOverlapPolicy } from '@temporalio/client';
 import { config } from './config';
 
-export const generateWorkflowId = (prefix: string): string => {
+export const generateScheduleId = (prefix: string): string => {
   if (prefix.trim().length === 0) {
     throw Error('Empty prefix');
   }
@@ -14,9 +14,9 @@ export const createTemporalClient = async () => {
   return new Client({ connection });
 };
 
-export const startScheduledImportWorkflow = async (testName: string, workflowId: string, client: Client, duration: any = '1 minute') => {
+export const startScheduledImportWorkflow = async (testName: string, scheduleId: string, client: Client, duration: any = '1 minute') => {
   const handle = await client.schedule.create({
-    scheduleId: workflowId,
+    scheduleId: scheduleId,
     spec: {
       intervals: [{ every: duration }],
     },
@@ -36,8 +36,8 @@ export const startScheduledImportWorkflow = async (testName: string, workflowId:
   return handle;
 };
 
-export const stopScheduledImportWorkflow = async (workflowId: string, client: Client) => {
-  const handle = client.schedule.getHandle(workflowId);
+export const stopScheduledImportWorkflow = async (scheduleId: string, client: Client) => {
+  const handle = client.schedule.getHandle(scheduleId);
   await handle.delete();
   return handle;
 };

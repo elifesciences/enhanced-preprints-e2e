@@ -5,23 +5,23 @@ import { createS3Client } from '../utils/create-s3-client';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import {
-  createTemporalClient, generateWorkflowId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
+  createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 
 test.describe('continuum api', () => {
   let temporal: Client;
   const name = 'continuum-api';
-  const workflowId = generateWorkflowId(name);
+  const scheduleId = generateScheduleId(name);
   const minioClient = createS3Client();
 
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
-    await startScheduledImportWorkflow(name, workflowId, temporal);
+    await startScheduledImportWorkflow(name, scheduleId, temporal);
   });
 
   test.afterAll(async () => {
     await Promise.all([
-      stopScheduledImportWorkflow(workflowId, temporal),
+      stopScheduledImportWorkflow(scheduleId, temporal),
       axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
       deleteS3EppFolder(minioClient, `${name}-msid`),
       deleteS3EppFolder(minioClient, `state/${name}`),
