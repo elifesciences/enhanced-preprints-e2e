@@ -1,7 +1,7 @@
 import { Client, Connection, ScheduleOverlapPolicy } from '@temporalio/client';
 import { config } from './config';
 
-export const generateWorkflowId = (prefix: string): string => {
+export const generateScheduleId = (prefix: string): string => {
   if (prefix.trim().length === 0) {
     throw Error('Empty prefix');
   }
