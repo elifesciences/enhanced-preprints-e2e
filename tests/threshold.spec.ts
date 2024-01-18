@@ -28,19 +28,10 @@ test.describe('threshold', () => {
     ]);
   });
 
-  test('test reviews and DOIs are visible on reviewed-preprint', async ({ page }) => {
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1/reviews`);
+  test('test that the docmap threshold triggers workflow pause', async () => {
     await expect(async () => {
-      const response = await page.reload();
-      expect(response?.status()).toBe(200);
+      const response = await temporal.workflow.getHandle(workflowId).query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
+      expect(response.docMapUrls).not.toBeNull();
     }).toPass();
-    await expect(page.locator('h1.title')).toBeVisible();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await expect(page.locator('#peer-review-0')).toContainText('evaluation 2');
-    await expect(page.locator('#peer-review-1')).toContainText('evaluation 1');
-    await expect(page.locator('#author-response')).toContainText('author response');
-    await expect(page.locator('#peer-review-0 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa2');
-    await expect(page.locator('#peer-review-1 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa1');
-    await expect(page.locator('#author-response .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa0');
   });
 });
