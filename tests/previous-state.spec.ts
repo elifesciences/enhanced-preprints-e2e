@@ -40,7 +40,7 @@ test.describe('publish, unpublish and republish preprint', () => {
     await expect(page.locator('h1.title')).toBeVisible();
     await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
-    await changeState(name, 'unpublish');
+    await changeState(name, 'unpublished');
 
     await expect(page.locator('#assessment .descriptors__identifier')).toHaveText('https://doi.org/10.7554/eLife.000001.1.sa3');
 
