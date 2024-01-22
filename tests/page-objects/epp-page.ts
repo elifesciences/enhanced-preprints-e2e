@@ -11,12 +11,15 @@ export class EppPage {
 
   readonly authorResponse: Locator;
 
+  readonly articleStatus: Locator;
+
   constructor(thePage: Page) {
     this.page = thePage;
     this.title = this.page.locator('h1.title');
     this.doi = this.page.locator('#assessment .descriptors__identifier');
     this.copyright = this.page.locator('.copyright');
     this.authorResponse = this.page.locator('#author-response');
+    this.articleStatus = this.page.locator('.article-status__text');
   }
 
   async assertTitleText(title: string): Promise<void> {
@@ -55,5 +58,9 @@ export class EppPage {
 
   async assertAuthorResponseDoi(doi: string): Promise<void> {
     await expect(this.authorResponse.locator('.descriptors__identifier')).toContainText(doi);
+  }
+
+  async assertArticleStatus(content: string): Promise<void> {
+    await expect(this.articleStatus).toContainText(content);
   }
 }
