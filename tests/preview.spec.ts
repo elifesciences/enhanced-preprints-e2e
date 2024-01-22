@@ -37,7 +37,7 @@ test.describe('preview preprint', () => {
       expect(response?.status()).toBe(200);
     }).toPass();
     await eppPage.assertTitleVisibility();
-    await eppPage.assertTitle('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
     // eslint-disable-next-line max-len
     await eppPage.assertCopyright('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
 

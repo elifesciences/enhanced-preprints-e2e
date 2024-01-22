@@ -9,14 +9,17 @@ export class EppPage {
 
   readonly copyright: Locator;
 
+  readonly authorResponse: Locator;
+
   constructor(thePage: Page) {
     this.page = thePage;
     this.title = this.page.locator('h1.title');
-    this.doi = this.page.locator('header .descriptors__identifier a'); // may need to change when we have more identifiers
+    this.doi = this.page.locator('#assessment .descriptors__identifier');
     this.copyright = this.page.locator('.copyright');
+    this.authorResponse = this.page.locator('#author-response');
   }
 
-  async assertTitle(title: string): Promise<void> {
+  async assertTitleText(title: string): Promise<void> {
     await expect(this.title).toContainText(title);
   }
 
@@ -35,6 +38,22 @@ export class EppPage {
   }
 
   async assertDOI(doi: string): Promise<void> {
-    await expect(this.doi).toHaveText(`https://doi.org/${doi}`);
+    await expect(this.doi).toHaveText(doi);
+  }
+
+  async assertPeerReviewContent(index: number, content: string): Promise<void> {
+    await expect(this.page.locator(`#peer-review-${index}`)).toContainText(content);
+  }
+
+  async assertPeerReviewDoi(index: number, doi: string): Promise<void> {
+    await expect(this.page.locator(`#peer-review-${index} .descriptors__identifier`)).toContainText(doi);
+  }
+
+  async assertAuthorResponse(content: string): Promise<void> {
+    await expect(this.authorResponse).toContainText(content);
+  }
+
+  async assertAuthorResponseDoi(doi: string): Promise<void> {
+    await expect(this.authorResponse.locator('.descriptors__identifier')).toContainText(doi);
   }
 }
