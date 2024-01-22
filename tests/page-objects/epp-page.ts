@@ -11,19 +11,26 @@ export class EppPage {
 
   readonly authorResponse: Locator;
 
+  readonly assesmentDoi: Locator;
+
   readonly articleStatus: Locator;
 
   constructor(thePage: Page) {
     this.page = thePage;
     this.title = this.page.locator('h1.title');
-    this.doi = this.page.locator('#assessment .descriptors__identifier');
+    this.doi = this.page.locator('.content-header .descriptors__identifier');
     this.copyright = this.page.locator('.copyright');
     this.authorResponse = this.page.locator('#author-response');
+    this.assesmentDoi = this.page.locator('#assessment .descriptors__identifier');
     this.articleStatus = this.page.locator('.article-status__text');
   }
 
   async assertTitleText(title: string): Promise<void> {
     await expect(this.title).toContainText(title);
+  }
+
+  async assertDoi(doi: string) {
+    await expect(this.doi).toHaveText(doi);
   }
 
   async assertTitleVisibility(visibility: boolean = true): Promise<void> {
@@ -40,8 +47,8 @@ export class EppPage {
     await expect(this.copyright).toContainText(content);
   }
 
-  async assertDOI(doi: string): Promise<void> {
-    await expect(this.doi).toHaveText(doi);
+  async assertAssesmentDoi(doi: string): Promise<void> {
+    await expect(this.assesmentDoi).toHaveText(doi);
   }
 
   async assertPeerReviewContent(index: number, content: string): Promise<void> {

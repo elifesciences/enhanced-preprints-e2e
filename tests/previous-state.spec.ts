@@ -41,7 +41,7 @@ test.describe('publish, unpublish and republish preprint', () => {
 
     await eppPage.assertTitleVisibility();
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await eppPage.assertDOI('https://doi.org/10.7554/eLife.000001.1.sa3');
+    await eppPage.assertAssesmentDoi('https://doi.org/10.7554/eLife.000001.1.sa3');
 
     await changeState(name, 'unpublished');
 

@@ -50,7 +50,7 @@ test.describe('revised preprint', () => {
     }).toPass();
 
     await eppPage.assertArticleStatus('Published from the original preprint after peer review and assessment by eLife.');
-    await eppPage.assertDOI('https://doi.org/10.7554/000001.1');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
     // 3rd child is 2nd description details (<dd>) from the timeline definition list
@@ -62,7 +62,7 @@ test.describe('revised preprint', () => {
     await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');
-    await eppPage.assertDOI('https://doi.org/10.7554/000001.2');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
     // 1st child is 1st description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorV2 = page.locator('.review-timeline__list>.review-timeline__event:nth-child(1)');
@@ -71,13 +71,13 @@ test.describe('revised preprint', () => {
 
     await page.getByLabel('Reviewed preprint version 1').click();
     await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
-    await eppPage.assertDOI('https://doi.org/10.7554/000001.1');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
 
     const responseMsid = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
     expect(responseMsid?.status()).toBe(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');
-    await eppPage.assertDOI('https://doi.org/10.7554/000001.2');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
     // 1st child is 1st description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorLatest = page.locator('.review-timeline__list>.review-timeline__event:nth-child(1)');
