@@ -7,6 +7,7 @@ import { config } from '../utils/config';
 import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
+import { EppPage } from './page-objects/epp-page';
 
 test.describe('preview preprint', () => {
   let temporal: Client;
@@ -29,15 +30,16 @@ test.describe('preview preprint', () => {
   });
 
   test('test previews are visible', async ({ page }) => {
+    const eppPage = new EppPage(page);
     await page.goto(`${config.client_url}/previews/${name}-msidv1`);
     await expect(async () => {
       const response = await page.reload();
       expect(response?.status()).toBe(200);
     }).toPass();
-    await expect(page.locator('h1.title')).toBeVisible();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertTitleVisibility();
+    await eppPage.assertTitle('OpenApePose: a database of annotated ape photographs for pose estimation');
     // eslint-disable-next-line max-len
-    await expect(page.locator('.copyright')).toContainText('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
+    await eppPage.assertCopyright('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
 
     const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     expect(response?.status()).toBe(404);
