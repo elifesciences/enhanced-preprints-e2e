@@ -34,40 +34,40 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   test('successful progression of manuscript', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    const response1 = await eppPage.navigateToPreviewPage();
+    const response1 = await eppPage.gotoPreviewPage();
     expect(response1?.status()).toBe(404);
-    const response2 = await eppPage.navigateToArticlePage();
+    const response2 = await eppPage.gotoArticlePage();
     expect(response2?.status()).toBe(404);
 
     await changeState(name, 'Preview');
 
     // Wait for preview to become available.
-    await eppPage.navigateToPreviewPage();
+    await eppPage.gotoPreviewPage();
     await eppPage.reloadAndAssertStatus(200);
-    const response4 = await eppPage.navigateToArticlePage();
+    const response4 = await eppPage.gotoArticlePage();
     expect(response4?.status()).toBe(404);
 
     await changeState(name, 'Reviews');
 
     // Wait for reviewed preprint to become available.
-    await eppPage.navigateToArticlePage();
+    await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);
 
     await changeState(name, 'Preview Revised');
 
     // Wait for preview of revised preprint to become available.
-    await eppPage.navigateToPreviewPage(2);
+    await eppPage.gotoPreviewPage(2);
     await eppPage.reloadAndAssertStatus(200);
-    const response7 = await eppPage.navigateToArticlePage(2);
+    const response7 = await eppPage.gotoArticlePage(2);
     expect(response7?.status()).toBe(404);
     // Ensure that umbrella id still works with preview available
-    await eppPage.navigateToArticlePage();
+    await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);
 
     await changeState(name, 'Revised');
 
     // Wait for revised preprint to become available.
-    await eppPage.navigateToArticlePage(2);
+    await eppPage.gotoArticlePage(2);
     await eppPage.reloadAndAssertStatus(200);
   });
 });

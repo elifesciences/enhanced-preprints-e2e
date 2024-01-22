@@ -28,16 +28,20 @@ export class EppPage {
     this.articleStatus = this.page.locator('.article-status__text');
   }
 
-  async navigateToPreviewPage(version?: number): Promise<Response | null> {
+  async gotoPreviewPage(version?: number): Promise<Response | null> {
     return this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}`: ''}`);
   }
 
-  async navigateToArticlePage(version?: number): Promise<Response | null> {
+  async gotoArticlePage(version?: number): Promise<Response | null> {
     return this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msid${version ? `v${version}`: ''}`);
   }
 
-  async navigateToReviewsPage(): Promise<void> {
+  async gotoReviewsPage(): Promise<void> {
     await this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msidv1/reviews`);
+  }
+
+  async navigateToVersion(version: number): Promise<void> {
+    await this.page.getByLabel(`Reviewed preprint version ${version}`).click();
   }
 
   async reloadAndAssertStatus(status: number): Promise<void> {

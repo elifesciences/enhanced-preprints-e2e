@@ -39,13 +39,13 @@ test.describe('versions', () => {
   test('multiple versions of a preprint are available', async ({ page }) => {
     const eppPage = new EppPage(page, name);
     // For the test to succeed, we need to wait for all versions to be imported
-    await eppPage.navigateToArticlePage(4)
+    await eppPage.gotoArticlePage(4)
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.navigateToArticlePage(3)
+    await eppPage.gotoArticlePage(3)
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.navigateToArticlePage(2)
+    await eppPage.gotoArticlePage(2)
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.navigateToArticlePage(1)
+    await eppPage.gotoArticlePage(1)
     await eppPage.reloadAndAssertStatus(200);
 
     await eppPage.assertArticleStatus('Published from the original preprint after peer review and assessment by eLife.');
@@ -57,7 +57,7 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV1).toHaveText('Reviewed preprint version 1');
     await expect(reviewTimelinePageLocatorV1.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    await page.getByLabel('Reviewed preprint version 2').click();
+    await eppPage.navigateToVersion(2)
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
@@ -67,7 +67,7 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV2).toHaveText('Reviewed preprint version 2');
     await expect(reviewTimelinePageLocatorV2.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    await page.getByLabel('Reviewed preprint version 3').click();
+    await eppPage.navigateToVersion(3)
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.3');
@@ -77,7 +77,7 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV3).toHaveText('Reviewed preprint version 3');
     await expect(reviewTimelinePageLocatorV3.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    await page.getByLabel('Reviewed preprint version 4').click();
+    await eppPage.navigateToVersion(4)
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.4');
@@ -87,7 +87,7 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV4).toHaveText('Reviewed preprint version 4');
     await expect(reviewTimelinePageLocatorV4.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    const responseMsid = await eppPage.navigateToArticlePage();
+    const responseMsid = await eppPage.gotoArticlePage();
     expect(responseMsid?.status()).toBe(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');

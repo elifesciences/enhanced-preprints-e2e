@@ -33,7 +33,7 @@ test.describe('unpublished preprint', () => {
 
   test('preprints can be unpublished', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    await eppPage.navigateToArticlePage(1);
+    await eppPage.gotoArticlePage(1);
     await eppPage.reloadAndAssertStatus(200);
 
     await eppPage.assertTitleVisibility();
@@ -43,11 +43,11 @@ test.describe('unpublished preprint', () => {
     await changeState(name, 'unpublished');
 
     // Wait for unpublished article to become unavailable
-    await eppPage.navigateToArticlePage(1);
+    await eppPage.gotoArticlePage(1);
     await eppPage.reloadAndAssertStatus(404);
-    const response3 = await eppPage.navigateToArticlePage();
+    const response3 = await eppPage.gotoArticlePage();
     expect(response3?.status()).toBe(404);
-    const response4 = await eppPage.navigateToPreviewPage(1);
+    const response4 = await eppPage.gotoPreviewPage(1);
     expect(response4?.status()).toBe(200);
   });
 });

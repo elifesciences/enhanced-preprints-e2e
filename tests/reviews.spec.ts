@@ -31,7 +31,7 @@ test.describe('reviewed preprint', () => {
 
   test('test reviews and DOIs are visible on reviewed-preprint', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    await eppPage.navigateToReviewsPage();
+    await eppPage.gotoReviewsPage();
     await eppPage.reloadAndAssertStatus(200);await page.reload();
     await eppPage.assertTitleVisibility();
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');

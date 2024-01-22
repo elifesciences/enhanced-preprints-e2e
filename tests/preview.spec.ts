@@ -31,14 +31,14 @@ test.describe('preview preprint', () => {
 
   test('test previews are visible', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    await eppPage.navigateToPreviewPage(1);
+    await eppPage.gotoPreviewPage(1);
     await eppPage.reloadAndAssertStatus(200);
     await eppPage.assertTitleVisibility();
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
     // eslint-disable-next-line max-len
     await eppPage.assertCopyright('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
 
-    const response = await eppPage.navigateToArticlePage(1);
+    const response = await eppPage.gotoArticlePage(1);
     expect(response?.status()).toBe(404);
   });
 });

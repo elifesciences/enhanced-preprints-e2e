@@ -32,15 +32,15 @@ test.describe('reviewed preprint', () => {
   test('test reviewed-preprint with future published date is not available until published time has passed', async ({ page }) => {
     const eppPage = new EppPage(page, name);
     // first wait for the preview to be published
-    await eppPage.navigateToPreviewPage(1);
+    await eppPage.gotoPreviewPage(1);
     await eppPage.reloadAndAssertStatus(200);
     
     // ensure the preprint isn't published
-    const prePublishedResponse = await eppPage.navigateToArticlePage(1);
+    const prePublishedResponse = await eppPage.gotoArticlePage(1);
     expect(prePublishedResponse?.status()).toBe(404);
 
     // then, wait for the reviewed preprint to be published (with the passage of time)
-    await eppPage.navigateToArticlePage(1);
+    await eppPage.gotoArticlePage(1);
     await eppPage.reloadAndAssertStatus(200);
   });
 });
