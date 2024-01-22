@@ -43,7 +43,7 @@ test.describe('revised preprint', () => {
     await eppPage.gotoArticlePage(1);
     await eppPage.reloadAndAssertStatus(200);
 
-    await eppPage.assertArticleStatus('Published from the original preprint after peer review and assessment by eLife.');
+    await eppPage.assertArticleStatusText('Published from the original preprint after peer review and assessment by eLife.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
@@ -52,10 +52,10 @@ test.describe('revised preprint', () => {
     await expect(reviewTimelinePageLocatorV1).toHaveText('Reviewed preprint version 1');
     await expect(reviewTimelinePageLocatorV1.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    await eppPage.navigateToVersion(2)
+    await eppPage.navigateToVersion(2);
     await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
-    await eppPage.assertArticleStatus('Revised by authors after peer review.');
+    await eppPage.assertArticleStatusText('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
     // 1st child is 1st description details (<dd>) from the timeline definition list
@@ -63,14 +63,14 @@ test.describe('revised preprint', () => {
     await expect(reviewTimelinePageLocatorV2).toHaveText('Reviewed preprint version 2');
     await expect(reviewTimelinePageLocatorV2.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    await eppPage.navigateToVersion(1)
+    await eppPage.navigateToVersion(1);
     await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
 
     const responseMsid = await eppPage.gotoArticlePage();
     expect(responseMsid?.status()).toBe(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
-    await eppPage.assertArticleStatus('Revised by authors after peer review.');
+    await eppPage.assertArticleStatusText('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
     // 1st child is 1st description details (<dd>) from the timeline definition list

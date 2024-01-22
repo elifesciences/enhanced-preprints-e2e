@@ -34,7 +34,7 @@ test.describe('reviewed preprint', () => {
     // first wait for the preview to be published
     await eppPage.gotoPreviewPage(1);
     await eppPage.reloadAndAssertStatus(200);
-    
+
     // ensure the preprint isn't published
     const prePublishedResponse = await eppPage.gotoArticlePage(1);
     expect(prePublishedResponse?.status()).toBe(404);

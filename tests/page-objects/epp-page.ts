@@ -1,8 +1,11 @@
-import { expect, Locator, Page, Response } from '@playwright/test';
+import {
+  expect, Locator, Page, Response,
+} from '@playwright/test';
 import { config } from '../../utils/config';
 
 export class EppPage {
   private page: Page;
+
   private name: string;
 
   readonly title: Locator;
@@ -29,11 +32,11 @@ export class EppPage {
   }
 
   async gotoPreviewPage(version?: number): Promise<Response | null> {
-    return this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}`: ''}`);
+    return this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}` : ''}`);
   }
 
   async gotoArticlePage(version?: number): Promise<Response | null> {
-    return this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msid${version ? `v${version}`: ''}`);
+    return this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msid${version ? `v${version}` : ''}`);
   }
 
   async gotoReviewsPage(): Promise<void> {
@@ -55,10 +58,6 @@ export class EppPage {
     await expect(this.title).toContainText(title);
   }
 
-  async assertDoi(doi: string) {
-    await expect(this.doi).toHaveText(doi);
-  }
-
   async assertTitleVisibility(visibility: boolean = true): Promise<void> {
     if (visibility) {
       await expect(this.title)
@@ -69,7 +68,11 @@ export class EppPage {
     }
   }
 
-  async assertCopyright(content: string): Promise<void> {
+  async assertDoi(doi: string) {
+    await expect(this.doi).toHaveText(doi);
+  }
+
+  async assertCopyrightText(content: string): Promise<void> {
     await expect(this.copyright).toContainText(content);
   }
 
@@ -77,7 +80,7 @@ export class EppPage {
     await expect(this.assesmentDoi).toHaveText(doi);
   }
 
-  async assertPeerReviewContent(index: number, content: string): Promise<void> {
+  async assertPeerReviewText(index: number, content: string): Promise<void> {
     await expect(this.page.locator(`#peer-review-${index}`)).toContainText(content);
   }
 
@@ -85,7 +88,7 @@ export class EppPage {
     await expect(this.page.locator(`#peer-review-${index} .descriptors__identifier`)).toContainText(doi);
   }
 
-  async assertAuthorResponse(content: string): Promise<void> {
+  async assertAuthorResponseText(content: string): Promise<void> {
     await expect(this.authorResponse).toContainText(content);
   }
 
@@ -93,7 +96,7 @@ export class EppPage {
     await expect(this.authorResponse.locator('.descriptors__identifier')).toContainText(doi);
   }
 
-  async assertArticleStatus(content: string): Promise<void> {
+  async assertArticleStatusText(content: string): Promise<void> {
     await expect(this.articleStatus).toContainText(content);
   }
 }
