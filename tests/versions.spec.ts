@@ -7,6 +7,7 @@ import { config } from '../utils/config';
 import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
+import { EppPage } from './page-objects/epp-page';
 
 test.describe('versions', () => {
   const minioClient = createS3Client();
@@ -36,6 +37,7 @@ test.describe('versions', () => {
   });
 
   test('multiple versions of a preprint are available', async ({ page }) => {
+    const eppPage = new EppPage(page);
     // For the test to succeed, we need to wait for all versions to be imported
     await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv4`);
     await expect(async () => {
@@ -58,9 +60,9 @@ test.describe('versions', () => {
       expect(responsev1?.status()).toBe(200);
     }).toPass();
 
-    await expect(page.locator('.article-status__text')).toHaveText('Published from the original preprint after peer review and assessment by eLife.');
-    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText('https://doi.org/10.7554/000001.1');
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertArticleStatus('Published from the original preprint after peer review and assessment by eLife.');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
     // 7th child is 4th description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorV1 = page.locator('.review-timeline__list>.review-timeline__event:nth-child(7)');
@@ -68,9 +70,9 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV1.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
     await page.getByLabel('Reviewed preprint version 2').click();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
-    await expect(page.locator('.article-status__text')).toHaveText('Revised by authors after peer review.');
-    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText('https://doi.org/10.7554/000001.2');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
+    await eppPage.assertArticleStatus('Revised by authors after peer review.');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
     // 5th child is 3rd description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorV2 = page.locator('.review-timeline__list>.review-timeline__event:nth-child(5)');
@@ -78,9 +80,9 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV2.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
     await page.getByLabel('Reviewed preprint version 3').click();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
-    await expect(page.locator('.article-status__text')).toHaveText('Revised by authors after peer review.');
-    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText('https://doi.org/10.7554/000001.3');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
+    await eppPage.assertArticleStatus('Revised by authors after peer review.');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.3');
 
     // 3rd child is 2nd description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorV3 = page.locator('.review-timeline__list>.review-timeline__event:nth-child(3)');
@@ -88,9 +90,9 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV3.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
     await page.getByLabel('Reviewed preprint version 4').click();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
-    await expect(page.locator('.article-status__text')).toHaveText('Revised by authors after peer review.');
-    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText('https://doi.org/10.7554/000001.4');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
+    await eppPage.assertArticleStatus('Revised by authors after peer review.');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.4');
 
     // 1st child is 1st description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorV4 = page.locator('.review-timeline__list>.review-timeline__event:nth-child(1)');
@@ -99,9 +101,9 @@ test.describe('versions', () => {
 
     const responseMsid = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
     expect(responseMsid?.status()).toBe(200);
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
-    await expect(page.locator('.article-status__text')).toHaveText('Revised by authors after peer review.');
-    await expect(page.locator('.content-header .descriptors__identifier')).toHaveText('https://doi.org/10.7554/000001.4');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
+    await eppPage.assertArticleStatus('Revised by authors after peer review.');
+    await eppPage.assertDoi('https://doi.org/10.7554/000001.4');
 
     // 1st child is 1st description details (<dd>) from the timeline definition list
     const reviewTimelinePageLocatorLatest = page.locator('.review-timeline__list>.review-timeline__event:nth-child(1)');

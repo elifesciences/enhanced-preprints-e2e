@@ -8,6 +8,7 @@ import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 import { changeState, resetState } from '../utils/wiremock';
+import { EppPage } from './page-objects/epp-page';
 
 test.describe('unpublished preprint', () => {
   let temporal: Client;
@@ -31,15 +32,16 @@ test.describe('unpublished preprint', () => {
   });
 
   test('preprints can be unpublished', async ({ page }) => {
+    const eppPage = new EppPage(page);
     await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await expect(async () => {
       const responsev1 = await page.reload();
       expect(responsev1?.status()).toBe(200);
     }).toPass();
 
-    await expect(page.locator('h1.title')).toBeVisible();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await expect(page.locator('#assessment .descriptors__identifier')).toHaveText('https://doi.org/10.7554/eLife.000001.1.sa3');
+    await eppPage.assertTitleVisibility();
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertAssesmentDoi('https://doi.org/10.7554/eLife.000001.1.sa3');
 
     await changeState(name, 'unpublished');
 
