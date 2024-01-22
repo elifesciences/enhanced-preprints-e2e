@@ -31,7 +31,7 @@ test.describe('preview preprint', () => {
 
   test('test previews are visible', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    await eppPage.navigateToPreviewPage();
+    await eppPage.navigateToPreviewPage(1);
     await eppPage.reloadAndAssertStatus(200);
     await eppPage.assertTitleVisibility();
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');

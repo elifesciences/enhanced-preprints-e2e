@@ -34,40 +34,40 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   test('successful progression of manuscript', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    const response1 = await page.goto(`${config.client_url}/previews/${name}-msid`);
+    const response1 = await eppPage.navigateToPreviewPage();
     expect(response1?.status()).toBe(404);
-    const response2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    const response2 = await eppPage.navigateToArticlePage();
     expect(response2?.status()).toBe(404);
 
     await changeState(name, 'Preview');
 
     // Wait for preview to become available.
-    await page.goto(`${config.client_url}/previews/${name}-msid`);
+    await eppPage.navigateToPreviewPage();
     await eppPage.reloadAndAssertStatus(200);
-    const response4 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    const response4 = await eppPage.navigateToArticlePage();
     expect(response4?.status()).toBe(404);
 
     await changeState(name, 'Reviews');
 
     // Wait for reviewed preprint to become available.
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    await eppPage.navigateToArticlePage();
     await eppPage.reloadAndAssertStatus(200);
 
     await changeState(name, 'Preview Revised');
 
     // Wait for preview of revised preprint to become available.
-    await page.goto(`${config.client_url}/previews/${name}-msidv2`);
+    await eppPage.navigateToPreviewPage(2);
     await eppPage.reloadAndAssertStatus(200);
-    const response7 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+    const response7 = await eppPage.navigateToArticlePage(2);
     expect(response7?.status()).toBe(404);
     // Ensure that umbrella id still works with preview available
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    await eppPage.navigateToArticlePage();
     await eppPage.reloadAndAssertStatus(200);
 
     await changeState(name, 'Revised');
 
     // Wait for revised preprint to become available.
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+    await eppPage.navigateToArticlePage(2);
     await eppPage.reloadAndAssertStatus(200);
   });
 });

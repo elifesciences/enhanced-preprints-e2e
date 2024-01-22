@@ -28,8 +28,8 @@ export class EppPage {
     this.articleStatus = this.page.locator('.article-status__text');
   }
 
-  async navigateToPreviewPage(): Promise<Response | null> {
-    return this.page.goto(`${config.client_url}/previews/${this.name}-msidv1`);
+  async navigateToPreviewPage(version?: number): Promise<Response | null> {
+    return this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}`: ''}`);
   }
 
   async navigateToArticlePage(version?: number): Promise<Response | null> {

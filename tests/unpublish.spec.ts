@@ -47,7 +47,7 @@ test.describe('unpublished preprint', () => {
     await eppPage.reloadAndAssertStatus(404);
     const response3 = await eppPage.navigateToArticlePage();
     expect(response3?.status()).toBe(404);
-    const response4 = await eppPage.navigateToPreviewPage();
+    const response4 = await eppPage.navigateToPreviewPage(1);
     expect(response4?.status()).toBe(200);
   });
 });
