@@ -1,0 +1,20 @@
+{
+    "scenarioName": "previous-state",
+    "requiredScenarioState": "unpublished",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/previous-state"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "docmaps": [
+              {
+                "id":"http://wiremock:8080/docmaps/previous-state/dummy-1",
+                "updated": "2022-11-11T05:02:51+00:00"
+              }
+            ]
+        }
+    }
+  }
+

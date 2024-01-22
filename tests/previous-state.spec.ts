@@ -9,9 +9,9 @@ import {
 } from '../utils/temporal';
 import { changeState, resetState } from '../utils/wiremock';
 
-test.describe('unpublished preprint', () => {
+test.describe('publish, unpublish and republish preprint', () => {
   let temporal: Client;
-  const name = 'unpublish';
+  const name = 'previous-state';
   const scheduleId = generateScheduleId(name);
   const minioClient = createS3Client();
 
@@ -30,11 +30,11 @@ test.describe('unpublished preprint', () => {
     ]);
   });
 
-  test('preprints can be unpublished', async ({ page }) => {
+  test('preprints can be unpublished and then republished', async ({ page }) => {
     await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await expect(async () => {
-      const responsev1 = await page.reload();
-      expect(responsev1?.status()).toBe(200);
+      const response1 = await page.reload();
+      expect(response1?.status()).toBe(200);
     }).toPass();
 
     await expect(page.locator('h1.title')).toBeVisible();
@@ -53,5 +53,13 @@ test.describe('unpublished preprint', () => {
     expect(response3?.status()).toBe(404);
     const response4 = await page.goto(`${config.client_url}/previews/${name}-msidv1`);
     expect(response4?.status()).toBe(200);
+
+    await resetState(name);
+
+    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    await expect(async () => {
+      const response5 = await page.reload();
+      expect(response5?.status()).toBe(200);
+    }).toPass();
   });
 });
