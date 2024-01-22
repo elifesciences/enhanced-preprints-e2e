@@ -87,8 +87,7 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV4).toHaveText('Reviewed preprint version 4');
     await expect(reviewTimelinePageLocatorV4.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    const responseMsid = await eppPage.gotoArticlePage();
-    expect(responseMsid?.status()).toBe(200);
+    await eppPage.gotoArticlePage(undefined, 200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.4');

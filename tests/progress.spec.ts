@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -34,18 +34,15 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   test('successful progression of manuscript', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    const response1 = await eppPage.gotoPreviewPage();
-    expect(response1?.status()).toBe(404);
-    const response2 = await eppPage.gotoArticlePage();
-    expect(response2?.status()).toBe(404);
+    await eppPage.gotoPreviewPage(undefined, 404);
+    await eppPage.gotoArticlePage(undefined, 404);
 
     await changeState(name, 'Preview');
 
     // Wait for preview to become available.
     await eppPage.gotoPreviewPage();
     await eppPage.reloadAndAssertStatus(200);
-    const response4 = await eppPage.gotoArticlePage();
-    expect(response4?.status()).toBe(404);
+    await eppPage.gotoArticlePage(undefined, 404);
 
     await changeState(name, 'Reviews');
 
@@ -58,8 +55,7 @@ test.describe('progress a manuscript through the manifestations', () => {
     // Wait for preview of revised preprint to become available.
     await eppPage.gotoPreviewPage(2);
     await eppPage.reloadAndAssertStatus(200);
-    const response7 = await eppPage.gotoArticlePage(2);
-    expect(response7?.status()).toBe(404);
+    await eppPage.gotoArticlePage(2, 404);
     // Ensure that umbrella id still works with preview available
     await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);

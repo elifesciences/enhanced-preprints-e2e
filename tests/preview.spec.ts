@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -38,7 +38,6 @@ test.describe('preview preprint', () => {
     // eslint-disable-next-line max-len
     await eppPage.assertCopyrightText('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
 
-    const response = await eppPage.gotoArticlePage(1);
-    expect(response?.status()).toBe(404);
+    await eppPage.gotoArticlePage(1, 404);
   });
 });

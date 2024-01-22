@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -36,8 +36,7 @@ test.describe('reviewed preprint', () => {
     await eppPage.reloadAndAssertStatus(200);
 
     // ensure the preprint isn't published
-    const prePublishedResponse = await eppPage.gotoArticlePage(1);
-    expect(prePublishedResponse?.status()).toBe(404);
+    await eppPage.gotoArticlePage(1, 404);
 
     // then, wait for the reviewed preprint to be published (with the passage of time)
     await eppPage.gotoArticlePage(1);

@@ -1,5 +1,5 @@
 import {
-  expect, Locator, Page, Response,
+  expect, Locator, Page,
 } from '@playwright/test';
 import { config } from '../../utils/config';
 
@@ -31,12 +31,18 @@ export class EppPage {
     this.articleStatus = this.page.locator('.article-status__text');
   }
 
-  async gotoPreviewPage(version?: number): Promise<Response | null> {
-    return this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}` : ''}`);
+  async gotoPreviewPage(version?: number, status?: number): Promise<void> {
+    const response = await this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}` : ''}`);
+    if (status) {
+      expect(response?.status()).toBe(status);
+    }
   }
 
-  async gotoArticlePage(version?: number): Promise<Response | null> {
-    return this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msid${version ? `v${version}` : ''}`);
+  async gotoArticlePage(version?: number, status?: number): Promise<void> {
+    const response = await this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msid${version ? `v${version}` : ''}`);
+    if (status) {
+      expect(response?.status()).toBe(status);
+    }
   }
 
   async gotoReviewsPage(): Promise<void> {

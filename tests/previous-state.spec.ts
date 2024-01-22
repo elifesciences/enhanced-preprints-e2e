@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -45,10 +45,8 @@ test.describe('publish, unpublish and republish preprint', () => {
     // Wait for unpublished article to become unavailable
     await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(404);
-    const response3 = await eppPage.gotoArticlePage();
-    expect(response3?.status()).toBe(404);
-    const response4 = await eppPage.gotoPreviewPage(1);
-    expect(response4?.status()).toBe(200);
+    await eppPage.gotoArticlePage(undefined, 404);
+    await eppPage.gotoPreviewPage(1, 200);
 
     await resetState(name);
 

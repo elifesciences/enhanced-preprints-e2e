@@ -67,8 +67,7 @@ test.describe('revised preprint', () => {
     await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
 
-    const responseMsid = await eppPage.gotoArticlePage();
-    expect(responseMsid?.status()).toBe(200);
+    await eppPage.gotoArticlePage(undefined, 200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
