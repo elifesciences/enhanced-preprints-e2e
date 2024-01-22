@@ -7,6 +7,7 @@ import { config } from '../utils/config';
 import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
+import { EppPage } from './page-objects/epp-page';
 
 test.describe('reviewed preprint', () => {
   let temporal: Client;
@@ -29,22 +30,17 @@ test.describe('reviewed preprint', () => {
   });
 
   test('test reviewed-preprint with future published date is not available until published time has passed', async ({ page }) => {
+    const eppPage = new EppPage(page, name);
     // first wait for the preview to be published
-    await page.goto(`${config.client_url}/previews/${name}-msidv1`);
-    await expect(async () => {
-      const previewResponse = await page.reload();
-      expect(previewResponse?.status()).toBe(200);
-    }).toPass();
-
+    await eppPage.navigateToPreviewPage();
+    await eppPage.reloadAndAssertStatus(200);
+    
     // ensure the preprint isn't published
     const prePublishedResponse = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     expect(prePublishedResponse?.status()).toBe(404);
 
     // then, wait for the reviewed preprint to be published (with the passage of time)
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
-    await expect(async () => {
-      const postPublishedResponse = await page.reload();
-      expect(postPublishedResponse?.status()).toBe(200);
-    }).toPass();
+    await eppPage.navigateToArticlePage(1);
+    await eppPage.reloadAndAssertStatus(200);
   });
 });

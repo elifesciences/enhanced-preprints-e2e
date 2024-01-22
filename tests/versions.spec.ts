@@ -40,25 +40,13 @@ test.describe('versions', () => {
     const eppPage = new EppPage(page, name);
     // For the test to succeed, we need to wait for all versions to be imported
     await eppPage.navigateToArticlePage(4)
-    await expect(async () => {
-      const responsev4 = await page.reload();
-      expect(responsev4?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
     await eppPage.navigateToArticlePage(3)
-    await expect(async () => {
-      const responsev3 = await page.reload();
-      expect(responsev3?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
     await eppPage.navigateToArticlePage(2)
-    await expect(async () => {
-      const responsev2 = await page.reload();
-      expect(responsev2?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
     await eppPage.navigateToArticlePage(1)
-    await expect(async () => {
-      const responsev1 = await page.reload();
-      expect(responsev1?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
 
     await eppPage.assertArticleStatus('Published from the original preprint after peer review and assessment by eLife.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
@@ -99,7 +87,7 @@ test.describe('versions', () => {
     await expect(reviewTimelinePageLocatorV4).toHaveText('Reviewed preprint version 4');
     await expect(reviewTimelinePageLocatorV4.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
 
-    const responseMsid = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    const responseMsid = await eppPage.navigateToArticlePage();
     expect(responseMsid?.status()).toBe(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');

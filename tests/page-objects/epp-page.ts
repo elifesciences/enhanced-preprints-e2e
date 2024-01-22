@@ -40,6 +40,13 @@ export class EppPage {
     await this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msidv1/reviews`);
   }
 
+  async reloadAndAssertStatus(status: number): Promise<void> {
+    await expect(async () => {
+      const response = await this.page.reload();
+      expect(response?.status()).toBe(status);
+    }).toPass();
+  }
+
   async assertTitleText(title: string): Promise<void> {
     await expect(this.title).toContainText(title);
   }

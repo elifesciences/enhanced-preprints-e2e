@@ -34,10 +34,7 @@ test.describe('unpublished preprint', () => {
   test('preprints can be unpublished', async ({ page }) => {
     const eppPage = new EppPage(page, name);
     await eppPage.navigateToArticlePage(1);
-    await expect(async () => {
-      const responsev1 = await page.reload();
-      expect(responsev1?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
 
     await eppPage.assertTitleVisibility();
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
@@ -47,10 +44,7 @@ test.describe('unpublished preprint', () => {
 
     // Wait for unpublished article to become unavailable
     await eppPage.navigateToArticlePage(1);
-    await expect(async () => {
-      const response2 = await page.reload();
-      expect(response2?.status()).toBe(404);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(404);
     const response3 = await eppPage.navigateToArticlePage();
     expect(response3?.status()).toBe(404);
     const response4 = await eppPage.navigateToPreviewPage();

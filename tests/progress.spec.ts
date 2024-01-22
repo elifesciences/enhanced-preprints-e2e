@@ -8,6 +8,7 @@ import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 import { changeState, resetState } from '../utils/wiremock';
+import { EppPage } from './page-objects/epp-page';
 
 test.describe('progress a manuscript through the manifestations', () => {
   let temporal: Client;
@@ -32,6 +33,7 @@ test.describe('progress a manuscript through the manifestations', () => {
   });
 
   test('successful progression of manuscript', async ({ page }) => {
+    const eppPage = new EppPage(page, name);
     const response1 = await page.goto(`${config.client_url}/previews/${name}-msid`);
     expect(response1?.status()).toBe(404);
     const response2 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
@@ -41,10 +43,7 @@ test.describe('progress a manuscript through the manifestations', () => {
 
     // Wait for preview to become available.
     await page.goto(`${config.client_url}/previews/${name}-msid`);
-    await expect(async () => {
-      const response3 = await page.reload();
-      expect(response3?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
     const response4 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
     expect(response4?.status()).toBe(404);
 
@@ -52,33 +51,23 @@ test.describe('progress a manuscript through the manifestations', () => {
 
     // Wait for reviewed preprint to become available.
     await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
-    await expect(async () => {
-      const response5 = await page.reload();
-      expect(response5?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
 
     await changeState(name, 'Preview Revised');
 
     // Wait for preview of revised preprint to become available.
     await page.goto(`${config.client_url}/previews/${name}-msidv2`);
-    await expect(async () => {
-      const response6 = await page.reload();
-      expect(response6?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
     const response7 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
     expect(response7?.status()).toBe(404);
     // Ensure that umbrella id still works with preview available
     await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
-    const response8 = await page.reload();
-    expect(response8?.status()).toBe(200);
+    await eppPage.reloadAndAssertStatus(200);
 
     await changeState(name, 'Revised');
 
     // Wait for revised preprint to become available.
     await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
-    await expect(async () => {
-      const response9 = await page.reload();
-      expect(response9?.status()).toBe(200);
-    }).toPass();
+    await eppPage.reloadAndAssertStatus(200);
   });
 });
