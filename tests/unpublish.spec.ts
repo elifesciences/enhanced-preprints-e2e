@@ -32,8 +32,8 @@ test.describe('unpublished preprint', () => {
   });
 
   test('preprints can be unpublished', async ({ page }) => {
-    const eppPage = new EppPage(page);
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    const eppPage = new EppPage(page, name);
+    await eppPage.navigateToArticlePage(1);
     await expect(async () => {
       const responsev1 = await page.reload();
       expect(responsev1?.status()).toBe(200);
@@ -46,14 +46,14 @@ test.describe('unpublished preprint', () => {
     await changeState(name, 'unpublished');
 
     // Wait for unpublished article to become unavailable
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    await eppPage.navigateToArticlePage(1);
     await expect(async () => {
       const response2 = await page.reload();
       expect(response2?.status()).toBe(404);
     }).toPass();
-    const response3 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    const response3 = await eppPage.navigateToArticlePage();
     expect(response3?.status()).toBe(404);
-    const response4 = await page.goto(`${config.client_url}/previews/${name}-msidv1`);
+    const response4 = await eppPage.navigateToPreviewPage();
     expect(response4?.status()).toBe(200);
   });
 });

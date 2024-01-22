@@ -37,24 +37,24 @@ test.describe('versions', () => {
   });
 
   test('multiple versions of a preprint are available', async ({ page }) => {
-    const eppPage = new EppPage(page);
+    const eppPage = new EppPage(page, name);
     // For the test to succeed, we need to wait for all versions to be imported
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv4`);
+    await eppPage.navigateToArticlePage(4)
     await expect(async () => {
       const responsev4 = await page.reload();
       expect(responsev4?.status()).toBe(200);
     }).toPass();
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv3`);
+    await eppPage.navigateToArticlePage(3)
     await expect(async () => {
       const responsev3 = await page.reload();
       expect(responsev3?.status()).toBe(200);
     }).toPass();
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+    await eppPage.navigateToArticlePage(2)
     await expect(async () => {
       const responsev2 = await page.reload();
       expect(responsev2?.status()).toBe(200);
     }).toPass();
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    await eppPage.navigateToArticlePage(1)
     await expect(async () => {
       const responsev1 = await page.reload();
       expect(responsev1?.status()).toBe(200);

@@ -30,8 +30,8 @@ test.describe('reviewed preprint', () => {
   });
 
   test('test reviews and DOIs are visible on reviewed-preprint', async ({ page }) => {
-    const eppPage = new EppPage(page);
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1/reviews`);
+    const eppPage = new EppPage(page, name);
+    await eppPage.navigateToReviewsPage();
     await expect(async () => {
       const response = await page.reload();
       expect(response?.status()).toBe(200);

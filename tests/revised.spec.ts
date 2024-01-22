@@ -34,16 +34,16 @@ test.describe('revised preprint', () => {
   });
 
   test('revised preprints are available', async ({ page }) => {
-    const eppPage = new EppPage(page);
+    const eppPage = new EppPage(page, name);
 
     // For the test to succeed, we need to wait for both versions to be imported
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+    await eppPage.navigateToArticlePage(2);
     await expect(async () => {
       const responsev2 = await page.reload();
       expect(responsev2?.status()).toBe(200);
     }).toPass();
 
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    await eppPage.navigateToArticlePage(1);
     await expect(async () => {
       const responsev1 = await page.reload();
       expect(responsev1?.status()).toBe(200);
@@ -73,7 +73,7 @@ test.describe('revised preprint', () => {
     await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
 
-    const responseMsid = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
+    const responseMsid = await eppPage.navigateToArticlePage();
     expect(responseMsid?.status()).toBe(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatus('Revised by authors after peer review.');

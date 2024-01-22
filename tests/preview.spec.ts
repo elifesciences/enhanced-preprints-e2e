@@ -30,8 +30,8 @@ test.describe('preview preprint', () => {
   });
 
   test('test previews are visible', async ({ page }) => {
-    const eppPage = new EppPage(page);
-    await page.goto(`${config.client_url}/previews/${name}-msidv1`);
+    const eppPage = new EppPage(page, name);
+    await eppPage.navigateToPreviewPage();
     await expect(async () => {
       const response = await page.reload();
       expect(response?.status()).toBe(200);
@@ -41,7 +41,7 @@ test.describe('preview preprint', () => {
     // eslint-disable-next-line max-len
     await eppPage.assertCopyright('This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.');
 
-    const response = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    const response = await eppPage.navigateToArticlePage(1);
     expect(response?.status()).toBe(404);
   });
 });
