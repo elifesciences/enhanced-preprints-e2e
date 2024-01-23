@@ -105,4 +105,13 @@ export class EppPage {
   async assertArticleStatusText(content: string): Promise<void> {
     await expect(this.articleStatus).toContainText(content);
   }
+
+  async assertTimelineEventText(index: number, content: string): Promise<void> {
+    await expect(this.page.locator(`.review-timeline__list>.review-timeline__event:nth-child(${index})`)).toContainText(content);
+  }
+
+  async assertTimelineEventThisVersion(index: number): Promise<void> {
+    const event = this.page.locator(`.review-timeline__list>.review-timeline__event:nth-child(${index})`);
+    await expect(event.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
+  }
 }
