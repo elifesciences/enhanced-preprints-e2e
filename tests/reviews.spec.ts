@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -7,6 +7,7 @@ import { config } from '../utils/config';
 import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
+import { EppPage } from './page-objects/epp-page';
 
 test.describe('reviewed preprint', () => {
   let temporal: Client;
@@ -29,18 +30,17 @@ test.describe('reviewed preprint', () => {
   });
 
   test('test reviews and DOIs are visible on reviewed-preprint', async ({ page }) => {
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1/reviews`);
-    await expect(async () => {
-      const response = await page.reload();
-      expect(response?.status()).toBe(200);
-    }).toPass();
-    await expect(page.locator('h1.title')).toBeVisible();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await expect(page.locator('#peer-review-0')).toContainText('evaluation 2');
-    await expect(page.locator('#peer-review-1')).toContainText('evaluation 1');
-    await expect(page.locator('#author-response')).toContainText('author response');
-    await expect(page.locator('#peer-review-0 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa2');
-    await expect(page.locator('#peer-review-1 .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa1');
-    await expect(page.locator('#author-response .descriptors__identifier')).toContainText('https://doi.org/10.7554/eLife.000001.1.sa0');
+    const eppPage = new EppPage(page, name);
+    await eppPage.gotoReviewsPage();
+    await eppPage.reloadAndAssertStatus(200);
+    await eppPage.assertTitleVisibility();
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertPeerReviewText(0, 'evaluation 2');
+    await eppPage.assertPeerReviewText(1, 'evaluation 1');
+    await eppPage.assertAuthorResponseText('author response');
+
+    await eppPage.assertPeerReviewDoi(0, 'https://doi.org/10.7554/eLife.000001.1.sa2');
+    await eppPage.assertPeerReviewDoi(1, 'https://doi.org/10.7554/eLife.000001.1.sa1');
+    await eppPage.assertAuthorResponseDoi('https://doi.org/10.7554/eLife.000001.1.sa0');
   });
 });

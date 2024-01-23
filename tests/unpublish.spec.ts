@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -8,6 +8,7 @@ import {
   createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
 } from '../utils/temporal';
 import { changeState, resetState } from '../utils/wiremock';
+import { EppPage } from './page-objects/epp-page';
 
 test.describe('unpublished preprint', () => {
   let temporal: Client;
@@ -31,27 +32,20 @@ test.describe('unpublished preprint', () => {
   });
 
   test('preprints can be unpublished', async ({ page }) => {
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
-    await expect(async () => {
-      const responsev1 = await page.reload();
-      expect(responsev1?.status()).toBe(200);
-    }).toPass();
+    const eppPage = new EppPage(page, name);
+    await eppPage.gotoArticlePage({ version: 1 });
+    await eppPage.reloadAndAssertStatus(200);
 
-    await expect(page.locator('h1.title')).toBeVisible();
-    await expect(page.locator('h1.title')).toHaveText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await expect(page.locator('#assessment .descriptors__identifier')).toHaveText('https://doi.org/10.7554/eLife.000001.1.sa3');
+    await eppPage.assertTitleVisibility();
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertAssessmentDoi('https://doi.org/10.7554/eLife.000001.1.sa3');
 
     await changeState(name, 'unpublished');
 
     // Wait for unpublished article to become unavailable
-    await page.goto(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
-    await expect(async () => {
-      const response2 = await page.reload();
-      expect(response2?.status()).toBe(404);
-    }).toPass();
-    const response3 = await page.goto(`${config.client_url}/reviewed-preprints/${name}-msid`);
-    expect(response3?.status()).toBe(404);
-    const response4 = await page.goto(`${config.client_url}/previews/${name}-msidv1`);
-    expect(response4?.status()).toBe(200);
+    await eppPage.gotoArticlePage({ version: 1 });
+    await eppPage.reloadAndAssertStatus(404);
+    await eppPage.gotoArticlePage({ status: 404 });
+    await eppPage.gotoPreviewPage({ version: 1, status: 200 });
   });
 });
