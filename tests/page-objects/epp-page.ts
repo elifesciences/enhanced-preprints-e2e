@@ -17,7 +17,7 @@ export class EppPage {
 
   readonly authorResponse: Locator;
 
-  readonly assesmentDoi: Locator;
+  readonly assessmentDoi: Locator;
 
   readonly articleStatus: Locator;
 
@@ -28,7 +28,7 @@ export class EppPage {
     this.doi = this.page.locator('.content-header .descriptors__identifier');
     this.copyright = this.page.locator('.copyright');
     this.authorResponse = this.page.locator('#author-response');
-    this.assesmentDoi = this.page.locator('#assessment .descriptors__identifier');
+    this.assessmentDoi = this.page.locator('#assessment .descriptors__identifier');
     this.articleStatus = this.page.locator('.article-status__text');
   }
 
@@ -86,8 +86,8 @@ export class EppPage {
     await expect(this.copyright).toContainText(content);
   }
 
-  async assertAssesmentDoi(doi: string): Promise<void> {
-    await expect(this.assesmentDoi).toHaveText(doi);
+  async assertAssessmentDoi(doi: string): Promise<void> {
+    await expect(this.assessmentDoi).toHaveText(doi);
   }
 
   async assertPeerReviewText(index: number, content: string): Promise<void> {
