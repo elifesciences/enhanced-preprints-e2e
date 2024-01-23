@@ -51,8 +51,7 @@ test.describe('revised preprint', () => {
     await eppPage.assertTimelineEventText(3, 'Reviewed preprint version 1');
     await eppPage.assertTimelineEventThisVersion(3);
 
-    await eppPage.navigateToVersion(2);
-    await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv2`);
+    await eppPage.navigateToVersion(2, true);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
@@ -61,8 +60,7 @@ test.describe('revised preprint', () => {
     await eppPage.assertTimelineEventText(1, 'Reviewed preprint version 2');
     await eppPage.assertTimelineEventThisVersion(1);
 
-    await eppPage.navigateToVersion(1);
-    await page.waitForURL(`${config.client_url}/reviewed-preprints/${name}-msidv1`);
+    await eppPage.navigateToVersion(1, true);
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
 
     await eppPage.gotoArticlePage({ status: 200 });

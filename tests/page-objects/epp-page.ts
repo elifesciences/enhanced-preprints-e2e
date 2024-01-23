@@ -50,8 +50,11 @@ export class EppPage {
     await this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msidv1/reviews`);
   }
 
-  async navigateToVersion(version: number): Promise<void> {
+  async navigateToVersion(version: number, wait: boolean = false): Promise<void> {
     await this.page.getByLabel(`Reviewed preprint version ${version}`).click();
+    if (wait) {
+      await this.page.waitForURL(`${config.client_url}/reviewed-preprints/${this.name}-msidv${version}`);
+    }
   }
 
   async reloadAndAssertStatus(status: number): Promise<void> {
