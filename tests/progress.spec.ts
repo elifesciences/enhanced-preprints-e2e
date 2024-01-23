@@ -34,15 +34,15 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   test('successful progression of manuscript', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    await eppPage.gotoPreviewPage(undefined, 404);
-    await eppPage.gotoArticlePage(undefined, 404);
+    await eppPage.gotoPreviewPage({ status: 404 });
+    await eppPage.gotoArticlePage({ status: 404 });
 
     await changeState(name, 'Preview');
 
     // Wait for preview to become available.
     await eppPage.gotoPreviewPage();
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage(undefined, 404);
+    await eppPage.gotoArticlePage({ status: 404 });
 
     await changeState(name, 'Reviews');
 
@@ -53,9 +53,9 @@ test.describe('progress a manuscript through the manifestations', () => {
     await changeState(name, 'Preview Revised');
 
     // Wait for preview of revised preprint to become available.
-    await eppPage.gotoPreviewPage(2);
+    await eppPage.gotoPreviewPage({ version: 2 });
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage(2, 404);
+    await eppPage.gotoArticlePage({ version: 2, status: 404 });
     // Ensure that umbrella id still works with preview available
     await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);
@@ -63,7 +63,7 @@ test.describe('progress a manuscript through the manifestations', () => {
     await changeState(name, 'Revised');
 
     // Wait for revised preprint to become available.
-    await eppPage.gotoArticlePage(2);
+    await eppPage.gotoArticlePage({ version: 2 });
     await eppPage.reloadAndAssertStatus(200);
   });
 });

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -39,13 +39,13 @@ test.describe('versions', () => {
   test('multiple versions of a preprint are available', async ({ page }) => {
     const eppPage = new EppPage(page, name);
     // For the test to succeed, we need to wait for all versions to be imported
-    await eppPage.gotoArticlePage(4);
+    await eppPage.gotoArticlePage({ version: 4 });
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage(3);
+    await eppPage.gotoArticlePage({ version: 3 });
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage(2);
+    await eppPage.gotoArticlePage({ version: 2 });
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage(1);
+    await eppPage.gotoArticlePage({ version: 1 });
     await eppPage.reloadAndAssertStatus(200);
 
     await eppPage.assertArticleStatusText('Published from the original preprint after peer review and assessment by eLife.');
@@ -55,7 +55,7 @@ test.describe('versions', () => {
     // 7th child is 4th description details (<dd>) from the timeline definition list
     await eppPage.assertTimelineEventText(7, 'Reviewed preprint version 1');
     await eppPage.assertTimelineEventThisVersion(7);
-    
+
     await eppPage.navigateToVersion(2);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors after peer review.');
@@ -73,7 +73,7 @@ test.describe('versions', () => {
     // 3rd child is 2nd description details (<dd>) from the timeline definition list
     await eppPage.assertTimelineEventText(3, 'Reviewed preprint version 3');
     await eppPage.assertTimelineEventThisVersion(3);
-    
+
     await eppPage.navigateToVersion(4);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors after peer review.');
@@ -82,8 +82,8 @@ test.describe('versions', () => {
     // 1st child is 1st description details (<dd>) from the timeline definition list
     await eppPage.assertTimelineEventText(1, 'Reviewed preprint version 4');
     await eppPage.assertTimelineEventThisVersion(1);
-    
-    await eppPage.gotoArticlePage(undefined, 200);
+
+    await eppPage.gotoArticlePage({ status: 200 });
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors after peer review.');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.4');

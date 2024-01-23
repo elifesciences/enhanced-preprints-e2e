@@ -3,6 +3,7 @@ import {
 } from '@playwright/test';
 import { config } from '../../utils/config';
 
+type GotoProps = {version?: number, status?: number};
 export class EppPage {
   private page: Page;
 
@@ -31,14 +32,14 @@ export class EppPage {
     this.articleStatus = this.page.locator('.article-status__text');
   }
 
-  async gotoPreviewPage(version?: number, status?: number): Promise<void> {
+  async gotoPreviewPage({ version, status }: GotoProps = {}): Promise<void> {
     const response = await this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}` : ''}`);
     if (status) {
       expect(response?.status()).toBe(status);
     }
   }
 
-  async gotoArticlePage(version?: number, status?: number): Promise<void> {
+  async gotoArticlePage({ version, status }: GotoProps = {}): Promise<void> {
     const response = await this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msid${version ? `v${version}` : ''}`);
     if (status) {
       expect(response?.status()).toBe(status);
