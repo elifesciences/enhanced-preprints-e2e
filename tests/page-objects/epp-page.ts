@@ -3,7 +3,7 @@ import {
 } from '@playwright/test';
 import { config } from '../../utils/config';
 
-type GotoProps = {version?: number, status?: number};
+type GotoProps = { version?: number, status?: number };
 export class EppPage {
   private page: Page;
 
