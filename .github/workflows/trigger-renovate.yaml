@@ -1,0 +1,15 @@
+name: trigger-renovate
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  trigger-renovate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: Jolg42/action-renovate-checkbox@v1
+      with:
+        master-issue-id: 5
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
