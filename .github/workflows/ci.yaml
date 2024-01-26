@@ -99,7 +99,7 @@ jobs:
           name: playwright-report
           path: playwright-report/index.html
       - name: Failure Slack Notification
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@v1.25.0
         if: failure()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
@@ -154,7 +154,7 @@ jobs:
           docker buildx imagetools create -t $IMPORT_IMAGE_AND_TAG-approved $IMPORT_IMAGE_AND_TAG
           docker buildx imagetools create -t $XSLT_IMAGE_AND_TAG-approved $XSLT_IMAGE_AND_TAG
       - name: Success Slack Notification
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@v1.25.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
@@ -205,7 +205,7 @@ jobs:
               ]
             }
       - name: Failure Slack Notification
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@v1.25.0
         if: failure()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
