@@ -144,6 +144,7 @@ services:
       retries: 10
       start_period: 30s
     environment:
+      NEXT_PUBLIC_SITE_NAME: ${NEXT_PUBLIC_SITE_NAME:-elife}
       API_SERVER: http://api:3000
       NEXT_PUBLIC_IMAGE_SERVER: /iiif
       IS_AUTOMATED: true
