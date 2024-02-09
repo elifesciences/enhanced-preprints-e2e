@@ -194,6 +194,10 @@ jobs:
                     {
                       "type": "mrkdwn",
                       "text": "*xslt image:*\n ${{ env.XSLT_IMAGE_AND_TAG }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*encoda image:*\n ${{ env.ENCODA_IMAGE_AND_TAG }}"
                     }
                   ]
                 },
