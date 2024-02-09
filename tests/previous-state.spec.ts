@@ -10,9 +10,9 @@ import {
 import { changeState, resetState } from '../utils/wiremock';
 import { EppPage } from './page-objects/epp-page';
 
-test.describe('unpublished preprint', () => {
+test.describe('publish, unpublish and republish preprint', () => {
   let temporal: Client;
-  const name = 'unpublish';
+  const name = 'previous-state';
   const scheduleId = generateScheduleId(name);
   const minioClient = createS3Client();
 
@@ -31,9 +31,9 @@ test.describe('unpublished preprint', () => {
     ]);
   });
 
-  test('preprints can be unpublished', async ({ page }) => {
+  test('preprints can be unpublished and then republished', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    await eppPage.gotoArticlePage({ version: 1 });
+    await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);
 
     await eppPage.assertTitleVisibility();
@@ -43,9 +43,14 @@ test.describe('unpublished preprint', () => {
     await changeState(name, 'unpublished');
 
     // Wait for unpublished article to become unavailable
-    await eppPage.gotoArticlePage({ version: 1 });
+    await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(404);
     await eppPage.gotoArticlePage({ status: 404 });
     await eppPage.gotoPreviewPage({ version: 1, status: 200 });
+
+    await resetState(name);
+
+    await eppPage.gotoArticlePage({ version: 1 });
+    await eppPage.reloadAndAssertStatus(200);
   });
 });

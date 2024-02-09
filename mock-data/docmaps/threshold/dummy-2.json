@@ -1,0 +1,87 @@
+ {
+  "@context": "https://w3id.org/docmaps/context.jsonld",
+  "type": "docmap",
+  "id": "http://mock-datahub/enhanced-preprints/docmaps/v1/by-publisher/elife/get-by-doi/10.1101%2F000002",
+  "created": "2022-11-11T05:02:51+00:00",
+  "updated": "2022-11-11T05:02:51+00:00",
+  "publisher": {
+    "account": {
+      "id": "https://sciety.org/groups/elife",
+      "service": "https://sciety.org"
+    },
+    "homepage": "https://elifesciences.org/",
+    "id": "https://elifesciences.org/",
+    "logo": "https://sciety.org/static/groups/elife--b560187e-f2fb-4ff9-a861-a204f3fc0fb0.png",
+    "name": "eLife"
+  },
+  "first-step": "_:b0",
+  "steps": {
+    "_:b0": {
+      "actions": [
+        {
+          "participants": [],
+          "outputs": [
+            {
+              "type": "preprint",
+              "identifier": "threshold-msid-2",
+              "doi": "10.7554/000002.1",
+              "versionIdentifier": "1",
+              "license": "http://creativecommons.org/licenses/by/4.0/",
+              "partOf": {
+                "type": "manuscript",
+                "doi": "10.7554/000002",
+                "identifier": "threshold-msid-2",
+                "volumeIdentifier": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "assertions": [
+        {
+          "item": {
+            "type": "preprint",
+            "doi": "10.1101/000002",
+            "versionIdentifier": "1"
+          },
+          "status": "under-review",
+          "happened": "2023-05-06T09:03:08+00:00"
+        },
+        {
+          "item": {
+            "type": "preprint",
+            "doi": "10.7554/000002.1",
+            "versionIdentifier": "1",
+            "partOf": {
+              "type": "manuscript",
+              "doi": "10.7554/000002",
+              "identifier": "threshold-msid-2",
+              "electronicArticleIdentifier": "RP000002",
+              "subjectDisciplines": [
+                "Cell Biology",
+                "Structural Biology and Molecular Biophysics"
+              ]
+            }
+          },
+          "status": "draft"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "preprint",
+          "doi": "10.1101/000002",
+          "url": "https://www.biorxiv.org/content/10.1101/000002v1",
+          "versionIdentifier": "1",
+          "published": "2023-05-05",
+          "content": [
+            {
+              "type": "computer-file",
+              "url": "s3://meca/dummy-2.meca"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+

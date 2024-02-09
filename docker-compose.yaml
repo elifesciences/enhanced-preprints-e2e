@@ -92,7 +92,7 @@ services:
 
 
   temporal-ui:
-    image: temporalio/ui:2.22.1
+    image: temporalio/ui:2.23.0
     ports:
       - 8233:8233
     environment:
@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-ee04dd90-20240118.0053
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-4f00f163-20240209.0107
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
@@ -136,7 +136,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-d5d74d3b-20240118.0842
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-fb11b1d5-20240209.0648
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -144,6 +144,7 @@ services:
       retries: 10
       start_period: 30s
     environment:
+      NEXT_PUBLIC_SITE_NAME: ${NEXT_PUBLIC_SITE_NAME:-elife}
       API_SERVER: http://api:3000
       NEXT_PUBLIC_IMAGE_SERVER: /iiif
       IS_AUTOMATED: true
@@ -178,7 +179,7 @@ services:
       - 3005:3000
 
   worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-9215f3a4-20240118.1336
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-a5c58abd-20240209.0750
     depends_on:
       createbucket:
         condition: service_completed_successfully
