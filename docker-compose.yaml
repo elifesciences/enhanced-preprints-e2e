@@ -136,7 +136,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-1ddc5a73-20240228.0023
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-8d0e4370-20240228.0441
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
