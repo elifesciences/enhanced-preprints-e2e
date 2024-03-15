@@ -178,7 +178,7 @@ services:
     ports:
       - 3005:3000
 
-  worker:
+  worker: &worker-config
     image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-ffcf8557-20240315.0509
     depends_on:
       createbucket:
@@ -232,8 +232,7 @@ services:
       start_period: 2s
 
   worker-import-docmaps:
-    extends:
-      service: worker
+    <<: *worker-config
     environment:
       TEMPORAL_TASK_QUEUE: import-docmaps
     healthcheck:
