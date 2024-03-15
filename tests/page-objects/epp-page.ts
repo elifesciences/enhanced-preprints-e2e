@@ -118,4 +118,8 @@ export class EppPage {
     const event = this.page.locator(`.review-timeline__list>.review-timeline__event:nth-child(${index})`);
     await expect(event.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
   }
+
+  async assertRelatedContent(index: number, content: string): Promise<void> {
+    await expect(this.page.locator(`.related-content>.related-content__item:nth-child(${index})`)).toContainText(content);
+  }
 }
