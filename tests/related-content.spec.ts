@@ -29,7 +29,7 @@ test.describe('reviewed preprint with related content', () => {
     ]);
   });
 
-  test('test related content is coming through', async ({ page }) => {
+  test('related content is coming through', async ({ page }) => {
     const eppPage = new EppPage(page, name);
     await eppPage.gotoReviewsPage();
     await eppPage.reloadAndAssertStatus(200);
