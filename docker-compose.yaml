@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-6330e9dc-20240314.2253
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-3deaeb2a-20240318.0046
     healthcheck:
       test: sh -c 'apk add curl; curl http://api:3000/'
       interval: 5s
@@ -136,7 +136,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-e943887e-20240315.1442
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-fb737f1a-20240318.0353
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -155,7 +155,7 @@ services:
       - 3001:3000
 
   xslt:
-    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-25820bec-20240312.1317
+    image: ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api:master-a9071204-20240318.0759
     restart: always
     ports:
       - 3004:80
@@ -178,8 +178,8 @@ services:
     ports:
       - 3005:3000
 
-  worker:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-531cb18b-20240315.1546
+  worker: &worker-config
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-7a215375-20240318.1131
     depends_on:
       createbucket:
         condition: service_completed_successfully
@@ -195,7 +195,7 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
-    environment:
+    environment: &worker-env
       EPP_SERVER_URI: http://api:3000
       TEMPORAL_SERVER: temporal:7233
       TEMPORAL_TASK_QUEUE: epp
@@ -224,7 +224,7 @@ services:
     command:
       - yarn
       - start:worker
-    healthcheck:
+    healthcheck: &worker-healthcheck
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="epp"}'  | grep 1
       interval: 5s
       timeout: 5s
@@ -232,11 +232,12 @@ services:
       start_period: 2s
 
   worker-import-docmaps:
-    extends:
-      service: worker
+    <<: *worker-config
     environment:
+      <<: *worker-env
       TEMPORAL_TASK_QUEUE: import-docmaps
     healthcheck:
+      <<: *worker-healthcheck
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="import-docmaps"}'  | grep 1
 
   wiremock:
