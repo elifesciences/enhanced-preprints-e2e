@@ -178,7 +178,7 @@ services:
     ports:
       - 3005:3000
 
-  worker:
+  worker: &worker-config
     image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-4198ba66-20240318.0623
     depends_on:
       createbucket:
@@ -195,7 +195,7 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
-    environment:
+    environment: &worker-env
       EPP_SERVER_URI: http://api:3000
       TEMPORAL_SERVER: temporal:7233
       TEMPORAL_TASK_QUEUE: epp
@@ -224,7 +224,7 @@ services:
     command:
       - yarn
       - start:worker
-    healthcheck:
+    healthcheck: &worker-healthcheck
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="epp"}'  | grep 1
       interval: 5s
       timeout: 5s
@@ -232,11 +232,12 @@ services:
       start_period: 2s
 
   worker-import-docmaps:
-    extends:
-      service: worker
+    <<: *worker-config
     environment:
+      <<: *worker-env
       TEMPORAL_TASK_QUEUE: import-docmaps
     healthcheck:
+      <<: *worker-healthcheck
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="import-docmaps"}'  | grep 1
 
   wiremock:
