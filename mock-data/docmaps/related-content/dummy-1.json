@@ -31,15 +31,7 @@
                 "type": "manuscript",
                 "doi": "10.7554/000001",
                 "identifier": "related-content-msid",
-                "volumeIdentifier": "1",
-                "complement": [
-                  {
-                    "type": "insight",
-                    "title": "Hearing: Letting the calcium flow",
-                    "url": "https://doi.org/10.7554/eLife.96139",
-                    "description": "Régis Nouvian"
-                  }
-                ]
+                "volumeIdentifier": "1"
               }
             }
           ]
@@ -68,6 +60,14 @@
               "subjectDisciplines": [
                 "Cell Biology",
                 "Structural Biology and Molecular Biophysics"
+              ],
+              "complement": [
+                {
+                  "type": "insight",
+                  "title": "Hearing: Letting the calcium flow",
+                  "url": "https://doi.org/10.7554/eLife.96139",
+                  "description": "Régis Nouvian"
+                }
               ]
             }
           },
