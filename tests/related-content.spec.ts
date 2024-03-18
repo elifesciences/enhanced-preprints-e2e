@@ -33,6 +33,6 @@ test.describe('reviewed preprint with related content', () => {
     const eppPage = new EppPage(page, name);
     await eppPage.gotoReviewsPage();
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.assertRelatedContent(0, 'Hearing: Letting the calcium flow');
+    await eppPage.assertRelatedContent(1, 'Hearing: Letting the calcium flow');
   });
 });
