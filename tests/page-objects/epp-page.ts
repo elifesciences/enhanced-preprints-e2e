@@ -119,7 +119,13 @@ export class EppPage {
     await expect(event.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
   }
 
-  async assertRelatedContent(index: number, content: string): Promise<void> {
-    await expect(this.page.locator(`.related-content>.related-content__item:nth-child(${index})`)).toContainText(content);
+  async assertRelatedContent(index: number, type: string, title: string, url: string, content?: string): Promise<void> {
+    const relatedContentItem = this.page.locator(`.related-content>.related-content__item:nth-child(${index})`);
+    await expect(relatedContentItem.locator('.related-content__item-type')).toHaveText(type);
+    await expect(relatedContentItem.locator('h4')).toHaveText(title);
+    await expect(relatedContentItem.locator('a').getAttribute('href')).resolves.toEqual(url);
+    if (content) {
+      await expect(relatedContentItem.locator('.related-content__item-content')).toHaveText(content);
+    }
   }
 }
