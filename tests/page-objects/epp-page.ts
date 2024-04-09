@@ -32,6 +32,11 @@ export class EppPage {
     this.articleStatus = this.page.locator('.article-status__text');
   }
 
+  async gotoIndexPage(): Promise<void> {
+    const response = await this.page.goto(config.client_url);
+    expect(response?.status()).toBe(200);
+  }
+
   async gotoPreviewPage({ version, status }: GotoProps = {}): Promise<void> {
     const response = await this.page.goto(`${config.client_url}/previews/${this.name}-msid${version ? `v${version}` : ''}`);
     if (status) {
@@ -127,5 +132,12 @@ export class EppPage {
     if (content) {
       await expect(relatedContentItem.locator('.related-content__item-content')).toHaveText(content);
     }
+  }
+
+  async assertGTMPresent(): Promise<void> {
+    // @ts-ignore
+    const dataLayer = await this.page.evaluate(() => window.dataLayer);
+
+    expect(dataLayer[0].event).toStrictEqual('gtm.js');
   }
 }
