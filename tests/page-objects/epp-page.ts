@@ -128,4 +128,10 @@ export class EppPage {
       await expect(relatedContentItem.locator('.related-content__item-content')).toHaveText(content);
     }
   }
+
+  async assertGAPresent(): Promise<void> {
+    const gtmScript = document.getElementById('GTM');
+
+    await expect(gtmScript).toBeTruthy();
+  }
 }
