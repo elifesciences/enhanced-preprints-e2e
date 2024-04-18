@@ -23,6 +23,8 @@ export class EppPage {
 
   readonly metrics: Locator;
 
+  readonly metricsAside: Locator;
+
   constructor(thePage: Page, name: string) {
     this.page = thePage;
     this.name = name;
@@ -33,6 +35,7 @@ export class EppPage {
     this.assessmentDoi = this.page.locator('#assessment .descriptors__identifier');
     this.articleStatus = this.page.locator('.article-status__text');
     this.metrics = this.page.locator('.metricsTable');
+    this.metricsAside = this.page.locator('.contextual-data');
   }
 
   async gotoIndexPage(): Promise<void> {
@@ -139,11 +142,18 @@ export class EppPage {
 
   async assertMetrics(views: number, downloads: number, citations: number): Promise<void> {
     const metricsElements = this.metrics.locator('.metricsTable__group');
+    const metricsAsideElements = this.metricsAside.locator('li a');
 
     await expect(metricsElements).toHaveText([
       `views${views}`,
       `downloads${downloads}`,
       `citations${citations}`,
+    ]);
+
+    await expect(metricsAsideElements).toHaveText([
+      `${views} views`,
+      `${downloads} downloads`,
+      `${citations} citations`,
     ]);
   }
 
