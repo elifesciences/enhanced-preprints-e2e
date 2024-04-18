@@ -3,7 +3,7 @@
     "requiredScenarioState": "Started",
     "request": {
         "method": "GET",
-        "url": "/metrics/article/metrics-msidv1/summary"
+        "url": "/metrics/article/metrics-msid/summary"
     },
     "response": {
         "status": 200,
@@ -11,7 +11,7 @@
             "total": 1,
             "items": [
                 {
-                    "id": "metrics-msidv1",
+                    "id": "metrics-msid",
                     "views": 42,
                     "downloads": 5,
                     "crossref": 6,

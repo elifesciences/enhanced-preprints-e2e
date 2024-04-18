@@ -31,7 +31,9 @@ test.describe('metrics', () => {
 
   test('metrics are displayed if present', async ({ page }) => {
     const eppPage = new EppPage(page, name);
-    await eppPage.gotoReviewsPage();
+    await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);
+
+    await eppPage.assertMetrics(42, 5, 6);
   });
 });
