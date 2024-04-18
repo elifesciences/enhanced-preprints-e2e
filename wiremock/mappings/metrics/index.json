@@ -1,0 +1,16 @@
+{
+  "scenarioName": "metrics",
+  "requiredScenarioState": "Started",
+  "request": {
+      "method": "GET",
+      "url": "/docmaps/metrics"
+  },
+  "response": {
+      "status": 200,
+      "jsonBody": {
+          "docmaps": [
+            { "id":"http://wiremock:8080/docmaps/metrics/dummy-1" }
+          ]
+      }
+  }
+}

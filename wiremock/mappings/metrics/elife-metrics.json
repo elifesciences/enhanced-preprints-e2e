@@ -1,0 +1,24 @@
+{
+    "scenarioName": "metrics",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/metrics/article/metrics-msidv1/summary"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "total": 1,
+            "items": [
+                {
+                    "id": "metrics-msidv1",
+                    "views": 42,
+                    "downloads": 5,
+                    "crossref": 6,
+                    "pubmed": 0,
+                    "scopus": 0
+                }
+            ]
+        }
+    }
+}
