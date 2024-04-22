@@ -132,6 +132,7 @@ services:
       REPO_CONNECTION: mongodb:27017
       REPO_USERNAME: admin
       REPO_PASSWORD: testtest
+      ELIFE_METRICS_URL: http://wiremock:8080
     ports:
       - 3000:3000
 

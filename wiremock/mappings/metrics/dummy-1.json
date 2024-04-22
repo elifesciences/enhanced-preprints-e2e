@@ -1,0 +1,12 @@
+{
+    "scenarioName": "metrics",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/metrics/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/metrics/dummy-1.json"
+    }
+}
