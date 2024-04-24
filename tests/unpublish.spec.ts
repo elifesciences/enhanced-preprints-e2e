@@ -2,6 +2,7 @@ import { test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
+import { createS3StateFile } from '../utils/create-s3-state-file';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import {
@@ -19,6 +20,7 @@ test.describe('unpublished preprint', () => {
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
     await startScheduledImportWorkflow(name, scheduleId, temporal);
+    await createS3StateFile(minioClient, name);
   });
 
   test.afterAll(async () => {
