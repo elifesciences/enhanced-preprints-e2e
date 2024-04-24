@@ -26,10 +26,10 @@ test.describe('threshold', () => {
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
     scheduleId = generateScheduleId(name);
+    await createS3StateFile(minioClient, name);
     await startScheduledImportWorkflow(name, scheduleId, temporal, '1 minute', 1);
     scheduleHandle = getScheduleHandle(scheduleId, temporal);
     [workflowId] = await getScheduleRunningWorkflows(scheduleHandle);
-    await createS3StateFile(minioClient, name);
   });
 
   test.afterAll(async () => {

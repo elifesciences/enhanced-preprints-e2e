@@ -18,8 +18,8 @@ test.describe('preview preprint', () => {
 
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
-    await startScheduledImportWorkflow(name, scheduleId, temporal);
     await createS3StateFile(minioClient, name);
+    await startScheduledImportWorkflow(name, scheduleId, temporal);
   });
 
   test.afterAll(async () => {

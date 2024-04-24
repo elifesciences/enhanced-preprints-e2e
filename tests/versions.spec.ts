@@ -21,8 +21,8 @@ test.describe('versions', () => {
     temporal = await createTemporalClient();
     scheduleId = generateScheduleId(name);
 
-    await startScheduledImportWorkflow(name, scheduleId, temporal);
     await createS3StateFile(minioClient, name);
+    await startScheduledImportWorkflow(name, scheduleId, temporal);
   });
 
   test.afterEach(async () => {
