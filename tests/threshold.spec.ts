@@ -12,6 +12,7 @@ import {
 } from '../utils/temporal';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { createS3Client } from '../utils/create-s3-client';
+import { createS3StateFile } from '../utils/create-s3-state-file';
 import { config } from '../utils/config';
 
 test.describe('threshold', () => {
@@ -25,6 +26,7 @@ test.describe('threshold', () => {
   test.beforeAll(async () => {
     temporal = await createTemporalClient();
     scheduleId = generateScheduleId(name);
+    await createS3StateFile(minioClient, name);
     await startScheduledImportWorkflow(name, scheduleId, temporal, '1 minute', 1);
     scheduleHandle = getScheduleHandle(scheduleId, temporal);
     [workflowId] = await getScheduleRunningWorkflows(scheduleHandle);
