@@ -4,7 +4,6 @@ import axios from 'axios';
 import {
   createTemporalClient,
   generateScheduleId,
-  getScheduleHandle,
   getScheduleRunningWorkflows,
   getWorkflowHandle,
   startScheduledImportWorkflow,
@@ -27,8 +26,7 @@ test.describe('threshold', () => {
     temporal = await createTemporalClient();
     scheduleId = generateScheduleId(name);
     await createS3StateFile(minioClient, name);
-    await startScheduledImportWorkflow(name, scheduleId, temporal, '1 minute', 1);
-    scheduleHandle = getScheduleHandle(scheduleId, temporal);
+    scheduleHandle = await startScheduledImportWorkflow(name, scheduleId, temporal, '1 minute', 1);
     [workflowId] = await getScheduleRunningWorkflows(scheduleHandle);
   });
 
