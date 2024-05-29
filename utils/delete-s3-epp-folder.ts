@@ -11,13 +11,6 @@ export const deleteS3EppFolder = async (client: S3Client, folder: string) => {
   // Check if Contents is defined
   if (Contents) {
     // Delete each object
-    for (const object of Contents) {
-      if (object.Key) {
-        await client.send(new DeleteObjectCommand({
-          Bucket: bucket,
-          Key: object.Key,
-        }));
-      }
-    }
+    await Promise.all(Contents.map((object) => (object.Key ? client.send(new DeleteObjectCommand({ Bucket: bucket, Key: object.Key })) : null)));
   }
 };

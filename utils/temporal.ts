@@ -1,4 +1,6 @@
-import {Client, Connection, ScheduleHandle, ScheduleOverlapPolicy} from '@temporalio/client';
+import {
+  Client, Connection, ScheduleHandle, ScheduleOverlapPolicy,
+} from '@temporalio/client';
 import { config } from './config';
 
 export const generateScheduleId = (prefix: string): string => {
@@ -40,7 +42,7 @@ export const getWorkflowHandle = (workflowId: string, client: Client) => client.
 
 export const getScheduleHandle = (scheduleId: string, client: Client) => client.schedule.getHandle(scheduleId);
 
-export const getScheduleRunningWorkflows = async (scheduleHandle: ScheduleHandle): string[] => scheduleHandle
+export const getScheduleRunningWorkflows = async (scheduleHandle: ScheduleHandle): Promise<string[]> => scheduleHandle
   .describe()
   .then(
     ({ raw }) => (raw.info?.recentActions ?? []).map((action) => action.startWorkflowResult?.workflowId).filter((workflowId): workflowId is string => !!workflowId),

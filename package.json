@@ -20,7 +20,7 @@
     "test": "playwright test",
     "test:debug": "playwright test --debug",
     "test:docker": "docker compose -f docker-compose.yaml -f docker-compose.test.yaml run --build test",
-    "lint": "eslint --ext .ts,.json tests/ wiremock/",
-    "lint:fix": "eslint --fix --ext .ts tests/"
+    "lint": "eslint --ext .ts,.json tests/ utils/ wiremock/",
+    "lint:fix": "eslint --fix --ext .ts tests/ utils/"
   }
 }
