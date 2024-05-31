@@ -33,7 +33,7 @@ export class EppPage {
     this.copyright = this.page.locator('.copyright');
     this.authorResponse = this.page.locator('#author-response');
     this.assessmentDoi = this.page.locator('#assessment .descriptors__identifier');
-    this.articleStatus = this.page.locator('.article-status__text');
+    this.articleStatus = this.page.locator('.improved-review-timeline__link');
     this.metrics = this.page.locator('.metricsTable');
     this.metricsAside = this.page.locator('.contextual-data');
   }
