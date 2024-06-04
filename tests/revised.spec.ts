@@ -49,17 +49,19 @@ test.describe('revised preprint', () => {
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
-    // 3rd child is 2nd description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(3, 'Reviewed preprint version 1');
-    await eppPage.assertTimelineEventThisVersion(3);
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(2, 'v1');
+    await eppPage.assertTimelineEventThisVersion(2);
 
     await eppPage.navigateToVersion(2, true);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
-    // 1st child is 1st description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(1, 'Reviewed preprint version 2');
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(1, 'v2');
     await eppPage.assertTimelineEventThisVersion(1);
 
     await eppPage.navigateToVersion(1, true);
@@ -70,8 +72,9 @@ test.describe('revised preprint', () => {
     await eppPage.assertArticleStatusText('Revised by authors');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
-    // 1st child is 1st description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(1, 'Reviewed preprint version 2');
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(1, 'v2');
     await eppPage.assertTimelineEventThisVersion(1);
   });
 });
