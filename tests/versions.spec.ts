@@ -54,35 +54,39 @@ test.describe('versions', () => {
     await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
 
-    // 7th child is 4th description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(7, 'Reviewed preprint version 1');
-    await eppPage.assertTimelineEventThisVersion(7);
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(4, 'v1');
+    await eppPage.assertTimelineEventThisVersion(4);
 
     await eppPage.navigateToVersion(2);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
-    // 5th child is 3rd description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(5, 'Reviewed preprint version 2');
-    await eppPage.assertTimelineEventThisVersion(5);
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(3, 'v2');
+    await eppPage.assertTimelineEventThisVersion(3);
 
     await eppPage.navigateToVersion(3);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.3');
 
-    // 3rd child is 2nd description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(3, 'Reviewed preprint version 3');
-    await eppPage.assertTimelineEventThisVersion(3);
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(2, 'v3');
+    await eppPage.assertTimelineEventThisVersion(2);
 
     await eppPage.navigateToVersion(4);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.4');
 
-    // 1st child is 1st description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(1, 'Reviewed preprint version 4');
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(1, 'v4');
     await eppPage.assertTimelineEventThisVersion(1);
 
     await eppPage.gotoArticlePage({ status: 200 });
@@ -90,8 +94,9 @@ test.describe('versions', () => {
     await eppPage.assertArticleStatusText('Revised by authors');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.4');
 
-    // 1st child is 1st description details (<dd>) from the timeline definition list
-    await eppPage.assertTimelineEventText(1, 'Reviewed preprint version 4');
+    await eppPage.expandTimeline();
+
+    await eppPage.assertTimelineEventText(1, 'v4');
     await eppPage.assertTimelineEventThisVersion(1);
   });
 });

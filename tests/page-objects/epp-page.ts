@@ -33,7 +33,7 @@ export class EppPage {
     this.copyright = this.page.locator('.copyright');
     this.authorResponse = this.page.locator('#author-response');
     this.assessmentDoi = this.page.locator('#assessment .descriptors__identifier');
-    this.articleStatus = this.page.locator('.improved-review-timeline__link');
+    this.articleStatus = this.page.locator('.review-timeline__link');
     this.metrics = this.page.locator('.metricsTable');
     this.metricsAside = this.page.locator('.contextual-data');
   }
@@ -62,7 +62,7 @@ export class EppPage {
   }
 
   async navigateToVersion(version: number, wait: boolean = false): Promise<void> {
-    await this.page.getByLabel(`Reviewed preprint version ${version}`).click();
+    await this.page.getByText(`v${version}`).locator('xpath=ancestor::dd[1]/preceding-sibling::*[1]//a').click();
     if (wait) {
       await this.page.waitForURL(`${config.client_url}/reviewed-preprints/${this.name}-msidv${version}`);
     }
@@ -121,13 +121,19 @@ export class EppPage {
     await expect(this.articleStatus).toContainText(content);
   }
 
+  async expandTimeline(): Promise<void> {
+    expect(await this.page.locator('.review-timeline__event').count()).toBe(1);
+    await this.page.click('.review-timeline__expansion');
+    expect(await this.page.locator('.review-timeline__event').count()).toBeGreaterThan(1);
+  }
+
   async assertTimelineEventText(index: number, content: string): Promise<void> {
-    await expect(this.page.locator(`.review-timeline__list>.review-timeline__event:nth-child(${index})`)).toContainText(content);
+    await expect(this.page.locator(`.review-timeline__detail:nth-of-type(${index})`)).toContainText(content);
   }
 
   async assertTimelineEventThisVersion(index: number): Promise<void> {
-    const event = this.page.locator(`.review-timeline__list>.review-timeline__event:nth-child(${index})`);
-    await expect(event.locator('+.review-timeline__date .review-timeline__description')).toContainText('(this version)');
+    const event = this.page.locator(`.review-timeline__detail:nth-of-type(${index})`);
+    await expect(event.locator('.review-timeline__link')).toContainText('revised', { ignoreCase: true });
   }
 
   async assertRelatedContent(index: number, type: string, title: string, url: string, content?: string): Promise<void> {
