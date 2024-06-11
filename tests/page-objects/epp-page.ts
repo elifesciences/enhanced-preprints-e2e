@@ -122,9 +122,21 @@ export class EppPage {
   }
 
   async expandTimeline(): Promise<void> {
-    expect(await this.page.locator('.review-timeline__event').count()).toBe(1);
+    const countVisibleEvents = async () => {
+      const elements = await this.page.locator('.review-timeline__event').elementHandles();
+      const visibleElements = await Promise.all(elements.map(async element => {
+        const display = await element.evaluate((node) => {
+          const el = node as Element;
+          return window.getComputedStyle(el).display;
+        });
+        return display !== 'none';
+      }));
+      return visibleElements.filter(isVisible => isVisible).length;
+    };
+
+    expect(await countVisibleEvents()).toBe(1);
     await this.page.click('.review-timeline__expansion');
-    expect(await this.page.locator('.review-timeline__event').count()).toBeGreaterThan(1);
+    expect(await countVisibleEvents()).toBeGreaterThan(1);
   }
 
   async assertTimelineEventText(index: number, content: string): Promise<void> {
