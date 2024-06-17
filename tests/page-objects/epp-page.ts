@@ -69,9 +69,9 @@ export class EppPage {
   }
 
   async navigateToReviewsTab(): Promise<void> {
-    const peerReviewTab = this.page.locator('.tabbed-navigation__tabs').getByText('Peer Review');
+    const peerReviewTab = this.page.locator('.tabbed-navigation__tabs').getByText('Peer review');
     await peerReviewTab.click();
-    expect(this.page.locator('.tabbed-navigation__tab-label--active')).toHaveText('Peer Review');
+    expect(this.page.locator('.tabbed-navigation__tab-label--active')).toHaveText('Peer review');
   }
 
   async reloadAndAssertStatus(status: number): Promise<void> {
