@@ -1,0 +1,12 @@
+{
+    "scenarioName": "version-no-retry",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/version-no-retry/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/version-no-retry/dummy-1.json"
+    }
+}
