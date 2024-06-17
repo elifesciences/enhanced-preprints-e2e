@@ -105,6 +105,11 @@ export class EppPage {
     await expect(this.page.locator(`#peer-review-${index}`)).toContainText(content);
   }
 
+  async assertPeerReviewProcess(type: 'reviewed' | 'revised'): Promise<void> {
+    await expect(this.page.locator(`.review-process--${type}`)).toBeVisible();
+    await expect(this.page.locator(`.review-process--${type} strong`)).toHaveText(type === 'reviewed' ? 'Not revised:' : 'Revised:');
+  }
+
   async assertPeerReviewDoi(index: number, doi: string): Promise<void> {
     await expect(this.page.locator(`#peer-review-${index} .descriptors__identifier`)).toContainText(doi);
   }

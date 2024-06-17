@@ -37,6 +37,7 @@ test.describe('reviewed preprint', () => {
     await eppPage.reloadAndAssertStatus(200);
     await eppPage.assertTitleVisibility();
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertPeerReviewProcess('reviewed');
     await eppPage.assertPeerReviewText(0, 'evaluation 2');
     await eppPage.assertPeerReviewText(1, 'evaluation 1');
     await eppPage.assertAuthorResponseText('author response');
