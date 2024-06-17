@@ -76,5 +76,8 @@ test.describe('revised preprint', () => {
 
     await eppPage.assertTimelineEventText(1, 'v2');
     await eppPage.assertTimelineEventThisVersion(1);
+
+    await eppPage.navigateToReviewsTab();
+    await eppPage.assertPeerReviewProcess('revised');
   });
 });
