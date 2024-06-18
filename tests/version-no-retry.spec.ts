@@ -39,10 +39,11 @@ test.describe('version no retry', () => {
       deleteS3EppFolder(minioClient, `${name}-msid`),
       deleteS3EppFolder(minioClient, `state/${name}`),
       axios.delete(`${config.api_url}/preprints/${name}-msidv2`),
+      axios.delete(`${config.api_url}/preprints/${name}-msidv3`),
     ]);
   });
 
-  test('version 2 is published, even if no retryable error triggered for version 1', async ({ page }) => {
+  test('version 2 and 3 are published, even if no retryable error triggered for version 1', async ({ page }) => {
     const workflowHandle = getWorkflowHandle(workflowId, temporal);
     await expect(async () => {
       const workflowStatus = await workflowHandle.describe().then((wf) => wf.status.name);
@@ -52,6 +53,9 @@ test.describe('version no retry', () => {
     const eppPage = new EppPage(page, name);
 
     await eppPage.gotoArticlePage({ version: 2 });
+    await eppPage.reloadAndAssertStatus(200);
+
+    await eppPage.gotoArticlePage({ version: 3 });
     await eppPage.reloadAndAssertStatus(200);
 
     await eppPage.gotoArticlePage({ version: 1 });
