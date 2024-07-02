@@ -73,10 +73,20 @@ export class EppPage {
     await peerReviewTab.click();
     expect(this.page.locator('.tabbed-navigation__tab-label--active')).toHaveText('Peer review');
   }
+  async reload() {
+    return this.page.reload();
+  };
 
   async reloadAndAssertStatus(status: number): Promise<void> {
     await expect(async () => {
-      const response = await this.page.reload();
+      const response = await this.reload();
+      expect(response?.status()).toBe(status);
+    }).toPass();
+  }
+
+  async reloadAndAssertTimelineEvent(status: number): Promise<void> {
+    await expect(async () => {
+      const response = await this.reload();
       expect(response?.status()).toBe(status);
     }).toPass();
   }
@@ -150,8 +160,12 @@ export class EppPage {
     expect(await countVisibleEvents()).toBeGreaterThan(1);
   }
 
-  async assertTimelineEventText(index: number, content: string): Promise<void> {
+  async assertTimelineDetailText(index: number, content: string): Promise<void> {
     await expect(this.page.locator(`.review-timeline__detail:nth-of-type(${index})`)).toContainText(content);
+  }
+
+  async assertTimelineEventText(index: number, content: string): Promise<void> {
+    await expect(this.page.locator(`.review-timeline__event:nth-of-type(${index})`)).toContainText(content);
   }
 
   async assertTimelineEventThisVersion(index: number): Promise<void> {

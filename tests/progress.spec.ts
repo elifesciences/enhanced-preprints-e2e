@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -67,5 +67,14 @@ test.describe('progress a manuscript through the manifestations', () => {
     // Wait for revised preprint to become available.
     await eppPage.gotoArticlePage({ version: 2 });
     await eppPage.reloadAndAssertStatus(200);
+
+    await changeState(name, 'Version of Record');
+
+    await expect(async () => {
+      const response = await eppPage.reload();
+      expect(response?.status()).toBe(200);
+      await eppPage.assertTimelineEventText(1, 'Version of Record');
+      await eppPage.assertTimelineDetailText(1, 'June 7, 2023');
+    }).toPass();
   });
 });

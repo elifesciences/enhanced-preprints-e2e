@@ -56,7 +56,7 @@ test.describe('versions', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(4, 'v1');
+    await eppPage.assertTimelineDetailText(4, 'v1');
     await eppPage.assertTimelineEventThisVersion(4);
 
     await eppPage.navigateToVersion(2);
@@ -66,7 +66,7 @@ test.describe('versions', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(3, 'v2');
+    await eppPage.assertTimelineDetailText(3, 'v2');
     await eppPage.assertTimelineEventThisVersion(3);
 
     await eppPage.navigateToVersion(3);
@@ -76,7 +76,7 @@ test.describe('versions', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(2, 'v3');
+    await eppPage.assertTimelineDetailText(2, 'v3');
     await eppPage.assertTimelineEventThisVersion(2);
 
     await eppPage.navigateToVersion(4);
@@ -86,7 +86,7 @@ test.describe('versions', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(1, 'v4');
+    await eppPage.assertTimelineDetailText(1, 'v4');
     await eppPage.assertTimelineEventThisVersion(1);
 
     await eppPage.gotoArticlePage({ status: 200 });
@@ -96,7 +96,7 @@ test.describe('versions', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(1, 'v4');
+    await eppPage.assertTimelineDetailText(1, 'v4');
     await eppPage.assertTimelineEventThisVersion(1);
   });
 });

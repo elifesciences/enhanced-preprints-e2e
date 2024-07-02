@@ -51,7 +51,7 @@ test.describe('revised preprint', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(2, 'v1');
+    await eppPage.assertTimelineDetailText(2, 'v1');
     await eppPage.assertTimelineEventThisVersion(2);
 
     await eppPage.navigateToVersion(2, true);
@@ -61,7 +61,7 @@ test.describe('revised preprint', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(1, 'v2');
+    await eppPage.assertTimelineDetailText(1, 'v2');
     await eppPage.assertTimelineEventThisVersion(1);
 
     await eppPage.navigateToVersion(1, true);
@@ -74,7 +74,7 @@ test.describe('revised preprint', () => {
 
     await eppPage.expandTimeline();
 
-    await eppPage.assertTimelineEventText(1, 'v2');
+    await eppPage.assertTimelineDetailText(1, 'v2');
     await eppPage.assertTimelineEventThisVersion(1);
 
     await eppPage.navigateToReviewsTab();
