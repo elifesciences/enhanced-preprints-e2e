@@ -1,4 +1,4 @@
-import {expect, test} from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
@@ -28,6 +28,7 @@ test.describe('progress a manuscript through the manifestations', () => {
       stopScheduledImportWorkflow(scheduleId, temporal),
       axios.delete(`${config.api_url}/preprints/progress-msidv1`),
       axios.delete(`${config.api_url}/preprints/progress-msidv2`),
+      axios.delete(`${config.api_url}/preprints/progress-msidv3`),
       deleteS3EppFolder(minioClient, 'progress-msid'),
       deleteS3EppFolder(minioClient, `state/${name}`),
       resetState(name),

@@ -546,11 +546,11 @@
           "outputs": [
             {
               "type": "version-of-record",
-              "identifier": "000001",
-              "doi": "10.7554/000001.2",
+              "identifier": "progress-msid",
+              "doi": "10.7554/000001.3",
               "versionIdentifier": "3",
               "published": "2023-06-07",
-              "url": "https://doi.org/10.7554/000001.2",
+              "url": "https://doi.org/10.7554/000001.3",
               "content": [
                 {
                   "type": "web-page",
@@ -565,7 +565,7 @@
         {
           "item": {
             "type": "version-of-record",
-            "doi": "10.7554/000001.2",
+            "doi": "10.7554/000001.3",
             "versionIdentifier": "3"
           },
           "status": "vor-published"
@@ -575,7 +575,7 @@
         {
           "type": "preprint",
           "doi": "10.7554/000001.2",
-          "identifier": "000001",
+          "identifier": "progress-msid",
           "versionIdentifier": "2"
         }
       ],

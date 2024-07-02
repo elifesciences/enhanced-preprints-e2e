@@ -73,9 +73,10 @@ export class EppPage {
     await peerReviewTab.click();
     expect(this.page.locator('.tabbed-navigation__tab-label--active')).toHaveText('Peer review');
   }
+
   async reload() {
     return this.page.reload();
-  };
+  }
 
   async reloadAndAssertStatus(status: number): Promise<void> {
     await expect(async () => {
