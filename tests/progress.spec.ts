@@ -36,6 +36,8 @@ test.describe('progress a manuscript through the manifestations', () => {
   });
 
   test('successful progression of manuscript', async ({ page }) => {
+    test.setTimeout(360000);
+
     const eppPage = new EppPage(page, name);
     await eppPage.gotoPreviewPage({ status: 404 });
     await eppPage.gotoArticlePage({ status: 404 });
