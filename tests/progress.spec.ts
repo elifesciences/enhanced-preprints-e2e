@@ -71,11 +71,24 @@ test.describe('progress a manuscript through the manifestations', () => {
 
     await changeState(name, 'Version of Record');
 
+    // Wait for Version of Record summary to become available.
     await expect(async () => {
       const response = await eppPage.reload();
       expect(response?.status()).toBe(200);
       await eppPage.assertTimelineEventText(1, 'Version of Record');
       await eppPage.assertTimelineDetailText(1, 'June 7, 2023');
     }).toPass();
+
+    await changeState(name, 'Version of Record Correction');
+
+    // Wait for Version of Record summary with correction to become available.
+    await expect(async () => {
+      const response = await eppPage.reload();
+      expect(response?.status()).toBe(200);
+      await eppPage.assertTimelineEventText(1, 'Version of Record');
+      await eppPage.assertTimelineDetailText(1, 'July 6, 2023');
+    }).toPass();
+    await eppPage.assertTimelineEventText(2, 'Version of Record');
+    await eppPage.assertTimelineDetailText(2, 'June 7, 2023');
   });
 });
