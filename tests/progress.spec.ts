@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test';
 import axios from 'axios';
 import { Client } from '@temporalio/client';
-import { S3Client } from '@aws-sdk/client-s3';
 import { createS3Client } from '../utils/create-s3-client';
 import { createS3StateFile } from '../utils/create-s3-state-file';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
@@ -11,34 +10,6 @@ import {
 } from '../utils/temporal';
 import { changeState, resetState } from '../utils/wiremock';
 import { EppPage } from './page-objects/epp-page';
-
-const setUp = async (name: string, scheduleId: string, s3Client: S3Client) => {
-  const temporal = await createTemporalClient();
-  await createS3StateFile(s3Client, name);
-  await startScheduledImportWorkflow(name, scheduleId, temporal);
-
-  return temporal;
-};
-
-const tearDown = async (name: string, s3Client: S3Client, scheduleId: string, temporal: Client, versions: number) => {
-  const deleteRequests = [];
-
-  for (let i = 1; i <= versions; i += 1) {
-    deleteRequests.push(axios.delete(`${config.api_url}/preprints/${name}-msidv${i}`));
-  }
-
-  await Promise.all([
-    stopScheduledImportWorkflow(scheduleId, temporal),
-    ...deleteRequests,
-    deleteS3EppFolder(s3Client, `${name}-msid`),
-    deleteS3EppFolder(s3Client, `state/${name}`),
-    resetState(name),
-  ]);
-};
-
-const switchState = async (name: string) => {
-  await changeState(name, 'Switch');
-};
 
 test.describe('progress a manuscript through the manifestations', () => {
   const minioClient = createS3Client();
@@ -108,12 +79,26 @@ test.describe('progress a manuscript through the manifestations', () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {
     scheduleIds[testInfo.title] = generateScheduleId(testInfo.title);
-    temporalClients[testInfo.title] = await setUp(testInfo.title, scheduleIds[testInfo.title], minioClient);
+    temporalClients[testInfo.title] = await createTemporalClient();
+    await createS3StateFile(minioClient, testInfo.title);
+    await startScheduledImportWorkflow(testInfo.title, scheduleIds[testInfo.title], temporalClients[testInfo.title]);
   });
 
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
-    await tearDown(testInfo.title, minioClient, scheduleIds[testInfo.title], temporalClients[testInfo.title], versions[testInfo.title] ?? 1);
+    const deleteRequests = [];
+
+    for (let i = 1; i <= (versions[testInfo.title] ?? 1); i += 1) {
+      deleteRequests.push(axios.delete(`${config.api_url}/preprints/${testInfo.title}-msidv${i}`));
+    }
+
+    await Promise.all([
+      stopScheduledImportWorkflow(scheduleIds[testInfo.title], temporalClients[testInfo.title]),
+      ...deleteRequests,
+      deleteS3EppFolder(minioClient, `${testInfo.title}-msid`),
+      deleteS3EppFolder(minioClient, `state/${testInfo.title}`),
+      resetState(testInfo.title),
+    ]);
   });
 
   [
@@ -181,7 +166,7 @@ test.describe('progress a manuscript through the manifestations', () => {
 
       await setupCheck(eppPage);
 
-      await switchState(testInfo.title);
+      await changeState(testInfo.title, 'Switch');
 
       await switchCheck(eppPage);
     });
