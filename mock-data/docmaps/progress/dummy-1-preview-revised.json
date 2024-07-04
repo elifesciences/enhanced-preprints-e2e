@@ -23,14 +23,14 @@
           "outputs": [
             {
               "type": "preprint",
-              "identifier": "progress-msid",
+              "identifier": "{{parameters.msid}}",
               "doi": "10.7554/000001.1",
               "versionIdentifier": "1",
               "license": "http://creativecommons.org/licenses/by/4.0/",
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000001",
-                "identifier": "progress-msid",
+                "identifier": "{{parameters.msid}}",
                 "volumeIdentifier": "1"
               }
             }
@@ -55,7 +55,7 @@
             "partOf": {
               "type": "manuscript",
               "doi": "10.7554/000001",
-              "identifier": "progress-msid",
+              "identifier": "{{parameters.msid}}",
               "electronicArticleIdentifier": "RP000001",
               "subjectDisciplines": [
                 "Cell Biology",
@@ -284,14 +284,14 @@
           "outputs": [
             {
               "type": "preprint",
-              "identifier": "progress-msid",
+              "identifier": "{{parameters.msid}}",
               "doi": "10.7554/000001.2",
               "versionIdentifier": "2",
               "license": "http://creativecommons.org/licenses/by/4.0/",
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000001",
-                "identifier": "progress-msid",
+                "identifier": "{{parameters.msid}}",
                 "volumeIdentifier": "1"
               }
             }
@@ -316,7 +316,7 @@
             "partOf": {
               "type": "manuscript",
               "doi": "10.7554/000001",
-              "identifier": "progress-msid",
+              "identifier": "{{parameters.msid}}",
               "electronicArticleIdentifier": "RP000001",
               "subjectDisciplines": [
                 "Cell Biology",

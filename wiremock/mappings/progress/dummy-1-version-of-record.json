@@ -7,6 +7,10 @@
     },
     "response": {
         "status": 200,
-        "bodyFileName": "docmaps/progress/dummy-1-version-of-record.json"
+        "bodyFileName": "docmaps/progress/dummy-1-version-of-record.json",
+        "transformers": ["response-template"],
+        "transformerParameters": {
+            "msid": "progress-msid"
+        }
     }
 }
