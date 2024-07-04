@@ -38,6 +38,10 @@ export class EppPage {
     this.metricsAside = this.page.locator('.contextual-data');
   }
 
+  getName(): string {
+    return this.name;
+  }
+
   async gotoIndexPage(): Promise<void> {
     const response = await this.page.goto(config.client_url);
     expect(response?.status()).toBe(200);
