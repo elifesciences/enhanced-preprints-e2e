@@ -1,0 +1,16 @@
+{
+    "scenarioName": "progress--preview-revised-to-revised",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/progress--preview-revised-to-revised/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/progress/dummy-1-preview-revised.json",
+        "transformers": ["response-template"],
+        "transformerParameters": {
+            "msid": "progress--preview-revised-to-revised-msid"
+        }
+    }
+}

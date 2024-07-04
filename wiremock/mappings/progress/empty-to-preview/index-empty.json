@@ -1,0 +1,14 @@
+{
+    "scenarioName": "progress--empty-to-preview",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/progress--empty-to-preview"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "docmaps": []
+        }
+    }
+}

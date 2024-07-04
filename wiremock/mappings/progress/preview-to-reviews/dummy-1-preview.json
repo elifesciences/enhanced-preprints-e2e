@@ -1,0 +1,16 @@
+{
+    "scenarioName": "progress--preview-to-reviews",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/progress--preview-to-reviews/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/progress/dummy-1-preview.json",
+        "transformers": ["response-template"],
+        "transformerParameters": {
+            "msid": "progress--preview-to-reviews-msid"
+        }
+    }
+}
