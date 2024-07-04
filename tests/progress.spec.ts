@@ -48,11 +48,11 @@ test.describe('progress a manuscript through the manifestations', () => {
     const name = 'progress--empty-to-preview';
     const scheduleId = generateScheduleId(name);
 
-    test.beforeAll(async () => {
+    test.beforeEach(async () => {
       temporal = await setUp(name, scheduleId, minioClient);
     });
 
-    test.afterAll(async () => {
+    test.afterEach(async () => {
       await tearDown(name, minioClient, scheduleId, temporal);
     });
 
@@ -76,11 +76,11 @@ test.describe('progress a manuscript through the manifestations', () => {
     const name = 'progress--preview-to-reviews';
     const scheduleId = generateScheduleId(name);
 
-    test.beforeAll(async () => {
+    test.beforeEach(async () => {
       temporal = await setUp(name, scheduleId, minioClient);
     });
 
-    test.afterAll(async () => {
+    test.afterEach(async () => {
       await tearDown(name, minioClient, scheduleId, temporal);
     });
 
@@ -105,11 +105,11 @@ test.describe('progress a manuscript through the manifestations', () => {
     const name = 'progress--reviews-to-preview-revised';
     const scheduleId = generateScheduleId(name);
 
-    test.beforeAll(async () => {
+    test.beforeEach(async () => {
       temporal = await setUp(name, scheduleId, minioClient);
     });
 
-    test.afterAll(async () => {
+    test.afterEach(async () => {
       await tearDown(name, minioClient, scheduleId, temporal, 2);
     });
 
@@ -137,11 +137,11 @@ test.describe('progress a manuscript through the manifestations', () => {
     const name = 'progress--preview-revised-to-revised';
     const scheduleId = generateScheduleId(name);
 
-    test.beforeAll(async () => {
+    test.beforeEach(async () => {
       temporal = await setUp(name, scheduleId, minioClient);
     });
 
-    test.afterAll(async () => {
+    test.afterEach(async () => {
       await tearDown(name, minioClient, scheduleId, temporal, 2);
     });
 
@@ -169,11 +169,11 @@ test.describe('progress a manuscript through the manifestations', () => {
     const name = 'progress--revised-to-version-of-record';
     const scheduleId = generateScheduleId(name);
 
-    test.beforeAll(async () => {
+    test.beforeEach(async () => {
       temporal = await setUp(name, scheduleId, minioClient);
     });
 
-    test.afterAll(async () => {
+    test.afterEach(async () => {
       await tearDown(name, minioClient, scheduleId, temporal, 3);
     });
 
@@ -201,11 +201,11 @@ test.describe('progress a manuscript through the manifestations', () => {
     const name = 'progress--version-of-record-to-version-of-record-correction';
     const scheduleId = generateScheduleId(name);
 
-    test.beforeAll(async () => {
+    test.beforeEach(async () => {
       temporal = await setUp(name, scheduleId, minioClient);
     });
 
-    test.afterAll(async () => {
+    test.afterEach(async () => {
       await tearDown(name, minioClient, scheduleId, temporal, 3);
     });
 
