@@ -12,16 +12,12 @@ import {
 import { changeState, resetState } from '../utils/wiremock';
 import { EppPage } from './page-objects/epp-page';
 
-const setUp = async (name: string, s3Client: S3Client) => {
-  const scheduleId = generateScheduleId(name);
+const setUp = async (name: string, scheduleId: string, s3Client: S3Client) => {
   const temporal = await createTemporalClient();
   await createS3StateFile(s3Client, name);
   await startScheduledImportWorkflow(name, scheduleId, temporal);
 
-  return {
-    scheduleId,
-    temporal,
-  };
+  return temporal;
 };
 
 const tearDown = async (name: string, s3Client: S3Client, scheduleId: string, temporal: Client, versions: number = 1) => {
@@ -34,7 +30,7 @@ const tearDown = async (name: string, s3Client: S3Client, scheduleId: string, te
   await Promise.all([
     stopScheduledImportWorkflow(scheduleId, temporal),
     ...deleteRequests,
-    deleteS3EppFolder(s3Client, 'progress-msid'),
+    deleteS3EppFolder(s3Client, `${name}-msid`),
     deleteS3EppFolder(s3Client, `state/${name}`),
     resetState(name),
   ]);
@@ -47,110 +43,195 @@ const switchState = async (name: string) => {
 test.describe('progress a manuscript through the manifestations', () => {
   const minioClient = createS3Client();
 
-  test('empty-to-preview', async ({ page }) => {
+  test.describe('empty-to-preview', () => {
+    let temporal: Client;
     const name = 'progress--empty-to-preview';
-    const { scheduleId, temporal } = await setUp(name, minioClient);
+    const scheduleId = generateScheduleId(name);
 
-    const eppPage = new EppPage(page, name);
+    test.beforeAll(async () => {
+      temporal = await setUp(name, scheduleId, minioClient);
+    });
 
-    await eppPage.gotoPreviewPage({ status: 404 });
-    await eppPage.gotoArticlePage({ status: 404 });
+    test.afterAll(async () => {
+      await tearDown(name, minioClient, scheduleId, temporal);
+    });
 
-    await switchState(name);
+    test('check', async ({ page }) => {
+      const eppPage = new EppPage(page, name);
 
-    // Wait for preview to become available.
-    await eppPage.gotoPreviewPage();
-    await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage({ status: 404 });
+      await eppPage.gotoPreviewPage({ status: 404 });
+      await eppPage.gotoArticlePage({ status: 404 });
 
-    await tearDown(name, minioClient, scheduleId, temporal);
+      await switchState(name);
+
+      // Wait for preview to become available.
+      await eppPage.gotoPreviewPage();
+      await eppPage.reloadAndAssertStatus(200);
+      await eppPage.gotoArticlePage({ status: 404 });
+    });
   });
 
-  test('preview-to-reviews', async ({ page }) => {
+  test.describe('preview-to-reviews', () => {
+    let temporal: Client;
     const name = 'progress--preview-to-reviews';
-    const { scheduleId, temporal } = await setUp(name, minioClient);
+    const scheduleId = generateScheduleId(name);
 
-    const eppPage = new EppPage(page, name);
+    test.beforeAll(async () => {
+      temporal = await setUp(name, scheduleId, minioClient);
+    });
 
-    // Wait for preview to become available.
-    await eppPage.gotoPreviewPage();
-    await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage({ status: 404 });
+    test.afterAll(async () => {
+      await tearDown(name, minioClient, scheduleId, temporal);
+    });
 
-    await switchState(name);
+    test('check', async ({ page }) => {
+      const eppPage = new EppPage(page, name);
 
-    // Wait for reviewed preprint to become available.
-    await eppPage.gotoArticlePage();
-    await eppPage.reloadAndAssertStatus(200);
+      // Wait for preview to become available.
+      await eppPage.gotoPreviewPage();
+      await eppPage.reloadAndAssertStatus(200);
+      await eppPage.gotoArticlePage({ status: 404 });
 
-    await tearDown(name, minioClient, scheduleId, temporal);
+      await switchState(name);
+
+      // Wait for reviewed preprint to become available.
+      await eppPage.gotoArticlePage();
+      await eppPage.reloadAndAssertStatus(200);
+    });
   });
 
-  test('reviews-to-preview-revised', async ({ page }) => {
+  test.describe('reviews-to-preview-revised', () => {
+    let temporal: Client;
     const name = 'progress--reviews-to-preview-revised';
-    const { scheduleId, temporal } = await setUp(name, minioClient);
+    const scheduleId = generateScheduleId(name);
 
-    const eppPage = new EppPage(page, name);
+    test.beforeAll(async () => {
+      temporal = await setUp(name, scheduleId, minioClient);
+    });
 
-    // Wait for reviewed preprint to become available.
-    await eppPage.gotoArticlePage();
-    await eppPage.reloadAndAssertStatus(200);
+    test.afterAll(async () => {
+      await tearDown(name, minioClient, scheduleId, temporal, 2);
+    });
 
-    await switchState(name);
+    test('check', async ({ page }) => {
+      const eppPage = new EppPage(page, name);
 
-    // Wait for preview of revised preprint to become available.
-    await eppPage.gotoPreviewPage({ version: 2 });
-    await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage({ version: 2, status: 404 });
-    // Ensure that umbrella id still works with preview available
-    await eppPage.gotoArticlePage();
-    await eppPage.reloadAndAssertStatus(200);
+      // Wait for reviewed preprint to become available.
+      await eppPage.gotoArticlePage();
+      await eppPage.reloadAndAssertStatus(200);
 
-    await tearDown(name, minioClient, scheduleId, temporal, 2);
+      await switchState(name);
+
+      // Wait for preview of revised preprint to become available.
+      await eppPage.gotoPreviewPage({ version: 2 });
+      await eppPage.reloadAndAssertStatus(200);
+      await eppPage.gotoArticlePage({ version: 2, status: 404 });
+      // Ensure that umbrella id still works with preview available
+      await eppPage.gotoArticlePage();
+      await eppPage.reloadAndAssertStatus(200);
+    });
   });
 
-  test('preview-revised-to-revised', async ({ page }) => {
+  test.describe('preview-revised-to-revised', () => {
+    let temporal: Client;
     const name = 'progress--preview-revised-to-revised';
-    const { scheduleId, temporal } = await setUp(name, minioClient);
+    const scheduleId = generateScheduleId(name);
 
-    const eppPage = new EppPage(page, name);
+    test.beforeAll(async () => {
+      temporal = await setUp(name, scheduleId, minioClient);
+    });
 
-    // Wait for preview of revised preprint to become available.
-    await eppPage.gotoPreviewPage({ version: 2 });
-    await eppPage.reloadAndAssertStatus(200);
-    await eppPage.gotoArticlePage({ version: 2, status: 404 });
-    // Ensure that umbrella id still works with preview available
-    await eppPage.gotoArticlePage();
-    await eppPage.reloadAndAssertStatus(200);
+    test.afterAll(async () => {
+      await tearDown(name, minioClient, scheduleId, temporal, 2);
+    });
 
-    await switchState(name);
+    test('check', async ({ page }) => {
+      const eppPage = new EppPage(page, name);
 
-    // Wait for revised preprint to become available.
-    await eppPage.gotoArticlePage({ version: 2 });
-    await eppPage.reloadAndAssertStatus(200);
+      // Wait for preview of revised preprint to become available.
+      await eppPage.gotoPreviewPage({ version: 2 });
+      await eppPage.reloadAndAssertStatus(200);
+      await eppPage.gotoArticlePage({ version: 2, status: 404 });
+      // Ensure that umbrella id still works with preview available
+      await eppPage.gotoArticlePage();
+      await eppPage.reloadAndAssertStatus(200);
 
-    await tearDown(name, minioClient, scheduleId, temporal, 2);
+      await switchState(name);
+
+      // Wait for revised preprint to become available.
+      await eppPage.gotoArticlePage({ version: 2 });
+      await eppPage.reloadAndAssertStatus(200);
+    });
   });
 
-  test('revised-to-version-of-record', async ({ page }) => {
+  test.describe('revised-to-version-of-record', () => {
+    let temporal: Client;
     const name = 'progress--revised-to-version-of-record';
-    const { scheduleId, temporal } = await setUp(name, minioClient);
+    const scheduleId = generateScheduleId(name);
 
-    const eppPage = new EppPage(page, name);
+    test.beforeAll(async () => {
+      temporal = await setUp(name, scheduleId, minioClient);
+    });
 
-    // Wait for revised preprint to become available.
-    await eppPage.gotoArticlePage({ version: 2 });
-    await eppPage.reloadAndAssertStatus(200);
+    test.afterAll(async () => {
+      await tearDown(name, minioClient, scheduleId, temporal, 3);
+    });
 
-    await switchState(name);
+    test('check', async ({ page }) => {
+      const eppPage = new EppPage(page, name);
 
-    await expect(async () => {
-      const response = await eppPage.reload();
-      expect(response?.status()).toBe(200);
-      await eppPage.assertTimelineEventText(1, 'Version of Record');
-      await eppPage.assertTimelineDetailText(1, 'June 7, 2023');
-    }).toPass();
+      // Wait for revised preprint to become available.
+      await eppPage.gotoArticlePage({ version: 2 });
+      await eppPage.reloadAndAssertStatus(200);
 
-    await tearDown(name, minioClient, scheduleId, temporal, 3);
+      await switchState(name);
+
+      // Wait for Version of Record summary to become available.
+      await expect(async () => {
+        const response = await eppPage.reload();
+        expect(response?.status()).toBe(200);
+        await eppPage.assertTimelineEventText(1, 'Version of Record');
+        await eppPage.assertTimelineDetailText(1, 'June 7, 2023');
+      }).toPass();
+    });
+  });
+
+  test.describe('version-of-record-to-version-of-record-correction', () => {
+    let temporal: Client;
+    const name = 'progress--version-of-record-to-version-of-record-correction';
+    const scheduleId = generateScheduleId(name);
+
+    test.beforeAll(async () => {
+      temporal = await setUp(name, scheduleId, minioClient);
+    });
+
+    test.afterAll(async () => {
+      await tearDown(name, minioClient, scheduleId, temporal, 3);
+    });
+
+    test('check', async ({ page }) => {
+      const eppPage = new EppPage(page, name);
+
+      // Wait for Version of Record summary to become available.
+      await eppPage.gotoArticlePage({ version: 2 });
+      await expect(async () => {
+        const response = await eppPage.reload();
+        expect(response?.status()).toBe(200);
+        await eppPage.assertTimelineEventText(1, 'Version of Record');
+        await eppPage.assertTimelineDetailText(1, 'June 7, 2023');
+      }).toPass();
+
+      await switchState(name);
+
+      // Wait for Version of Record summary with correction to become available.
+      await expect(async () => {
+        const response = await eppPage.reload();
+        expect(response?.status()).toBe(200);
+        await eppPage.assertTimelineEventText(1, 'Version of Record');
+        await eppPage.assertTimelineDetailText(1, 'July 6, 2023');
+      }).toPass();
+      await eppPage.assertTimelineEventText(2, 'Version of Record');
+      await eppPage.assertTimelineDetailText(2, 'June 7, 2023');
+    });
   });
 });

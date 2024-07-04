@@ -1,0 +1,16 @@
+{
+    "scenarioName": "progress--version-of-record-to-version-of-record-correction",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/progress--version-of-record-to-version-of-record-correction/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/progress/dummy-1-version-of-record.json",
+        "transformers": ["response-template"],
+        "transformerParameters": {
+            "msid": "progress--version-of-record-to-version-of-record-correction-msid"
+        }
+    }
+}
