@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
 import { createS3StateFile } from '../utils/create-s3-state-file';
@@ -15,7 +15,6 @@ test.describe('progress a manuscript through the manifestations', () => {
   const minioClient = createS3Client();
   const temporalClients: Record<string, Client> = {};
   const scheduleIds: Record<string, string> = {};
-  const versions: Record<string, number> = {};
 
   const checkEmpty = async (eppPage: EppPage) => {
     // Verify that no preview or article page available.
@@ -86,15 +85,15 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
-    const deleteRequests = [];
-
-    for (let i = 1; i <= (versions[testInfo.title] ?? 1); i += 1) {
-      deleteRequests.push(axios.delete(`${config.api_url}/preprints/${testInfo.title}-msidv${i}`));
+    const deleteVersions = async () => {
+      const versions = await (await axios.get<any, AxiosResponse<{items:{id: string}[]}>>(`${config.api_url}/api/preprints`)).data
+      const versionIds = versions.items.map((version) => version.id).filter((version) => version.startsWith(`${testInfo.title}-msidv`));
+      return Promise.all(versionIds.map((id) => axios.delete(`${config.api_url}/preprints/${id}`)));
     }
 
     await Promise.all([
       stopScheduledImportWorkflow(scheduleIds[testInfo.title], temporalClients[testInfo.title]),
-      ...deleteRequests,
+      deleteVersions(),
       deleteS3EppFolder(minioClient, `${testInfo.title}-msid`),
       deleteS3EppFolder(minioClient, `state/${testInfo.title}`),
       resetState(testInfo.title),
@@ -104,61 +103,33 @@ test.describe('progress a manuscript through the manifestations', () => {
   [
     {
       name: 'empty-to-preview',
-      setupCheck: async (eppPage: EppPage) => {
-        await checkEmpty(eppPage);
-      },
-      switchCheck: async (eppPage: EppPage) => {
-        await checkPreview(eppPage);
-      },
+      setupCheck: checkEmpty,
+      switchCheck: checkPreview,
     },
     {
       name: 'preview-to-reviews',
-      setupCheck: async (eppPage: EppPage) => {
-        await checkPreview(eppPage);
-      },
-      switchCheck: async (eppPage: EppPage) => {
-        await checkReviews(eppPage);
-      },
+      setupCheck: checkPreview,
+      switchCheck: checkReviews,
     },
     {
       name: 'reviews-to-preview-revised',
-      setupCheck: async (eppPage: EppPage) => {
-        versions[eppPage.getName()] = 2;
-        await checkReviews(eppPage);
-      },
-      switchCheck: async (eppPage: EppPage) => {
-        await checkPreviewRevised(eppPage);
-      },
+      setupCheck: checkReviews,
+      switchCheck: checkPreviewRevised,
     },
     {
       name: 'preview-revised-to-revised',
-      setupCheck: async (eppPage: EppPage) => {
-        versions[eppPage.getName()] = 2;
-        await checkPreviewRevised(eppPage);
-      },
-      switchCheck: async (eppPage: EppPage) => {
-        await checkRevised(eppPage);
-      },
+      setupCheck: checkPreviewRevised,
+      switchCheck: checkRevised
     },
     {
       name: 'revised-to-version-of-record',
-      setupCheck: async (eppPage: EppPage) => {
-        versions[eppPage.getName()] = 3;
-        await checkRevised(eppPage);
-      },
-      switchCheck: async (eppPage: EppPage) => {
-        await checkVersionOfRecord(eppPage);
-      },
+      setupCheck: checkRevised,
+      switchCheck: checkVersionOfRecord,
     },
     {
       name: 'version-of-record-to-version-of-record-correction',
-      setupCheck: async (eppPage: EppPage) => {
-        versions[eppPage.getName()] = 3;
-        await checkVersionOfRecord(eppPage);
-      },
-      switchCheck: async (eppPage: EppPage) => {
-        await checkVersionOfRecordCorrection(eppPage);
-      },
+      setupCheck: checkVersionOfRecord,
+      switchCheck: checkVersionOfRecordCorrection,
     },
   ].forEach(({ name, setupCheck, switchCheck }) => {
     test(`progress--${name}`, async ({ page }, testInfo) => {
