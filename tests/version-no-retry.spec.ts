@@ -1,19 +1,16 @@
 import { expect, test } from '@playwright/test';
-import axios from 'axios';
 import { Client, ScheduleHandle } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
 import { createS3StateFile } from '../utils/create-s3-state-file';
-import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
-import { config } from '../utils/config';
 import {
   createTemporalClient,
   generateScheduleId,
   getScheduleRunningWorkflows,
   getWorkflowHandle,
   startScheduledImportWorkflow,
-  stopScheduledImportWorkflow,
 } from '../utils/temporal';
 import { EppPage } from './page-objects/epp-page';
+import { testTearDown } from '../utils/test-tear-down';
 
 test.describe('version no retry', () => {
   const minioClient = createS3Client();
@@ -34,13 +31,7 @@ test.describe('version no retry', () => {
   });
 
   test.afterAll(async () => {
-    await Promise.all([
-      stopScheduledImportWorkflow(scheduleId, temporal),
-      deleteS3EppFolder(minioClient, `${name}-msid`),
-      deleteS3EppFolder(minioClient, `state/${name}`),
-      axios.delete(`${config.api_url}/preprints/${name}-msidv2`),
-      axios.delete(`${config.api_url}/preprints/${name}-msidv3`),
-    ]);
+    await testTearDown(name, minioClient, scheduleId, false);
   });
 
   test('version 2 and 3 are published, even if no retryable error triggered for version 1', async ({ page }) => {
