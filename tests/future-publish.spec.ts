@@ -1,20 +1,18 @@
 import { test } from '@playwright/test';
 import { EppPage } from './page-objects/epp-page';
-import { testTearDown } from '../utils/test-tear-down';
-import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
-import { testSetup } from '../utils/test-setup';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('reviewed preprint with future published date', () => {
   const name = 'future-publish';
-  const { minioClient, scheduleIds } = testClientAndScheduleIds();
+  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
   test.beforeAll(async () => {
-    const { scheduleId } = await testSetup(name, minioClient, '10  minutes');
+    const { scheduleId } = await setupTemporal(name, minioClient, '10  minutes');
     scheduleIds[name] = scheduleId;
   });
 
   test.afterAll(async () => {
-    await testTearDown(name, minioClient, scheduleIds[name], false);
+    await trashTemporal(name, minioClient, scheduleIds[name], false);
   });
 
   test('test reviewed-preprint with future published date is not available until published time has passed', async ({ page }) => {

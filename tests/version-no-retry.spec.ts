@@ -4,9 +4,7 @@ import {
   getWorkflowHandle,
 } from '../utils/temporal';
 import { EppPage } from './page-objects/epp-page';
-import { testSetup } from '../utils/test-setup';
-import { testTearDown } from '../utils/test-tear-down';
-import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('version no retry', () => {
   const name = 'version-no-retry';
@@ -15,21 +13,21 @@ test.describe('version no retry', () => {
     scheduleIds,
     scheduleHandles,
     workflowIds,
-  } = testClientAndScheduleIds();
+  } = setupClientAndScheduleStores();
 
   test.beforeEach(async () => {
     const {
       scheduleId,
       scheduleHandle,
       workflowId,
-    } = await testSetup(name, minioClient, '1 minute', 1);
+    } = await setupTemporal(name, minioClient, '1 minute', 1);
     scheduleIds[name] = scheduleId;
     scheduleHandles[name] = scheduleHandle;
     workflowIds[name] = workflowId;
   });
 
   test.afterAll(async () => {
-    await testTearDown(name, minioClient, scheduleIds[name], false);
+    await trashTemporal(name, minioClient, scheduleIds[name], false);
   });
 
   test('version 2 and 3 are published, even if no retryable error triggered for version 1', async ({ page }) => {

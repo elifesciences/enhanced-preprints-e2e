@@ -1,12 +1,10 @@
 import { expect, test } from '@playwright/test';
 import { changeState } from '../utils/wiremock';
 import { EppPage } from './page-objects/epp-page';
-import { testSetup } from '../utils/test-setup';
-import { testTearDown } from '../utils/test-tear-down';
-import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('progress a manuscript through the manifestations', () => {
-  const { minioClient, scheduleIds } = testClientAndScheduleIds();
+  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
   const checkEmpty = async (eppPage: EppPage) => {
     // Verify that no preview or article page available.
@@ -69,13 +67,13 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {
-    const { scheduleId } = await testSetup(testInfo.title, minioClient);
+    const { scheduleId } = await setupTemporal(testInfo.title, minioClient);
     scheduleIds[testInfo.title] = scheduleId;
   });
 
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
-    await testTearDown(testInfo.title, minioClient, scheduleIds[testInfo.title]);
+    await trashTemporal(testInfo.title, minioClient, scheduleIds[testInfo.title]);
   });
 
   [

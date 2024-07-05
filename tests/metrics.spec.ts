@@ -1,34 +1,18 @@
 import { test } from '@playwright/test';
-import axios from 'axios';
-import { Client } from '@temporalio/client';
-import { createS3Client } from '../utils/create-s3-client';
-import { createS3StateFile } from '../utils/create-s3-state-file';
-import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
-import { config } from '../utils/config';
-import {
-  createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
-} from '../utils/temporal';
 import { EppPage } from './page-objects/epp-page';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('metrics', () => {
-  let temporal: Client;
   const name = 'metrics';
-  const scheduleId = generateScheduleId(name);
-  const minioClient = createS3Client();
+  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
   test.beforeAll(async () => {
-    temporal = await createTemporalClient();
-    await createS3StateFile(minioClient, name);
-    await startScheduledImportWorkflow(name, scheduleId, temporal);
+    const { scheduleId } = await setupTemporal(name, minioClient);
+    scheduleIds[name] = scheduleId;
   });
 
   test.afterAll(async () => {
-    await Promise.all([
-      stopScheduledImportWorkflow(scheduleId, temporal),
-      axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
-      deleteS3EppFolder(minioClient, `${name}-msid`),
-      deleteS3EppFolder(minioClient, `state/${name}`),
-    ]);
+    await trashTemporal(name, minioClient, scheduleIds[name], false);
   });
 
   test('metrics are displayed if present', async ({ page }) => {

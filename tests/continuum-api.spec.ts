@@ -1,20 +1,18 @@
 import { test, expect } from '@playwright/test';
 import { config } from '../utils/config';
-import { testSetup } from '../utils/test-setup';
-import { testTearDown } from '../utils/test-tear-down';
-import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('continuum api', () => {
   const name = 'continuum-api';
-  const { minioClient, scheduleIds } = testClientAndScheduleIds();
+  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
   test.beforeEach(async () => {
-    const { scheduleId } = await testSetup(name, minioClient);
+    const { scheduleId } = await setupTemporal(name, minioClient);
     scheduleIds[name] = scheduleId;
   });
 
   test.afterEach(async () => {
-    await testTearDown(name, minioClient, scheduleIds[name]);
+    await trashTemporal(name, minioClient, scheduleIds[name]);
   });
 
   test('response from continuum api after import of reviewed preprint', async ({ request }) => {

@@ -1,21 +1,19 @@
 import { test } from '@playwright/test';
 import { changeState } from '../utils/wiremock';
 import { EppPage } from './page-objects/epp-page';
-import { testSetup } from '../utils/test-setup';
-import { testTearDown } from '../utils/test-tear-down';
-import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('unpublished preprint', () => {
   const name = 'unpublish';
-  const { minioClient, scheduleIds } = testClientAndScheduleIds();
+  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
   test.beforeEach(async () => {
-    const { scheduleId } = await testSetup(name, minioClient);
+    const { scheduleId } = await setupTemporal(name, minioClient);
     scheduleIds[name] = scheduleId;
   });
 
   test.afterEach(async () => {
-    await testTearDown(name, minioClient, scheduleIds[name]);
+    await trashTemporal(name, minioClient, scheduleIds[name]);
   });
 
   test('preprints can be unpublished', async ({ page }) => {

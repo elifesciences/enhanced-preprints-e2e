@@ -1,20 +1,18 @@
 import { test } from '@playwright/test';
 import { EppPage } from './page-objects/epp-page';
-import { testSetup } from '../utils/test-setup';
-import { testTearDown } from '../utils/test-tear-down';
-import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('revised preprint', () => {
   const name = 'revised';
-  const { minioClient, scheduleIds } = testClientAndScheduleIds();
+  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
   test.beforeEach(async () => {
-    const { scheduleId } = await testSetup(name, minioClient);
+    const { scheduleId } = await setupTemporal(name, minioClient);
     scheduleIds[name] = scheduleId;
   });
 
   test.afterEach(async () => {
-    await testTearDown(name, minioClient, scheduleIds[name], false);
+    await trashTemporal(name, minioClient, scheduleIds[name], false);
   });
 
   test('revised preprints are available', async ({ page }) => {
