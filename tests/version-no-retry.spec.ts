@@ -26,7 +26,7 @@ test.describe('version no retry', () => {
     workflowIds[name] = workflowId;
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async () => {
     await trashTemporal(name, minioClient, scheduleIds[name], false);
   });
 

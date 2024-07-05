@@ -6,12 +6,12 @@ test.describe('reviewed preprint with future published date', () => {
   const name = 'future-publish';
   const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
-  test.beforeAll(async () => {
+  test.beforeEach(async () => {
     const { scheduleId } = await setupTemporal(name, minioClient, '10  minutes');
     scheduleIds[name] = scheduleId;
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async () => {
     await trashTemporal(name, minioClient, scheduleIds[name], false);
   });
 

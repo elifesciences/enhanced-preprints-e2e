@@ -6,12 +6,12 @@ test.describe('metrics', () => {
   const name = 'metrics';
   const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
-  test.beforeAll(async () => {
+  test.beforeEach(async () => {
     const { scheduleId } = await setupTemporal(name, minioClient);
     scheduleIds[name] = scheduleId;
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async () => {
     await trashTemporal(name, minioClient, scheduleIds[name], false);
   });
 
