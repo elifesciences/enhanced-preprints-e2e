@@ -1,41 +1,39 @@
 import { expect, test } from '@playwright/test';
-import { Client, ScheduleHandle } from '@temporalio/client';
-import { createS3Client } from '../utils/create-s3-client';
-import { createS3StateFile } from '../utils/create-s3-state-file';
 import {
   createTemporalClient,
-  generateScheduleId,
-  getScheduleRunningWorkflows,
   getWorkflowHandle,
-  startScheduledImportWorkflow,
 } from '../utils/temporal';
 import { EppPage } from './page-objects/epp-page';
+import { testSetup } from '../utils/test-setup';
 import { testTearDown } from '../utils/test-tear-down';
+import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
 
 test.describe('version no retry', () => {
-  const minioClient = createS3Client();
-  let temporal: Client;
   const name = 'version-no-retry';
-  let scheduleId: string;
-  let scheduleHandle: ScheduleHandle;
-  let workflowId: string;
+  const {
+    minioClient,
+    scheduleIds,
+    scheduleHandles,
+    workflowIds,
+  } = testClientAndScheduleIds();
 
-  // eslint-disable-next-line no-empty-pattern
-  test.beforeAll(async () => {
-    temporal = await createTemporalClient();
-    scheduleId = generateScheduleId(name);
-
-    await createS3StateFile(minioClient, name);
-    scheduleHandle = await startScheduledImportWorkflow(name, scheduleId, temporal, '1 minute', 1);
-    [workflowId] = await getScheduleRunningWorkflows(scheduleHandle);
+  test.beforeEach(async () => {
+    const {
+      scheduleId,
+      scheduleHandle,
+      workflowId
+    } = await testSetup(name, minioClient, '1 minute', 1);
+    scheduleIds[name] = scheduleId;
+    scheduleHandles[name] = scheduleHandle;
+    workflowIds[name] = workflowId;
   });
 
   test.afterAll(async () => {
-    await testTearDown(name, minioClient, scheduleId, false);
+    await testTearDown(name, minioClient, scheduleIds[name], false);
   });
 
   test('version 2 and 3 are published, even if no retryable error triggered for version 1', async ({ page }) => {
-    const workflowHandle = getWorkflowHandle(workflowId, temporal);
+    const workflowHandle = getWorkflowHandle(workflowIds[name], await createTemporalClient());
     await expect(async () => {
       const workflowStatus = await workflowHandle.describe().then((wf) => wf.status.name);
       expect(workflowStatus).toBe('COMPLETED');
