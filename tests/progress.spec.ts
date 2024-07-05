@@ -67,7 +67,7 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {
-    const { scheduleId } = await setupTemporal(testInfo.title, minioClient);
+    const { scheduleId } = await setupTemporal({ name: testInfo.title, s3Client: minioClient });
     scheduleIds[testInfo.title] = scheduleId;
   });
 

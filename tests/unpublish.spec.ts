@@ -8,7 +8,7 @@ test.describe('unpublished preprint', () => {
   const { minioClient, scheduleIds } = setupClientAndScheduleStores();
 
   test.beforeEach(async () => {
-    const { scheduleId } = await setupTemporal(name, minioClient);
+    const { scheduleId } = await setupTemporal({ name, s3Client: minioClient });
     scheduleIds[name] = scheduleId;
   });
 

@@ -20,7 +20,12 @@ test.describe('version no retry', () => {
       scheduleId,
       scheduleHandle,
       workflowId,
-    } = await setupTemporal(name, minioClient, '1 minute', 1);
+    } = await setupTemporal({
+      name,
+      s3Client: minioClient,
+      duration: '1 minute',
+      docMapThreshold: 1,
+    });
     scheduleIds[name] = scheduleId;
     scheduleHandles[name] = scheduleHandle;
     workflowIds[name] = workflowId;

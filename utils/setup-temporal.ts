@@ -27,7 +27,13 @@ export const setupClientAndScheduleStores = () => {
   };
 };
 
-export const setupTemporal = async (name: string, s3Client: S3Client, duration?: string, docMapThreshold?: number) => {
+export const setupTemporal = async (params: { name: string, s3Client: S3Client, duration?: string, docMapThreshold?: number }) => {
+  const {
+    name,
+    s3Client,
+    duration,
+    docMapThreshold,
+  } = params;
   const scheduleId = generateScheduleId(name);
   await createS3StateFile(s3Client, name);
   const scheduleHandle = await startScheduledImportWorkflow(name, scheduleId, await createTemporalClient(), duration, docMapThreshold);
