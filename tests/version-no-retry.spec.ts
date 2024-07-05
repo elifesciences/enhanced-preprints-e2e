@@ -21,7 +21,7 @@ test.describe('version no retry', () => {
     const {
       scheduleId,
       scheduleHandle,
-      workflowId
+      workflowId,
     } = await testSetup(name, minioClient, '1 minute', 1);
     scheduleIds[name] = scheduleId;
     scheduleHandles[name] = scheduleHandle;
