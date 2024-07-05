@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test';
 import axios, { AxiosResponse } from 'axios';
-import { Client } from '@temporalio/client';
 import { createS3Client } from '../utils/create-s3-client';
 import { createS3StateFile } from '../utils/create-s3-state-file';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
@@ -13,7 +12,6 @@ import { EppPage } from './page-objects/epp-page';
 
 test.describe('progress a manuscript through the manifestations', () => {
   const minioClient = createS3Client();
-  const temporalClients: Record<string, Client> = {};
   const scheduleIds: Record<string, string> = {};
 
   const checkEmpty = async (eppPage: EppPage) => {
@@ -78,21 +76,20 @@ test.describe('progress a manuscript through the manifestations', () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {
     scheduleIds[testInfo.title] = generateScheduleId(testInfo.title);
-    temporalClients[testInfo.title] = await createTemporalClient();
     await createS3StateFile(minioClient, testInfo.title);
-    await startScheduledImportWorkflow(testInfo.title, scheduleIds[testInfo.title], temporalClients[testInfo.title]);
+    await startScheduledImportWorkflow(testInfo.title, scheduleIds[testInfo.title], await createTemporalClient());
   });
 
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
     const deleteVersions = async () => {
-      const versions = await (await axios.get<any, AxiosResponse<{items:{id: string}[]}>>(`${config.api_url}/api/preprints`)).data
+      const versions = await (await axios.get<any, AxiosResponse<{ items: { id: string }[] }>>(`${config.api_url}/api/preprints`)).data;
       const versionIds = versions.items.map((version) => version.id).filter((version) => version.startsWith(`${testInfo.title}-msidv`));
       return Promise.all(versionIds.map((id) => axios.delete(`${config.api_url}/preprints/${id}`)));
-    }
+    };
 
     await Promise.all([
-      stopScheduledImportWorkflow(scheduleIds[testInfo.title], temporalClients[testInfo.title]),
+      stopScheduledImportWorkflow(scheduleIds[testInfo.title], await createTemporalClient()),
       deleteVersions(),
       deleteS3EppFolder(minioClient, `${testInfo.title}-msid`),
       deleteS3EppFolder(minioClient, `state/${testInfo.title}`),
@@ -119,7 +116,7 @@ test.describe('progress a manuscript through the manifestations', () => {
     {
       name: 'preview-revised-to-revised',
       setupCheck: checkPreviewRevised,
-      switchCheck: checkRevised
+      switchCheck: checkRevised,
     },
     {
       name: 'revised-to-version-of-record',
