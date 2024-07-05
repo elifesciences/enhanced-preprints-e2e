@@ -83,9 +83,14 @@ test.describe('progress a manuscript through the manifestations', () => {
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
     const deleteVersions = async () => {
-      const versions = await (await axios.get<any, AxiosResponse<{ items: { id: string }[] }>>(`${config.api_url}/api/preprints`)).data;
-      const versionIds = versions.items.map((version) => version.id).filter((version) => version.startsWith(`${testInfo.title}-msidv`));
-      return Promise.all(versionIds.map((id) => axios.delete(`${config.api_url}/preprints/${id}`)));
+      // eslint-disable-next-line prefer-destructuring
+      const data = (await axios.get<any, AxiosResponse<{ versions: Record<string, any> }>>(`${config.api_url}/api/preprints/${testInfo.title}-msid`, {
+        params: {
+          previews: true,
+        },
+      })).data;
+
+      return Promise.all(Object.keys(data.versions).map((id) => axios.delete(`${config.api_url}/preprints/${id}`)));
     };
 
     await Promise.all([
