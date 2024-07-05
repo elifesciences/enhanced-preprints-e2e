@@ -1,41 +1,20 @@
 import { test } from '@playwright/test';
-import axios from 'axios';
-import { Client } from '@temporalio/client';
-import { createS3Client } from '../utils/create-s3-client';
-import { createS3StateFile } from '../utils/create-s3-state-file';
-import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
-import { config } from '../utils/config';
-import {
-  createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
-} from '../utils/temporal';
 import { EppPage } from './page-objects/epp-page';
+import { testSetup } from '../utils/test-setup';
+import { testTearDown } from '../utils/test-tear-down';
+import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
 
 test.describe('versions', () => {
-  const minioClient = createS3Client();
-  let temporal: Client;
   const name = 'versions';
-  let scheduleId: string;
+  const { minioClient, scheduleIds } = testClientAndScheduleIds();
 
-  // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async () => {
-    temporal = await createTemporalClient();
-    scheduleId = generateScheduleId(name);
-
-    await createS3StateFile(minioClient, name);
-    await startScheduledImportWorkflow(name, scheduleId, temporal);
+    const { scheduleId } = await testSetup(name, minioClient);
+    scheduleIds[name] = scheduleId;
   });
 
   test.afterEach(async () => {
-    const tearDowns: Promise<any>[] = [
-      stopScheduledImportWorkflow(scheduleId, temporal),
-      deleteS3EppFolder(minioClient, `${name}-msid`),
-      deleteS3EppFolder(minioClient, `state/${name}`),
-    ];
-
-    for (let i = 1; i <= 4; i += 1) {
-      tearDowns.push(axios.delete(`${config.api_url}/preprints/${name}-msidv${i}`));
-    }
-    await Promise.all(tearDowns);
+    await testTearDown(name, minioClient, scheduleIds[name], false);
   });
 
   test('multiple versions of a preprint are available', async ({ page }) => {
