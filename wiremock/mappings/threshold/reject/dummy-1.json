@@ -1,0 +1,16 @@
+{
+    "scenarioName": "threshold--reject",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/threshold--reject/dummy-1"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/threshold/dummy-1.json",
+        "transformers": ["response-template"],
+        "transformerParameters": {
+            "msid": "threshold--reject-msid"
+        }
+    }
+}

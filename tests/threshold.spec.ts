@@ -1,95 +1,110 @@
 import { test, expect } from '@playwright/test';
-import { Client, ScheduleHandle } from '@temporalio/client';
 import axios from 'axios';
 import {
   createTemporalClient,
-  generateScheduleId,
-  getScheduleRunningWorkflows,
   getWorkflowHandle,
-  startScheduledImportWorkflow,
   stopScheduledImportWorkflow,
 } from '../utils/temporal';
 import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
-import { createS3Client } from '../utils/create-s3-client';
-import { createS3StateFile } from '../utils/create-s3-state-file';
 import { config } from '../utils/config';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('threshold', () => {
-  let temporal: Client;
-  let scheduleId: string;
-  let scheduleHandle: ScheduleHandle;
-  let workflowId: string;
-  const minioClient = createS3Client();
-  const name = 'threshold';
+  const {
+    minioClient,
+    scheduleIds,
+    scheduleHandles,
+    workflowIds,
+  } = setupClientAndScheduleStores();
 
-  test.beforeAll(async () => {
-    temporal = await createTemporalClient();
-    scheduleId = generateScheduleId(name);
-    await createS3StateFile(minioClient, name);
-    scheduleHandle = await startScheduledImportWorkflow(name, scheduleId, temporal, '1 minute', 1);
-    [workflowId] = await getScheduleRunningWorkflows(scheduleHandle);
+  test.describe('hit threshold and reject', () => {
+    const name = 'threshold--reject';
+    test.beforeEach(async () => {
+      const {
+        scheduleId,
+        scheduleHandle,
+        workflowId,
+      } = await setupTemporal(name, minioClient, '1 minute', 1);
+      scheduleIds[name] = scheduleId;
+      scheduleHandles[name] = scheduleHandle;
+      workflowIds[name] = workflowId;
+    });
+
+    test.afterEach(async () => {
+      await Promise.all([
+        stopScheduledImportWorkflow(scheduleIds[name], await createTemporalClient()),
+        deleteS3EppFolder(minioClient, `state/${name}`),
+      ]);
+    });
+
+    test('docmap threshold triggers workflow pause', async () => {
+      const workflowHandle = getWorkflowHandle(workflowIds[name], await createTemporalClient());
+
+      // Wait for threshold pause to commence and check output.
+      await expect(async () => {
+        const response = await workflowHandle.query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
+        expect(response.docMapUrls).not.toBeNull();
+        expect(response.docMapUrls).toHaveLength(2);
+      }).toPass();
+
+      // Send approval signal with value of false.
+      await workflowHandle.signal('approval', false);
+      await expect(async () => {
+        const workflowStatus = await workflowHandle.describe().then((wf) => wf.status.name);
+        expect(workflowStatus).toBe('COMPLETED');
+      }).toPass();
+
+      // Confirm no longer awaiting approval.
+      const response = await workflowHandle.query('awaitingApproval');
+      expect(response).toBeNull();
+    });
   });
 
-  test.afterAll(async () => {
-    await Promise.all([
-      stopScheduledImportWorkflow(scheduleId, temporal),
-      deleteS3EppFolder(minioClient, `state/${name}`),
-    ]);
-  });
+  test.describe('hit threshold and approve', () => {
+    const name = 'threshold--approve';
+    test.beforeEach(async () => {
+      const {
+        scheduleId,
+        scheduleHandle,
+        workflowId,
+      } = await setupTemporal(name, minioClient, '1 minute', 1);
+      scheduleIds[name] = scheduleId;
+      scheduleHandles[name] = scheduleHandle;
+      workflowIds[name] = workflowId;
+    });
 
-  test('test that the docmap threshold triggers workflow pause', async () => {
-    const workflowHandle = getWorkflowHandle(workflowId, temporal);
+    test.afterEach(async () => {
+      await trashTemporal(name, minioClient, scheduleIds[name], false);
+      await Promise.all([
+        deleteS3EppFolder(minioClient, `${name}-msid-2`),
+        axios.delete(`${config.api_url}/preprints/${name}-msid-2v1`),
+      ]);
+    });
 
-    // Wait for threshold pause to commence and check output.
-    await expect(async () => {
-      const response = await workflowHandle.query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
-      expect(response.docMapUrls).not.toBeNull();
-      expect(response.docMapUrls).toHaveLength(2);
-    }).toPass();
+    test('import continues when approval signal true', async () => {
+      const workflowHandle = getWorkflowHandle(workflowIds[name], await createTemporalClient());
 
-    // Send approval signal with value of false.
-    await workflowHandle.signal('approval', false);
-    await expect(async () => {
-      const workflowStatus = await workflowHandle.describe().then((wf) => wf.status.name);
-      expect(workflowStatus).toBe('COMPLETED');
-    }).toPass();
+      // Wait for threshold pause to commence and check output.
+      await expect(async () => {
+        const response = await workflowHandle.query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
+        expect(response.docMapUrls).not.toBeNull();
+        expect(response.docMapUrls).toHaveLength(2);
+      }).toPass();
 
-    // Confirm no longer awaiting approval.
-    const response = await workflowHandle.query('awaitingApproval');
-    expect(response).toBeNull();
-  });
+      // Send approval signal with value of true.
+      await workflowHandle.signal('approval', true);
+      await expect(async () => {
+        const workflowStatus = await workflowHandle.describe().then((wf) => wf.status.name);
+        expect(workflowStatus).toBe('COMPLETED');
+      }).toPass();
 
-  test('test that import continues when approval signal true', async () => {
-    const workflowHandle = getWorkflowHandle(workflowId, temporal);
+      // Confirm no longer awaiting approval.
+      const response = await getWorkflowHandle(workflowIds[name], await createTemporalClient()).query('awaitingApproval');
+      expect(response).toBeNull();
 
-    // Wait for threshold pause to commence and check output.
-    await expect(async () => {
-      const response = await workflowHandle.query<{ awaitingApproval: number, docMapUrls: string[] }>('awaitingApproval');
-      expect(response.docMapUrls).not.toBeNull();
-      expect(response.docMapUrls).toHaveLength(2);
-    }).toPass();
-
-    // Send approval signal with value of true.
-    await workflowHandle.signal('approval', true);
-    await expect(async () => {
-      const workflowStatus = await workflowHandle.describe().then((wf) => wf.status.name);
-      expect(workflowStatus).toBe('COMPLETED');
-    }).toPass();
-
-    // Confirm no longer awaiting approval.
-    const response = await getWorkflowHandle(workflowId, temporal).query('awaitingApproval');
-    expect(response).toBeNull();
-
-    // Check previews available on server.
-    expect((await axios.get(`${config.api_url}/api/preprints/${name}-msidv1?previews`).then((r) => r.status))).toBe(200);
-    expect((await axios.get(`${config.api_url}/api/preprints/${name}-msid-2v1?previews`).then((r) => r.status))).toBe(200);
-
-    // Cleanup unique to this test.
-    await Promise.all([
-      deleteS3EppFolder(minioClient, `${name}-msid`),
-      deleteS3EppFolder(minioClient, `${name}-msid-2`),
-      axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
-      axios.delete(`${config.api_url}/preprints/${name}-msid-2v1`),
-    ]);
+      // Check previews available on server.
+      expect((await axios.get(`${config.api_url}/api/preprints/${name}-msidv1?previews`).then((r) => r.status))).toBe(200);
+      expect((await axios.get(`${config.api_url}/api/preprints/${name}-msid-2v1?previews`).then((r) => r.status))).toBe(200);
+    });
   });
 });

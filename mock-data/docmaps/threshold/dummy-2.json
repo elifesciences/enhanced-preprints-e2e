@@ -23,14 +23,14 @@
           "outputs": [
             {
               "type": "preprint",
-              "identifier": "threshold-msid-2",
+              "identifier": "{{parameters.msid}}-2",
               "doi": "10.7554/000002.1",
               "versionIdentifier": "1",
               "license": "http://creativecommons.org/licenses/by/4.0/",
               "partOf": {
                 "type": "manuscript",
                 "doi": "10.7554/000002",
-                "identifier": "threshold-msid-2",
+                "identifier": "{{parameters.msid}}-2",
                 "volumeIdentifier": "1"
               }
             }
@@ -55,7 +55,7 @@
             "partOf": {
               "type": "manuscript",
               "doi": "10.7554/000002",
-              "identifier": "threshold-msid-2",
+              "identifier": "{{parameters.msid}}-2",
               "electronicArticleIdentifier": "RP000002",
               "subjectDisciplines": [
                 "Cell Biology",

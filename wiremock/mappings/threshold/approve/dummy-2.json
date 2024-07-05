@@ -1,0 +1,16 @@
+{
+    "scenarioName": "threshold--approve",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/docmaps/threshold--approve/dummy-2"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "docmaps/threshold/dummy-2.json",
+        "transformers": ["response-template"],
+        "transformerParameters": {
+            "msid": "threshold--approve-msid"
+        }
+    }
+}
