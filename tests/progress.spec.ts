@@ -73,7 +73,12 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
-    await trashTemporal(testInfo.title, minioClient, scheduleIds[testInfo.title]);
+    await trashTemporal({
+      name: testInfo.title,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[testInfo.title],
+      stateReset: true,
+    });
   });
 
   [

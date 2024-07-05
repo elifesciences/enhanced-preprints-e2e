@@ -12,7 +12,11 @@ test.describe('versions', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name], false);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+    });
   });
 
   test('multiple versions of a preprint are available', async ({ page }) => {

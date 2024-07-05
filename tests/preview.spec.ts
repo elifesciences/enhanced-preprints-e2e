@@ -12,7 +12,11 @@ test.describe('preview preprint', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name], false);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+    });
   });
 
   test('test previews are visible', async ({ page }) => {

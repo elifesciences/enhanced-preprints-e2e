@@ -12,7 +12,11 @@ test.describe('reviewed preprint with related content', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name], false);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+    });
   });
 
   test('related content is coming through', async ({ page }) => {

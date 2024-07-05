@@ -12,7 +12,12 @@ test.describe('continuum api', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name]);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+      stateReset: true,
+    });
   });
 
   test('response from continuum api after import of reviewed preprint', async ({ request }) => {

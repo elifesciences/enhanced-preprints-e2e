@@ -32,7 +32,11 @@ test.describe('version no retry', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name], false);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+    });
   });
 
   test('version 2 and 3 are published, even if no retryable error triggered for version 1', async ({ page }) => {

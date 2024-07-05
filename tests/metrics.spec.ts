@@ -12,7 +12,11 @@ test.describe('metrics', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name], false);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+    });
   });
 
   test('metrics are displayed if present', async ({ page }) => {

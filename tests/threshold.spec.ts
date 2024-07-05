@@ -84,7 +84,11 @@ test.describe('threshold', () => {
     });
 
     test.afterEach(async () => {
-      await trashTemporal(name, minioClient, scheduleIds[name], false);
+      await trashTemporal({
+        name,
+        s3Client: minioClient,
+        scheduleId: scheduleIds[name],
+      });
       await Promise.all([
         deleteS3EppFolder(minioClient, `${name}-msid-2`),
         axios.delete(`${config.api_url}/preprints/${name}-msid-2v1`),

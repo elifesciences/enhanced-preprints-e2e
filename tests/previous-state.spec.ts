@@ -13,7 +13,12 @@ test.describe('publish, unpublish and republish preprint', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name]);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+      stateReset: true,
+    });
   });
 
   test('preprints can be unpublished and then republished', async ({ page }) => {

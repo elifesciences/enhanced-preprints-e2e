@@ -12,7 +12,11 @@ test.describe('reviewed preprint', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name], false);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+    });
   });
 
   test('test reviews and DOIs are visible on reviewed-preprint', async ({ page }) => {

@@ -46,7 +46,13 @@ export const setupTemporal = async (params: { name: string, s3Client: S3Client, 
   };
 };
 
-export const trashTemporal = async (name: string, s3Client: S3Client, scheduleId: string, stateReset: boolean = true) => {
+export const trashTemporal = async (params: { name: string, s3Client: S3Client, scheduleId: string, stateReset?: boolean }) => {
+  const {
+    name,
+    s3Client,
+    scheduleId,
+    stateReset,
+  } = params;
   const deleteVersions = async () => {
     // eslint-disable-next-line prefer-destructuring
     const data = (await axios.get<any, AxiosResponse<{ versions: Record<string, any> }>>(`${config.api_url}/api/preprints/${name}-msid`, {
@@ -63,6 +69,6 @@ export const trashTemporal = async (name: string, s3Client: S3Client, scheduleId
     deleteVersions(),
     deleteS3EppFolder(s3Client, `${name}-msid`),
     deleteS3EppFolder(s3Client, `state/${name}`),
-    ...(stateReset ? [resetState(name)] : []),
+    ...(stateReset === true ? [resetState(name)] : []),
   ]);
 };

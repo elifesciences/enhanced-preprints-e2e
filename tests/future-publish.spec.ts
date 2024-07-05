@@ -12,7 +12,11 @@ test.describe('reviewed preprint with future published date', () => {
   });
 
   test.afterEach(async () => {
-    await trashTemporal(name, minioClient, scheduleIds[name], false);
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+      scheduleId: scheduleIds[name],
+    });
   });
 
   test('test reviewed-preprint with future published date is not available until published time has passed', async ({ page }) => {
