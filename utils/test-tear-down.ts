@@ -8,7 +8,7 @@ import { config } from './config';
 import { deleteS3EppFolder } from './delete-s3-epp-folder';
 import { resetState } from './wiremock';
 
-export const testTearDown = async (name: string, s3Client: S3Client, scheduleId: string) => {
+export const testTearDown = async (name: string, s3Client: S3Client, scheduleId: string, stateReset: boolean = true) => {
   const deleteVersions = async () => {
     // eslint-disable-next-line prefer-destructuring
     const data = (await axios.get<any, AxiosResponse<{ versions: Record<string, any> }>>(`${config.api_url}/api/preprints/${name}-msid`, {
@@ -25,6 +25,6 @@ export const testTearDown = async (name: string, s3Client: S3Client, scheduleId:
     deleteVersions(),
     deleteS3EppFolder(s3Client, `${name}-msid`),
     deleteS3EppFolder(s3Client, `state/${name}`),
-    resetState(name),
+    ...(stateReset ? [resetState(name)] : []),
   ]);
 };

@@ -1,34 +1,20 @@
 import { test } from '@playwright/test';
-import axios from 'axios';
-import { Client } from '@temporalio/client';
-import { createS3Client } from '../utils/create-s3-client';
-import { createS3StateFile } from '../utils/create-s3-state-file';
-import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
-import { config } from '../utils/config';
-import {
-  createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
-} from '../utils/temporal';
 import { EppPage } from './page-objects/epp-page';
+import { testTearDown } from '../utils/test-tear-down';
+import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
+import { testSetup } from '../utils/test-setup';
 
-test.describe('reviewed preprint', () => {
-  let temporal: Client;
+test.describe('reviewed preprint with future published date', () => {
   const name = 'future-publish';
-  const scheduleId = generateScheduleId(name);
-  const minioClient = createS3Client();
+  const { minioClient, scheduleIds } = testClientAndScheduleIds();
 
   test.beforeAll(async () => {
-    temporal = await createTemporalClient();
-    await createS3StateFile(minioClient, name);
-    await startScheduledImportWorkflow(name, scheduleId, temporal, '10  minutes');
+    const { scheduleId } = await testSetup(name, minioClient, '10  minutes');
+    scheduleIds[name] = scheduleId;
   });
 
   test.afterAll(async () => {
-    await Promise.all([
-      stopScheduledImportWorkflow(scheduleId, temporal),
-      axios.delete(`${config.api_url}/preprints/${name}-msidv1`),
-      deleteS3EppFolder(minioClient, `${name}-msid`),
-      deleteS3EppFolder(minioClient, `state/${name}`),
-    ]);
+    await testTearDown(name, minioClient, scheduleIds[name], false);
   });
 
   test('test reviewed-preprint with future published date is not available until published time has passed', async ({ page }) => {
