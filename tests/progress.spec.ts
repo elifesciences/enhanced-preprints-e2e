@@ -1,18 +1,12 @@
 import { expect, test } from '@playwright/test';
-import axios, { AxiosResponse } from 'axios';
-import { createS3Client } from '../utils/create-s3-client';
-import { createS3StateFile } from '../utils/create-s3-state-file';
-import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
-import { config } from '../utils/config';
-import {
-  createTemporalClient, generateScheduleId, startScheduledImportWorkflow, stopScheduledImportWorkflow,
-} from '../utils/temporal';
-import { changeState, resetState } from '../utils/wiremock';
+import { changeState } from '../utils/wiremock';
 import { EppPage } from './page-objects/epp-page';
+import { testSetup } from '../utils/test-setup';
+import { testTearDown } from '../utils/test-tear-down';
+import { testClientAndScheduleIds } from '../utils/test-client-and-schedule-ids';
 
 test.describe('progress a manuscript through the manifestations', () => {
-  const minioClient = createS3Client();
-  const scheduleIds: Record<string, string> = {};
+  const { minioClient, scheduleIds } = testClientAndScheduleIds();
 
   const checkEmpty = async (eppPage: EppPage) => {
     // Verify that no preview or article page available.
@@ -75,31 +69,13 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {
-    scheduleIds[testInfo.title] = generateScheduleId(testInfo.title);
-    await createS3StateFile(minioClient, testInfo.title);
-    await startScheduledImportWorkflow(testInfo.title, scheduleIds[testInfo.title], await createTemporalClient());
+    const { scheduleId } = await testSetup(testInfo.title, minioClient);
+    scheduleIds[testInfo.title] = scheduleId;
   });
 
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
-    const deleteVersions = async () => {
-      // eslint-disable-next-line prefer-destructuring
-      const data = (await axios.get<any, AxiosResponse<{ versions: Record<string, any> }>>(`${config.api_url}/api/preprints/${testInfo.title}-msid`, {
-        params: {
-          previews: true,
-        },
-      })).data;
-
-      return Promise.all(Object.keys(data.versions).map((id) => axios.delete(`${config.api_url}/preprints/${id}`)));
-    };
-
-    await Promise.all([
-      stopScheduledImportWorkflow(scheduleIds[testInfo.title], await createTemporalClient()),
-      deleteVersions(),
-      deleteS3EppFolder(minioClient, `${testInfo.title}-msid`),
-      deleteS3EppFolder(minioClient, `state/${testInfo.title}`),
-      resetState(testInfo.title),
-    ]);
+    await testTearDown(testInfo.title, minioClient, scheduleIds[testInfo.title]);
   });
 
   [
