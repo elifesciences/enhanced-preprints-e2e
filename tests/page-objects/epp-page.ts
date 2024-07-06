@@ -173,6 +173,10 @@ export class EppPage {
     await expect(this.page.locator(`.review-timeline__event:nth-of-type(${index})`)).toContainText(content);
   }
 
+  async assertTimelineEventLink(index: number, url: string): Promise<void> {
+    await expect(this.page.locator(`.review-timeline__event:nth-of-type(${index}) a`).getAttribute('href')).resolves.toEqual(url);
+  }
+
   async assertTimelineEventThisVersion(index: number): Promise<void> {
     const event = this.page.locator(`.review-timeline__detail:nth-of-type(${index})`);
     await expect(event.locator('.review-timeline__link')).toContainText('revised', { ignoreCase: true });
