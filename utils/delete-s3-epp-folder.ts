@@ -1,16 +1,19 @@
 import { DeleteObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
 
-export const deleteS3EppFolder = async (client: S3Client, folder: string) => {
-  const bucket = 'epp';
-  // List all objects in the folder
+const bucket = 'epp';
+
+const checkS3EppFolder = async (client: S3Client, folder: string) => {
   const { Contents } = await client.send(new ListObjectsV2Command({
     Bucket: bucket,
     Prefix: `automation/${folder}`,
   }));
 
-  // Check if Contents is defined
-  if (Contents) {
-    // Delete each object
-    await Promise.all(Contents.map((object) => (object.Key ? client.send(new DeleteObjectCommand({ Bucket: bucket, Key: object.Key })) : null)));
+  return Contents;
+};
+
+export const deleteS3EppFolder = async (client: S3Client, folder: string) => {
+  const contents = await checkS3EppFolder(client, folder);
+  if (contents) {
+    await Promise.all(contents.map((object) => (object.Key ? client.send(new DeleteObjectCommand({ Bucket: bucket, Key: object.Key })) : null)));
   }
 };

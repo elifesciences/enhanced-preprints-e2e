@@ -80,7 +80,6 @@ test.describe('progress a manuscript through the manifestations', () => {
       name: testInfo.title,
       s3Client: minioClient,
       scheduleId: scheduleIds[testInfo.title],
-      stateReset: true,
     });
   });
 

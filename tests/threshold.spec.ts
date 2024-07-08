@@ -3,9 +3,7 @@ import axios from 'axios';
 import {
   createTemporalClient,
   getWorkflowHandle,
-  stopScheduledImportWorkflow,
 } from '../utils/temporal';
-import { deleteS3EppFolder } from '../utils/delete-s3-epp-folder';
 import { config } from '../utils/config';
 import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
@@ -36,22 +34,19 @@ test.describe('threshold', () => {
 
   // eslint-disable-next-line no-empty-pattern
   test.afterEach(async ({}, testInfo) => {
-    if (testInfo.title === 'threshold--reject') {
-      await Promise.all([
-        stopScheduledImportWorkflow(scheduleIds[testInfo.title], await createTemporalClient()),
-        deleteS3EppFolder(minioClient, `state/${testInfo.title}`),
-      ]);
-    } else if (testInfo.title === 'threshold--approve') {
-      await trashTemporal({
+    await Promise.all([
+      trashTemporal({
         name: testInfo.title,
         s3Client: minioClient,
         scheduleId: scheduleIds[testInfo.title],
-      });
-      await Promise.all([
-        deleteS3EppFolder(minioClient, `${testInfo.title}-msid-2`),
-        axios.delete(`${config.api_url}/preprints/${testInfo.title}-msid-2v1`),
-      ]);
-    }
+      }),
+      // Because this is idempotent we can run for reject and approve.
+      trashTemporal({
+        name: testInfo.title,
+        s3Client: minioClient,
+        msid: `${testInfo.title}-msid-2`,
+      }),
+    ]);
   });
 
   [

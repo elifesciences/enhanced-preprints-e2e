@@ -16,7 +16,6 @@ test.describe('continuum api', () => {
       name,
       s3Client: minioClient,
       scheduleId: scheduleIds[name],
-      stateReset: true,
     });
   });
 

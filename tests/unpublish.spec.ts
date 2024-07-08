@@ -17,7 +17,6 @@ test.describe('unpublished preprint', () => {
       name,
       s3Client: minioClient,
       scheduleId: scheduleIds[name],
-      stateReset: true,
     });
   });
 
