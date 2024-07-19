@@ -243,7 +243,7 @@ services:
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="import-docmaps"}'  | grep 1
 
   wiremock:
-    image: wiremock/wiremock:3.8.0-1
+    image: wiremock/wiremock:3.9.0-1
     ports:
       - 8080:8080
     healthcheck:
