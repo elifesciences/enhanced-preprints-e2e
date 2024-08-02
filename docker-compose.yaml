@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-07bc229e-20240801.1856
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-32f030c1-20240802.0043
     healthcheck:
       test: sh -c 'apk add curl; curl http://localhost:3000/'
       interval: 5s
