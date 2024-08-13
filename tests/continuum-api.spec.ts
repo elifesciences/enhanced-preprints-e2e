@@ -36,7 +36,7 @@ test.describe('continuum api', () => {
     });
 
     const expectSnippet = {
-      title: 'OpenApePose: a database of annotated ape photographs for pose estimation',
+      title: 'OpenApePose: a database of annotated ape photographs for pose estimation (reviewed)',
       id: `${name}-msid`,
       doi: '10.1101/000001',
       authorLine: 'Nisarg Desai, Praneet Bala ... Benjamin Hayden',
