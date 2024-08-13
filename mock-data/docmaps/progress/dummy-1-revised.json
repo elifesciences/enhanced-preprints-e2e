@@ -237,6 +237,24 @@
               ]
             }
           ]
+        },
+        {
+          "participants": [],
+          "outputs": [
+            {
+              "type": "preprint",
+              "identifier": "{{parameters.msid}}",
+              "doi": "10.7554/000001.1",
+              "versionIdentifier": "1",
+              "license": "http://creativecommons.org/licenses/by/4.0/",
+              "content": [
+                {
+                  "type": "computer-file",
+                  "url": "s3://meca/dummy-1-enhanced.zip"
+                }
+              ]
+            }
+          ]
         }
       ],
       "assertions": [
@@ -495,6 +513,24 @@
                 {
                   "type": "web-page",
                   "url": "http://wiremock:8080/evaluations/hypothesis:summary-1/content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "participants": [],
+          "outputs": [
+            {
+              "type": "preprint",
+              "identifier": "{{parameters.msid}}",
+              "doi": "10.7554/000001.2",
+              "versionIdentifier": "2",
+              "license": "http://creativecommons.org/licenses/by/4.0/",
+              "content": [
+                {
+                  "type": "computer-file",
+                  "url": "s3://meca/dummy-2-enhanced.zip"
                 }
               ]
             }
