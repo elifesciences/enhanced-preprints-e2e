@@ -24,7 +24,7 @@ test.describe('progress a manuscript through the manifestations', () => {
     // Wait for reviewed preprint to become available.
     await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (reviewed)');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (enhanced) (reviewed)');
   };
 
   const checkPreviewRevised = async (eppPage: EppPage) => {
@@ -36,14 +36,14 @@ test.describe('progress a manuscript through the manifestations', () => {
     // Ensure that umbrella id still works with preview available
     await eppPage.gotoArticlePage();
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (reviewed)');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (enhanced) (reviewed)');
   };
 
   const checkRevised = async (eppPage: EppPage) => {
     // Wait for revised preprint to become available.
     await eppPage.gotoArticlePage({ version: 2 });
     await eppPage.reloadAndAssertStatus(200);
-    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (enhanced) (revised)');
   };
 
   const checkVersionOfRecord = async (eppPage: EppPage) => {
