@@ -648,9 +648,9 @@
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
 "@grpc/grpc-js@^1.10.7":
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.11.3.tgz#a33a472618d166fbb195012ae390dbfc277470ed"
-  integrity sha512-i9UraDzFHMR+Iz/MhFLljT+fCpgxZ3O6CxwGJ8YuNYHJItIHUzKJpW2LvoFZNnGPwqc9iWy9RAucxV0JoR9aUQ==
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.12.2.tgz#97eda82dd49bb9c24eaf6434ea8d7de446e95aac"
+  integrity sha512-bgxdZmgTrJZX50OjyVwz3+mNEnCTNkh3cIqGPWVNeW9jX6bn1ZkU80uPd+67/ZpIJIjRQ9qaHCjhavyoWYxumg==
   dependencies:
     "@grpc/proto-loader" "^0.7.13"
     "@js-sdsl/ordered-map" "^4.4.2"
@@ -1266,31 +1266,31 @@
     tslib "^2.6.2"
 
 "@temporalio/client@^1.8.5":
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/@temporalio/client/-/client-1.11.2.tgz#7a5b64903f25215c41028ff9fc3a47849e80eb20"
-  integrity sha512-jgN0rwdRyZp42rm6rbk23y6+bfoIC3tyiaPMZl3BZNS2C6x9vF+7cL7jz22CluEAHqA7sJXqCEzagh4hwkKVjA==
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/@temporalio/client/-/client-1.11.3.tgz#b315753414184a7a649d4af57d2bff29de5f56bc"
+  integrity sha512-2x30xAXbUuqelrWe3Vd1FVC0+Z2Cfh6m2W5yDUZBjqTMdNP6qd8nH4S4mceRtZ4TipYSPmaONaiWoAU2VvwEIg==
   dependencies:
     "@grpc/grpc-js" "^1.10.7"
-    "@temporalio/common" "1.11.2"
-    "@temporalio/proto" "1.11.2"
+    "@temporalio/common" "1.11.3"
+    "@temporalio/proto" "1.11.3"
     abort-controller "^3.0.0"
     long "^5.2.3"
     uuid "^9.0.1"
 
-"@temporalio/common@1.11.2":
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/@temporalio/common/-/common-1.11.2.tgz#a032598e693f1ab6abfe3407a809138bea692706"
-  integrity sha512-2bUDFGhxWG7uLROkA0aP5oy6NPSmL+mPttObecMAXQqOs7Hb4s1o9uBQ98nojy25zauzvx5btIO/H+5UxUXfOQ==
+"@temporalio/common@1.11.3":
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/@temporalio/common/-/common-1.11.3.tgz#290712a09476f00fdf688802ca143a21c585d6f7"
+  integrity sha512-dzCrwiE9ox/Q16AjBsUKr4djg1ovYHNCjH36WZadwsemXINRWa5eW53j0WZOlmFF8/CbcHIhiD5N18rZqjiYkg==
   dependencies:
-    "@temporalio/proto" "1.11.2"
+    "@temporalio/proto" "1.11.3"
     long "^5.2.3"
     ms "^3.0.0-canary.1"
     proto3-json-serializer "^2.0.0"
 
-"@temporalio/proto@1.11.2":
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/@temporalio/proto/-/proto-1.11.2.tgz#d5cb16eaa2074aaf384ba50f4c05132cd572f50d"
-  integrity sha512-h7Iw5hmUf8dGaozpk3WyRuOB5ZzBaFensfocK2eGui15ocNvtAb/aLFsxVJ6xOtryOsHTkgRam5BBZi0NOj+cA==
+"@temporalio/proto@1.11.3":
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/@temporalio/proto/-/proto-1.11.3.tgz#fe487dddadb82fedf8868ed3431156ee0ac51098"
+  integrity sha512-X+xV75m11BvvS5MljagtYCybRNxpLNJM24eWyfv+uyU4WZSvgQCUh21fY4FOUDJS66DPvO1mefSPu0Nunp1PHg==
   dependencies:
     long "^5.2.3"
     protobufjs "^7.2.5"
@@ -1301,9 +1301,9 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/node@>=13.7.0":
-  version "22.7.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.2.tgz#80ed66c0a5025ffa037587fd69a816f29b54e4c7"
-  integrity sha512-866lXSrpGpgyHBZUa2m9YNWqHDjjM0aBTJlNtYaGEw4rqY/dcD7deRVTbBBAJelfA7oaGDbNftXF/TL/A6RgoA==
+  version "22.7.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.6.tgz#3ec3e2b071e136cd11093c19128405e1d1f92f33"
+  integrity sha512-/d7Rnj0/ExXDMcioS78/kf1lMzYk4BZV8MZGTBKzTGZ6/406ukkbYlIsZmMPhcR5KlkunDHQLrtAVmSq7r+mSw==
   dependencies:
     undici-types "~6.19.2"
 
