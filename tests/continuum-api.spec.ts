@@ -54,8 +54,8 @@ test.describe('continuum api', () => {
           'landmark',
         ],
         strength: [
-          'compelling',
           'convincing',
+          'compelling',
         ],
       },
       authorLine: 'Nisarg Desai, Praneet Bala ... Benjamin Hayden',
