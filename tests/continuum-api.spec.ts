@@ -40,6 +40,24 @@ test.describe('continuum api', () => {
       id: `${name}-msid`,
       version: 1,
       doi: '10.1101/000001',
+      elifeAssessment: {
+        title: 'eLife Assessment',
+        content: [
+          {
+            type: 'paragraph',
+            text: 'evaluation summary for compelling discovery in landmark study',
+          },
+        ],
+        id: 'sa3',
+        doi: '10.7554/eLife.000001.1.sa3',
+        significance: [
+          'landmark',
+        ],
+        strength: [
+          'compelling',
+          'convincing',
+        ],
+      },
       authorLine: 'Nisarg Desai, Praneet Bala ... Benjamin Hayden',
       published: '2023-05-07T09:03:08Z',
       reviewedDate: '2023-05-07T09:03:08Z',
