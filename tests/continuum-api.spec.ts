@@ -45,7 +45,7 @@ test.describe('continuum api', () => {
         content: [
           {
             type: 'paragraph',
-            text: 'evaluation summary for compelling discovery in landmark study',
+            text: 'evaluation summary for convincingly compelling discovery in landmark study',
           },
         ],
         id: 'sa3',
