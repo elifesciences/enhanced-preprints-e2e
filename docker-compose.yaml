@@ -242,6 +242,27 @@ services:
       <<: *worker-healthcheck
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="import-docmaps"}'  | grep 1
 
+  import-controller:
+    image: ghcr.io/elifesciences/enhanced-preprints-import-controller:master-27bfe349-20241115.1529
+    ports:
+      - 3006:5000
+    depends_on:
+      worker:
+        condition: service_healthy
+      worker-import-docmaps:
+        condition: service_healthy
+    environment:
+      TEMPORAL_NAMESPACE: default
+      TEMPORAL_UI: http://temporal-ui:8233
+      TEMPORAL_SERVER: temporal:7233
+      TEMPORAL_TASK_QUEUE: epp
+    healthcheck:
+      test: sh -c 'apk add curl; curl -X GET http://import-controller:5000/ping | grep pong'
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
   wiremock:
     image: wiremock/wiremock:3.9.2-1
     ports:
