@@ -4,4 +4,5 @@ export const config = {
   api_url: process.env.api_url ?? 'http://localhost:3000',
   temporal_address: process.env.temporal_address ?? undefined,
   wiremock_url: process.env.wiremock_url ?? 'http://localhost:8080',
+  import_controller: process.env.import_controller_url ?? 'http://localhost:3006',
 };

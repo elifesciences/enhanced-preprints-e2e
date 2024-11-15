@@ -9,6 +9,7 @@ services:
       minio_url: 'http://minio:9000'
       wiremock_url: 'http://wiremock:8080'
       temporal_address: 'temporal:7233'
+      import_controller: 'http://import-controller:5000'
     depends_on:
       client:
         condition: service_healthy
