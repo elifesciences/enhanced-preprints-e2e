@@ -6,7 +6,7 @@ const prepareManuscriptData = (id: string, optional?: true) => {
     id,
     doi: '10.1101/654321',
   };
-  
+
   const optionalPreprint = {
     ...requiredPreprint,
     publishedDate: '2023-01-02',
@@ -18,14 +18,14 @@ const prepareManuscriptData = (id: string, optional?: true) => {
       correctedDate: '2023-02-03',
     }],
   };
-  
+
   const requiredVersion = {
     versionIdentifier: 'v42',
     id: `${id}.1`,
     doi: '10.1101/123456',
     preprint: requiredPreprint,
   };
-  
+
   const optionalEvaluation = {
     date: '2023-01-02',
     doi: '12.3456/123456',
@@ -40,7 +40,7 @@ const prepareManuscriptData = (id: string, optional?: true) => {
       },
     }],
   };
-  
+
   const optionalVersion = {
     ...requiredVersion,
     preprint: optionalPreprint,
@@ -60,7 +60,7 @@ const prepareManuscriptData = (id: string, optional?: true) => {
     }],
     content: ['This is some more content'],
   };
-  
+
   const optionalManuscript = {
     doi: `10.${id}`,
     volume: '11',
@@ -75,7 +75,7 @@ const prepareManuscriptData = (id: string, optional?: true) => {
       thumbnail: 'www.google.com',
     }],
   };
-  
+
   return JSON.stringify(optional ? {
     id,
     versions: [optionalVersion],

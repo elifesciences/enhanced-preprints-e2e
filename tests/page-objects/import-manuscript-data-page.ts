@@ -5,13 +5,13 @@ import { config } from '../../utils/config';
 
 export class ImportManuscriptDataPage {
   private page: Page;
-  
+
   readonly input: Locator;
-  
+
   readonly namespaceSelector: Locator;
-  
+
   readonly submit: Locator;
-  
+
   readonly workflowLink: Locator;
 
   constructor(thePage: Page) {
@@ -21,7 +21,7 @@ export class ImportManuscriptDataPage {
     this.submit = this.page.locator('button[type="submit"]');
     this.workflowLink = this.page.locator('body a');
   }
-  
+
   async gotoForm(): Promise<void> {
     const response = await this.page.goto(`${config.import_controller_url}/input`);
     expect(response?.status()).toBe(200);
