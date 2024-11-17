@@ -253,7 +253,7 @@ services:
         condition: service_healthy
     environment:
       TEMPORAL_NAMESPACE: default
-      TEMPORAL_UI: http://temporal-ui:8233
+      TEMPORAL_UI: http://localhost:8233
       TEMPORAL_SERVER: temporal:7233
       TEMPORAL_TASK_QUEUE: epp
     healthcheck:
@@ -262,6 +262,7 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
+    restart: always
 
   wiremock:
     image: wiremock/wiremock:3.9.2-1
