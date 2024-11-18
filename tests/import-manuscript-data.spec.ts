@@ -21,8 +21,8 @@ const prepareManuscriptData = (id: string, optional?: true) => {
   };
 
   const requiredVersion = {
-    versionIdentifier: 'v42',
-    id: `${id}.1`,
+    versionIdentifier: '42',
+    id: `${id}`,
     doi: '10.1101/123456',
     preprint: requiredPreprint,
   };
@@ -90,13 +90,13 @@ const prepareManuscriptData = (id: string, optional?: true) => {
 test.describe('Import Manuscript Data', () => {
   const name = 'import-manuscript-data';
 
-  test.fail('publish content via import manuscript data form', async ({ page }) => {
+  test('publish content via import manuscript data form', async ({ page }) => {
     const importManuscriptDataPage = new ImportManuscriptDataPage(page);
     await importManuscriptDataPage.gotoForm();
-    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData('1234', true));
+    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData('import-manuscript-data-msid', true));
 
     const eppPage = new EppPage(page, name);
-    await eppPage.gotoArticlePage();
+    await eppPage.gotoArticlePage({ version: 42 });
     await eppPage.reloadAndAssertStatus(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
   });
