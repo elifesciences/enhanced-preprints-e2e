@@ -3,7 +3,8 @@ import { ImportManuscriptDataPage } from './page-objects/import-manuscript-data-
 import { EppPage } from './page-objects/epp-page';
 import { setupClientAndScheduleStores, trashTemporal } from '../utils/setup-temporal';
 
-const prepareManuscriptData = (id: string, optional?: true) => {
+const prepareManuscriptData = (name: string, optional?: true) => {
+  const id = `${name}-msid`;
   const requiredPreprint = {
     id,
     doi: '10.1101/654321',
@@ -23,7 +24,7 @@ const prepareManuscriptData = (id: string, optional?: true) => {
 
   const requiredVersion = {
     versionIdentifier: '42',
-    id: `${id}`,
+    id,
     doi: '10.1101/123456',
     preprint: requiredPreprint,
   };
@@ -78,13 +79,12 @@ const prepareManuscriptData = (id: string, optional?: true) => {
     }],
   };
 
-  return JSON.stringify(optional ? {
+  return JSON.stringify({
     id,
     versions: [optionalVersion],
-    manuscript: optionalManuscript,
-  } : {
-    id,
-    versions: [requiredVersion],
+    ...(optional ? {
+      manuscript: optionalManuscript,
+    } : {}),
   });
 };
 
@@ -103,7 +103,7 @@ test.describe('Import Manuscript Data', () => {
   test('publish content via import manuscript data form', async ({ page }) => {
     const importManuscriptDataPage = new ImportManuscriptDataPage(page);
     await importManuscriptDataPage.gotoForm();
-    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData('import-manuscript-data-msid', true));
+    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData(name, true));
 
     const eppPage = new EppPage(page, name);
     await eppPage.gotoArticlePage({ version: 42 });
