@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { ImportManuscriptDataPage } from './page-objects/import-manuscript-data-page';
 import { EppPage } from './page-objects/epp-page';
-import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
+import { setupClientAndScheduleStores, trashTemporal } from '../utils/setup-temporal';
 
 const prepareManuscriptData = (id: string, optional?: true) => {
   const requiredPreprint = {
