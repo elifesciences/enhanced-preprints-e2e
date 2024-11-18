@@ -1,6 +1,7 @@
 import { test } from '@playwright/test';
 import { ImportManuscriptDataPage } from './page-objects/import-manuscript-data-page';
 import { EppPage } from './page-objects/epp-page';
+import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 const prepareManuscriptData = (id: string, optional?: true) => {
   const requiredPreprint = {
@@ -89,6 +90,15 @@ const prepareManuscriptData = (id: string, optional?: true) => {
 
 test.describe('Import Manuscript Data', () => {
   const name = 'import-manuscript-data';
+
+  const { minioClient } = setupClientAndScheduleStores();
+
+  test.afterEach(async () => {
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+    });
+  });
 
   test('publish content via import manuscript data form', async ({ page }) => {
     const importManuscriptDataPage = new ImportManuscriptDataPage(page);
