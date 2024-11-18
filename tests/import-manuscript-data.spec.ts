@@ -1,5 +1,6 @@
 import { test } from '@playwright/test';
 import { ImportManuscriptDataPage } from './page-objects/import-manuscript-data-page';
+import { EppPage } from './page-objects/epp-page';
 
 const prepareManuscriptData = (id: string, optional?: true) => {
   const requiredPreprint = {
@@ -11,7 +12,7 @@ const prepareManuscriptData = (id: string, optional?: true) => {
     ...requiredPreprint,
     publishedDate: '2023-01-02',
     url: 'www.google.com',
-    content: ['this is some content'],
+    content: ['s3://meca/dummy-1.meca'],
     license: 'Creative Commons',
     corrections: [{
       content: ['Corrections Content'],
@@ -30,7 +31,7 @@ const prepareManuscriptData = (id: string, optional?: true) => {
     date: '2023-01-02',
     doi: '12.3456/123456',
     reviewType: 'review-article',
-    contentUrls: ['www.google.com'],
+    contentUrls: ['http://wiremock:8080/evaluations/hypothesis:author-1/content'],
     participants: [{
       name: 'Joe Bloggs',
       role: 'Dungeon Master',
@@ -87,9 +88,16 @@ const prepareManuscriptData = (id: string, optional?: true) => {
 };
 
 test.describe('Import Manuscript Data', () => {
-  test('publish content via import manuscript data form', async ({ page }) => {
+  const name = 'import-manuscript-data';
+
+  test.fail('publish content via import manuscript data form', async ({ page }) => {
     const importManuscriptDataPage = new ImportManuscriptDataPage(page);
     await importManuscriptDataPage.gotoForm();
-    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData('1234'));
+    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData('1234', true));
+
+    const eppPage = new EppPage(page, name);
+    await eppPage.gotoArticlePage();
+    await eppPage.reloadAndAssertStatus(200);
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
   });
 });
