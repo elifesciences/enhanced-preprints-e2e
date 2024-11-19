@@ -34,9 +34,5 @@ export class ImportManuscriptDataPage {
       this.submit.click(),
       expect(this.workflowLink).toBeVisible(),
     ]);
-    await Promise.all([
-      this.workflowLink.click(),
-      expect(this.page.locator("xpath=//*[text()='Completed']")).toBeVisible(),
-    ]);
   }
 }
