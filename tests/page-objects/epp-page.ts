@@ -161,7 +161,7 @@ export class EppPage {
     };
 
     expect(await countVisibleEvents()).toBe(1);
-    await this.page.click('.review-timeline__expansion');
+    await this.page.locator('.review-timeline__expansion').click();
     expect(await countVisibleEvents()).toBeGreaterThan(1);
   }
 
