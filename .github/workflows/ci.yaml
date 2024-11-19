@@ -146,6 +146,7 @@ jobs:
           echo "SERVER_IMAGE_AND_TAG=$(yq '.services.api.image' docker-compose.yaml)" >> $GITHUB_ENV
           echo "CLIENT_IMAGE_AND_TAG=$(yq '.services.client.image' docker-compose.yaml)" >> $GITHUB_ENV
           echo "IMPORT_IMAGE_AND_TAG=$(yq '.services.worker.image' docker-compose.yaml)" >> $GITHUB_ENV
+          echo "IMPORT_CONTROLLER_IMAGE_AND_TAG=$(yq '.services.import-controller.image' docker-compose.yaml)" >> $GITHUB_ENV
           echo "XSLT_IMAGE_AND_TAG=$(yq '.services.xslt.image' docker-compose.yaml)" >> $GITHUB_ENV
           echo "ENCODA_IMAGE_AND_TAG=$(yq '.services.encoda.image' docker-compose.yaml)" >> $GITHUB_ENV
       - name: create new manifest for accepted tags
@@ -153,6 +154,7 @@ jobs:
           docker buildx imagetools create -t $CLIENT_IMAGE_AND_TAG-approved $CLIENT_IMAGE_AND_TAG
           docker buildx imagetools create -t $SERVER_IMAGE_AND_TAG-approved $SERVER_IMAGE_AND_TAG
           docker buildx imagetools create -t $IMPORT_IMAGE_AND_TAG-approved $IMPORT_IMAGE_AND_TAG
+          docker buildx imagetools create -t $IMPORT_CONTROLLER_IMAGE_AND_TAG-approved $IMPORT_CONTROLLER_IMAGE_AND_TAG
           docker buildx imagetools create -t $XSLT_IMAGE_AND_TAG-approved $XSLT_IMAGE_AND_TAG
           docker buildx imagetools create -t $ENCODA_IMAGE_AND_TAG-approved $ENCODA_IMAGE_AND_TAG
       - name: Success Slack Notification
@@ -190,6 +192,10 @@ jobs:
                     {
                       "type": "mrkdwn",
                       "text": "*import image:*\n ${{ env.IMPORT_IMAGE_AND_TAG }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*import-controller image:*\n ${{ env.IMPORT_CONTROLLER_IMAGE_AND_TAG }}"
                     },
                     {
                       "type": "mrkdwn",
