@@ -19,32 +19,24 @@ export class ImportManuscriptDataPage {
     this.input = this.page.locator('#manuscript-data');
     this.namespaceSelector = this.page.locator('#temporal_namespace');
     this.submit = this.page.locator('button[type="submit"]');
-    this.workflowLink = this.page.locator('body a');
+    this.workflowLink = this.page.locator(`xpath=//a[starts-with(@href, '${config.temporal_ui_url}')]`);
   }
 
-  async gotoForm(): Promise<void> {
+  async gotoForm() {
     const response = await this.page.goto(`${config.import_controller_url}/input`);
     expect(response?.status()).toBe(200);
   }
 
-  async fillAndSubmitForm(text: string): Promise<void> {
+  async fillAndSubmitForm(text: string) {
     await this.input.fill(text);
     await this.namespaceSelector.selectOption('default');
-
-    const [submitResponse] = await Promise.all([
-      this.page.waitForNavigation({ waitUntil: 'networkidle' }),
+    await Promise.all([
       this.submit.click(),
+      expect(this.workflowLink).toBeVisible(),
     ]);
-
-    expect(submitResponse?.status()).toBe(200);
-
-    await expect(this.page.locator('body')).toContainText('Import started');
-
-    const [importLinkResponse] = await Promise.all([
-      this.page.waitForNavigation({ waitUntil: 'load' }),
+    await Promise.all([
       this.workflowLink.click(),
+      expect(this.page.locator("xpath=//*[text()='Completed']")).toBeVisible(),
     ]);
-
-    expect(importLinkResponse?.status()).toBe(200);
   }
 }
