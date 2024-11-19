@@ -46,6 +46,8 @@ Here is a list of some of the services (full list in [/docker-compose.yaml](/doc
 - **api (EPP server)**: Available at `http://localhost:3000`.
 - **app (EPP client)**: Available at `http://localhost:3001`.
 - **xslt (EPP XSLT API)**: Available at `http://localhost:3004`.
+- **encoda (EPP encoda API)**: Available at `http://localhost:3005`.
+- **import-controller (EPP import controller)**: Available at `http://localhost:3006`.
 - **wiremock (mock of DocMap API)**: Available at `http://localhost:8080`.
 
 ## Install playwright browsers
