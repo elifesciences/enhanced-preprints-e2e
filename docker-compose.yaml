@@ -265,7 +265,7 @@ services:
     restart: always
 
   wiremock:
-    image: wiremock/wiremock:3.9.2-1
+    image: wiremock/wiremock:3.10.0-1
     ports:
       - 8080:8080
     healthcheck:
