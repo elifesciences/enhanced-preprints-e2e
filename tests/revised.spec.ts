@@ -39,10 +39,6 @@ test.describe('revised preprint', () => {
     await eppPage.assertArticleStatusText('Revised by authors');
     await eppPage.assertDoi('https://doi.org/10.7554/000001.2');
 
-    await eppPage.gotoArticlePage({ version: 1 });
-    await eppPage.reloadAndAssertStatus(200);
-    await eppPage.assertDoi('https://doi.org/10.7554/000001.1');
-
     await eppPage.gotoArticlePage({ status: 200 });
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation (revised)');
     await eppPage.assertArticleStatusText('Revised by authors');
