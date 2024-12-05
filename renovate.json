@@ -20,6 +20,7 @@
         "ghcr.io/elifesciences/enhanced-preprints-client",
         "ghcr.io/elifesciences/enhanced-preprints-biorxiv-xslt-api",
         "ghcr.io/elifesciences/enhanced-preprints-import-worker",
+        "ghcr.io/elifesciences/enhanced-preprints-import-controller",
         "ghcr.io/elifesciences/enhanced-preprints-encoda"
       ],
       "versioning": "regex:^master-(.*)-(?<minor>[\\d]+)\\.(?<patch>[\\d]+)$",
