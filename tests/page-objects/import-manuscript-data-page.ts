@@ -23,7 +23,7 @@ export class ImportManuscriptDataPage {
   }
 
   async gotoForm() {
-    const response = await this.page.goto(`${config.import_controller_url}/input`);
+    const response = await this.page.goto(`${config.import_controller_url}/manuscript-data`);
     expect(response?.status()).toBe(200);
   }
 
