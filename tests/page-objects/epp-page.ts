@@ -65,17 +65,10 @@ export class EppPage {
     await this.page.goto(`${config.client_url}/reviewed-preprints/${this.name}-msidv1/reviews`);
   }
 
-  async navigateToVersion(version: number, wait: boolean = false): Promise<void> {
-    await this.page.getByText(`v${version}`).locator('xpath=ancestor::dd[1]/preceding-sibling::*[1]//a').click();
-    if (wait) {
-      await this.page.waitForURL(`${config.client_url}/reviewed-preprints/${this.name}-msidv${version}`);
-    }
-  }
-
   async navigateToReviewsTab(): Promise<void> {
     const peerReviewTab = this.page.locator('.tabbed-navigation__tabs').getByText('Peer review');
     await peerReviewTab.click();
-    expect(this.page.locator('.tabbed-navigation__tab-label--active')).toHaveText('Peer review');
+    await expect(this.page.locator('.tabbed-navigation__tab-label--active')).toHaveText('Peer review');
   }
 
   async reload() {
@@ -83,13 +76,6 @@ export class EppPage {
   }
 
   async reloadAndAssertStatus(status: number): Promise<void> {
-    await expect(async () => {
-      const response = await this.reload();
-      expect(response?.status()).toBe(status);
-    }).toPass();
-  }
-
-  async reloadAndAssertTimelineEvent(status: number): Promise<void> {
     await expect(async () => {
       const response = await this.reload();
       expect(response?.status()).toBe(status);
@@ -147,24 +133,6 @@ export class EppPage {
     await expect(this.articleStatus).toContainText(content);
   }
 
-  async expandTimeline(): Promise<void> {
-    const countVisibleEvents = async () => {
-      const events = await this.page.locator('.review-timeline__event').elementHandles();
-      const visibleEvents = await Promise.all(events.map(async (event) => {
-        const display = await event.evaluate((node) => {
-          const el = node as Element;
-          return window.getComputedStyle(el).display;
-        });
-        return display !== 'none';
-      }));
-      return visibleEvents.filter((isVisible) => isVisible).length;
-    };
-
-    expect(await countVisibleEvents()).toBe(1);
-    await this.page.click('.review-timeline__expansion');
-    expect(await countVisibleEvents()).toBeGreaterThan(1);
-  }
-
   async assertTimelineDetailText(index: number, content: string): Promise<void> {
     await expect(this.page.locator(`.review-timeline__detail:nth-of-type(${index})`)).toContainText(content);
   }
@@ -175,11 +143,6 @@ export class EppPage {
 
   async assertTimelineEventLink(index: number, url: string): Promise<void> {
     await expect(this.page.locator(`.review-timeline__event:nth-of-type(${index}) a`).getAttribute('href')).resolves.toEqual(url);
-  }
-
-  async assertTimelineEventThisVersion(index: number): Promise<void> {
-    const event = this.page.locator(`.review-timeline__detail:nth-of-type(${index})`);
-    await expect(event.locator('.review-timeline__link')).toContainText('revised', { ignoreCase: true });
   }
 
   async assertRelatedContent(index: number, type: string, title: string, url: string, content?: string): Promise<void> {
