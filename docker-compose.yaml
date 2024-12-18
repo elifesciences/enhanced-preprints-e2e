@@ -181,7 +181,7 @@ services:
       - 3005:3000
 
   worker: &worker-config
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-3a230507-20241218.0517
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-bf78142f-20241218.0721
     depends_on:
       createbucket:
         condition: service_completed_successfully
