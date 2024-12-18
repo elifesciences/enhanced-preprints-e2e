@@ -181,7 +181,7 @@ services:
       - 3005:3000
 
   worker: &worker-config
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-bf78142f-20241218.0721
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-4d50c086-20241218.1805
     depends_on:
       createbucket:
         condition: service_completed_successfully
@@ -243,7 +243,7 @@ services:
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="import-docmaps"}'  | grep 1
 
   import-controller:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-controller:master-d708f44f-20241209.1559
+    image: ghcr.io/elifesciences/enhanced-preprints-import-controller:master-7d52e958-20241218.1817
     ports:
       - 3006:5000
     depends_on:
