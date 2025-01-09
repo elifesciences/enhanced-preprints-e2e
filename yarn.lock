@@ -642,9 +642,9 @@
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
 "@grpc/grpc-js@^1.10.7":
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.12.2.tgz#97eda82dd49bb9c24eaf6434ea8d7de446e95aac"
-  integrity sha512-bgxdZmgTrJZX50OjyVwz3+mNEnCTNkh3cIqGPWVNeW9jX6bn1ZkU80uPd+67/ZpIJIjRQ9qaHCjhavyoWYxumg==
+  version "1.12.5"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.12.5.tgz#0064a28fe9b1ec54ac27e1c9bf70720aa01285e8"
+  integrity sha512-d3iiHxdpg5+ZcJ6jnDSOT8Z0O0VMVGy34jAnYLUX8yd36b1qn8f1TwOA/Lc7TsOh03IkPJ38eGI5qD2EjNkoEA==
   dependencies:
     "@grpc/proto-loader" "^0.7.13"
     "@js-sdsl/ordered-map" "^4.4.2"
@@ -1260,31 +1260,31 @@
     tslib "^2.6.2"
 
 "@temporalio/client@^1.8.5":
-  version "1.11.5"
-  resolved "https://registry.yarnpkg.com/@temporalio/client/-/client-1.11.5.tgz#2902292ce7d271a98337f3c4724e8d876864a18f"
-  integrity sha512-Q8hFqxyf41MQmCeyxcGpbiMyuxhilvG8FScFwSbFs8ZZPZykNcpr5o+TOowLWzGWAL5f2bIKETh/eXDZpZvY7g==
+  version "1.11.6"
+  resolved "https://registry.yarnpkg.com/@temporalio/client/-/client-1.11.6.tgz#df91030a300af5e1ddf6d08bfbab31c5e32a6250"
+  integrity sha512-UxzX700i4AROxS9YIXK074A53wSuujoeIRnRxs7uVOdgzu8pLf30Wk+ZDq+ty6IeHA60qsTcZRs+PlBHqeuMUA==
   dependencies:
     "@grpc/grpc-js" "^1.10.7"
-    "@temporalio/common" "1.11.5"
-    "@temporalio/proto" "1.11.5"
+    "@temporalio/common" "1.11.6"
+    "@temporalio/proto" "1.11.6"
     abort-controller "^3.0.0"
     long "^5.2.3"
     uuid "^9.0.1"
 
-"@temporalio/common@1.11.5":
-  version "1.11.5"
-  resolved "https://registry.yarnpkg.com/@temporalio/common/-/common-1.11.5.tgz#3ebdec2c61bd35cf40351105666bb62b0e5d51f7"
-  integrity sha512-6cgGTAT+jSKKwCPOoUDIseJuDroP7cEIAX/pYpNBRGvfj+lpU8GitSVsPEZTVoMQ400otzBa1n80aH8bnOLVTw==
+"@temporalio/common@1.11.6":
+  version "1.11.6"
+  resolved "https://registry.yarnpkg.com/@temporalio/common/-/common-1.11.6.tgz#421f6a7122fbe67acb570297f4c3adc48b9df0b5"
+  integrity sha512-7yjHpJeDbVcqa2rk6spHTVhNob/oCXXrInZPSov9i2Pa0VElquiWpx8d9pJ8sATuxpBpvozNmTEnGWgNEI+G6w==
   dependencies:
-    "@temporalio/proto" "1.11.5"
+    "@temporalio/proto" "1.11.6"
     long "^5.2.3"
     ms "^3.0.0-canary.1"
     proto3-json-serializer "^2.0.0"
 
-"@temporalio/proto@1.11.5":
-  version "1.11.5"
-  resolved "https://registry.yarnpkg.com/@temporalio/proto/-/proto-1.11.5.tgz#21ffb1ee876ff9edd694e9906eebc034da88fd45"
-  integrity sha512-LjRGQdLRpRxDp2NSyNyhCp7JLaUlMY2T+hAeGfueR5cOVZxHXTO8TXnnjimi0UM1knyA6sW3yNJCNieKlCcASg==
+"@temporalio/proto@1.11.6":
+  version "1.11.6"
+  resolved "https://registry.yarnpkg.com/@temporalio/proto/-/proto-1.11.6.tgz#5e25d69d3a0e30496c71bfe8f9d1e46ef0f4a846"
+  integrity sha512-N9qnyNabiY2LySft4fBrMCBNRoxbmADMdpP9+CX8RSVCHVLlf32FzkTUTFwZX1dOU+g2JsYrUzHFEBOPBpD8dQ==
   dependencies:
     long "^5.2.3"
     protobufjs "^7.2.5"
@@ -1295,11 +1295,11 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/node@>=13.7.0":
-  version "22.9.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.9.1.tgz#bdf91c36e0e7ecfb7257b2d75bf1b206b308ca71"
-  integrity sha512-p8Yy/8sw1caA8CdRIQBG5tiLHmxtQKObCijiAa9Ez+d4+PRffM4054xbju0msf+cvhJpnFEeNjxmVT/0ipktrg==
+  version "22.10.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.10.5.tgz#95af89a3fb74a2bb41ef9927f206e6472026e48b"
+  integrity sha512-F8Q+SeGimwOo86fiovQh8qiXfFEh2/ocYv7tU5pJ3EXMSSxk1Joj5wefpFK2fHTf/N6HKGSxIDBT9f3gCxXPkQ==
   dependencies:
-    undici-types "~6.19.8"
+    undici-types "~6.20.0"
 
 "@typescript-eslint/eslint-plugin@^7.0.0":
   version "7.18.0"
@@ -3143,10 +3143,10 @@ unbox-primitive@^1.0.2:
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
 
-undici-types@~6.19.8:
-  version "6.19.8"
-  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
-  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
+undici-types@~6.20.0:
+  version "6.20.0"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.20.0.tgz#8171bf22c1f588d1554d55bf204bc624af388433"
+  integrity sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==
 
 uri-js@^4.2.2:
   version "4.4.1"
