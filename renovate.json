@@ -1,9 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
-  "dependencyDashboardTitle":"Dependency Dashboard - EPP e2e tests",
+  "dependencyDashboardTitle": "Dependency Dashboard - EPP e2e tests",
   "packageRules": [
     {
       "matchUpdateTypes": [
@@ -27,15 +27,20 @@
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true
-
     },
     {
-      "packagePatterns": ["^minio"],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})T\\d{2}-\\d{2}-\\d{2}Z$"
+      "versioning": "regex:^RELEASE\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})T\\d{2}-\\d{2}-\\d{2}Z$",
+      "matchPackageNames": [
+        "/^minio/"
+      ]
     },
     {
-      "matchPackageNames": ["node"],
-      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "node"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
       "versioning": "node"
     }
   ]
