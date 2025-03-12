@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: Jolg42/action-renovate-checkbox@v1
       with:
-        master-issue-id: 5
+        master-issue-id: 1154
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
