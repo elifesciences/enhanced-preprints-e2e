@@ -16,7 +16,7 @@ export class ImportManuscriptDataPage {
 
   constructor(thePage: Page) {
     this.page = thePage;
-    this.input = this.page.locator('#manuscript-data');
+    this.input = this.page.locator('.CodeMirror');
     this.namespaceSelector = this.page.locator('#temporal_namespace');
     this.submit = this.page.locator('button[type="submit"]');
     this.workflowLink = this.page.locator(`xpath=//a[starts-with(@href, '${config.temporal_ui_url}')]`);
@@ -28,7 +28,14 @@ export class ImportManuscriptDataPage {
   }
 
   async fillAndSubmitForm(text: string) {
-    await this.input.fill(text);
+    await this.input.evaluate((el, value) => {
+      const cm = (el as any).CodeMirror;
+      if (cm) {
+        cm.setValue(value);
+      } else {
+        throw new Error('CodeMirror instance not found');
+      }
+    }, text);
     await this.namespaceSelector.selectOption('default');
     await Promise.all([
       this.submit.click(),
