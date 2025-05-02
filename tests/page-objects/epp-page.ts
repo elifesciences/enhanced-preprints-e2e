@@ -133,16 +133,16 @@ export class EppPage {
     await expect(this.articleStatus).toContainText(content);
   }
 
-  async assertTimelineDetailText(index: number, content: string): Promise<void> {
-    await expect(this.page.locator(`.review-timeline__detail:nth-of-type(${index})`)).toContainText(content);
+  async assertTimelineEventDetailText(index: number, content: string): Promise<void> {
+    await expect(this.page.locator(`.review-timeline__event--detail:nth-of-type(${index})`)).toContainText(content);
   }
 
-  async assertTimelineEventText(index: number, content: string): Promise<void> {
-    await expect(this.page.locator(`.review-timeline__event:nth-of-type(${index})`)).toContainText(content);
+  async assertTimelineEventTitleText(index: number, content: string): Promise<void> {
+    await expect(this.page.locator(`.review-timeline__event--title:nth-of-type(${index})`)).toContainText(content);
   }
 
-  async assertTimelineEventLink(index: number, url: string): Promise<void> {
-    await expect(this.page.locator(`.review-timeline__event:nth-of-type(${index}) a`).getAttribute('href')).resolves.toEqual(url);
+  async assertTimelineEventTitleLink(index: number, url: string): Promise<void> {
+    await expect(this.page.locator(`.review-timeline__event--title:nth-of-type(${index}) a`).getAttribute('href')).resolves.toEqual(url);
   }
 
   async assertRelatedContent(index: number, type: string, title: string, url: string, content?: string): Promise<void> {
