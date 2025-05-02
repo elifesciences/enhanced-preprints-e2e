@@ -52,9 +52,9 @@ test.describe('progress a manuscript through the manifestations', () => {
     await expect(async () => {
       const response = await eppPage.reload();
       expect(response?.status()).toBe(200);
-      await eppPage.assertTimelineEventText(1, 'Version of Record');
-      await eppPage.assertTimelineEventLink(1, 'https://elifesciences.org/articles/000001v1');
-      await eppPage.assertTimelineDetailText(1, 'June 7, 2023');
+      await eppPage.assertTimelineEventTitleText(1, 'Version of Record');
+      await eppPage.assertTimelineEventTitleLink(1, 'https://elifesciences.org/articles/000001v1');
+      await eppPage.assertTimelineEventDetailText(1, 'June 7, 2023');
     }).toPass();
   };
 
@@ -64,13 +64,13 @@ test.describe('progress a manuscript through the manifestations', () => {
     await expect(async () => {
       const response = await eppPage.reload();
       expect(response?.status()).toBe(200);
-      await eppPage.assertTimelineEventText(1, 'Version of Record');
-      await eppPage.assertTimelineEventLink(1, 'https://elifesciences.org/articles/000001v2');
-      await eppPage.assertTimelineDetailText(1, 'July 6, 2023');
+      await eppPage.assertTimelineEventTitleText(1, 'Version of Record');
+      await eppPage.assertTimelineEventTitleLink(1, 'https://elifesciences.org/articles/000001v2');
+      await eppPage.assertTimelineEventDetailText(1, 'July 6, 2023');
     }).toPass();
-    await eppPage.assertTimelineEventText(2, 'Version of Record');
-    await eppPage.assertTimelineEventLink(2, 'https://elifesciences.org/articles/000001v1');
-    await eppPage.assertTimelineDetailText(2, 'June 7, 2023');
+    await eppPage.assertTimelineEventTitleText(2, 'Version of Record');
+    await eppPage.assertTimelineEventTitleLink(2, 'https://elifesciences.org/articles/000001v1');
+    await eppPage.assertTimelineEventDetailText(2, 'June 7, 2023');
   };
 
   // eslint-disable-next-line no-empty-pattern
