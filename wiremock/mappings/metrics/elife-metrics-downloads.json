@@ -1,0 +1,14 @@
+{
+    "scenarioName": "metrics",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/metrics/article/metrics-msid/downloads"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": {
+            "totalValue": 5
+        }
+    }
+}
