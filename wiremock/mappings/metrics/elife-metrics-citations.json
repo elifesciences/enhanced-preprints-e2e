@@ -1,0 +1,29 @@
+{
+    "scenarioName": "metrics",
+    "requiredScenarioState": "Started",
+    "request": {
+        "method": "GET",
+        "url": "/metrics/article/metrics-msid/citations"
+    },
+    "response": {
+        "status": 200,
+        "jsonBody": [
+            {
+                
+                "service": "Crossref",
+                "uri": "https://doi.org/10.7554/eLife.98143",
+                "citations": 6
+            },
+            {
+                "service": "PubMed Central",
+                "uri": "",
+                "citations": 0
+            },
+            {
+                "service": "Scopus",
+                "uri": "",
+                "citations": 0
+            }
+        ]
+    }
+}
