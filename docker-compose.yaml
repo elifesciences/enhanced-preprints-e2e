@@ -243,7 +243,7 @@ services:
       test: curl -s http://localhost:9464/metrics  | grep 'temporal_worker_start{namespace="default",service_name="temporal-core-sdk",task_queue="import-docmaps"}'  | grep 1
 
   import-controller:
-    image: ghcr.io/elifesciences/enhanced-preprints-import-controller:master-08415db8-20250614.2210
+    image: ghcr.io/elifesciences/enhanced-preprints-import-controller:master-b2992f17-20250616.1504
     ports:
       - 3006:5000
     depends_on:
