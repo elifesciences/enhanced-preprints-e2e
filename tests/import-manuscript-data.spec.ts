@@ -3,7 +3,7 @@ import { ImportManuscriptDataPage } from './page-objects/import-manuscript-data-
 import { EppPage } from './page-objects/epp-page';
 import { setupClientAndScheduleStores, trashTemporal } from '../utils/setup-temporal';
 
-const prepareManuscriptData = (name: string, optional?: true) => {
+const prepareManuscriptData = (name: string, content?: string[]) => {
   const id = `${name}-msid`;
   const requiredPreprint = {
     id,
@@ -14,7 +14,10 @@ const prepareManuscriptData = (name: string, optional?: true) => {
     ...requiredPreprint,
     publishedDate: '2023-01-02',
     url: 'www.google.com',
-    content: ['s3://meca/dummy-1.meca'],
+    content: [
+      's3://meca/dummy-1.meca',
+      ...(content ?? []),
+    ],
     license: 'Creative Commons',
     corrections: [{
       content: ['Corrections Content'],
@@ -82,9 +85,7 @@ const prepareManuscriptData = (name: string, optional?: true) => {
   return JSON.stringify({
     id,
     versions: [optionalVersion],
-    ...(optional ? {
-      manuscript: optionalManuscript,
-    } : {}),
+    manuscript: optionalManuscript,
   });
 };
 
@@ -103,11 +104,37 @@ test.describe('Import Manuscript Data', () => {
   test('publish content via import manuscript data form', async ({ page }) => {
     const importManuscriptDataPage = new ImportManuscriptDataPage(page);
     await importManuscriptDataPage.gotoForm();
-    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData(name, true));
+    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData(name, []));
 
     const eppPage = new EppPage(page, name);
     await eppPage.gotoArticlePage({ version: 42 });
     await eppPage.reloadAndAssertStatus(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertNoDownloadLink();
+  });
+});
+
+test.describe('Import Manuscript Data with PDF Url', () => {
+  const name = 'import-manuscript-data-with-pdf-url';
+
+  const { minioClient } = setupClientAndScheduleStores();
+
+  test.afterEach(async () => {
+    await trashTemporal({
+      name,
+      s3Client: minioClient,
+    });
+  });
+
+  test('publish content with pdf url via import manuscript data form', async ({ page }) => {
+    const importManuscriptDataPage = new ImportManuscriptDataPage(page);
+    await importManuscriptDataPage.gotoForm();
+    await importManuscriptDataPage.fillAndSubmitForm(prepareManuscriptData(name, ['https://pdf.com/dummy-1.pdf']));
+
+    const eppPage = new EppPage(page, name);
+    await eppPage.gotoArticlePage({ version: 42 });
+    await eppPage.reloadAndAssertStatus(200);
+    await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
+    await eppPage.assertDownloadLink('https://pdf.com/dummy-1.pdf');
   });
 });

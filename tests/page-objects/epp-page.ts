@@ -25,6 +25,8 @@ export class EppPage {
 
   readonly metricsAside: Locator;
 
+  readonly downloadLink: Locator;
+
   constructor(thePage: Page, name: string) {
     this.page = thePage;
     this.name = name;
@@ -36,6 +38,7 @@ export class EppPage {
     this.articleStatus = this.page.locator('.review-timeline__link');
     this.metrics = this.page.locator('.metricsTable');
     this.metricsAside = this.page.locator('.contextual-data');
+    this.downloadLink = this.page.locator('.button--icon-download');
   }
 
   getName(): string {
@@ -170,6 +173,14 @@ export class EppPage {
       `${downloads} downloads`,
       `${citations} citations`,
     ]);
+  }
+
+  async assertDownloadLink(url: string): Promise<void> {
+    await expect(this.downloadLink.getAttribute('href')).resolves.toEqual(url);
+  }
+
+  async assertNoDownloadLink(): Promise<void> {
+    await expect(this.downloadLink).toHaveCount(0);
   }
 
   async assertGTMPresent(): Promise<void> {
