@@ -22,5 +22,6 @@
     "test:docker": "docker compose -f docker-compose.yaml -f docker-compose.test.yaml run --build test",
     "lint": "eslint --ext .ts,.json tests/ utils/ wiremock/",
     "lint:fix": "eslint --fix --ext .ts tests/ utils/"
-  }
+  },
+  "packageManager": "yarn@4.9.4"
 }
