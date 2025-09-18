@@ -23,7 +23,7 @@
     "lint": "eslint --ext .ts,.json tests/ utils/ wiremock/",
     "lint:fix": "eslint --fix --ext .ts tests/ utils/"
   },
-  "packageManager": "yarn@4.10.1",
+  "packageManager": "yarn@4.10.2",
   "devDependencies": {
     "@eslint/compat": "^1.3.2"
   }
