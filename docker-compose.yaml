@@ -105,7 +105,7 @@ services:
         condition: service_healthy
 
   mongodb:
-    image: mongo:8.0.15
+    image: mongo:8.2.1
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
