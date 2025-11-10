@@ -1618,39 +1618,39 @@ __metadata:
   linkType: hard
 
 "@temporalio/client@npm:^1.8.5":
-  version: 1.13.1
-  resolution: "@temporalio/client@npm:1.13.1"
+  version: 1.13.2
+  resolution: "@temporalio/client@npm:1.13.2"
   dependencies:
     "@grpc/grpc-js": "npm:^1.12.4"
-    "@temporalio/common": "npm:1.13.1"
-    "@temporalio/proto": "npm:1.13.1"
+    "@temporalio/common": "npm:1.13.2"
+    "@temporalio/proto": "npm:1.13.2"
     abort-controller: "npm:^3.0.0"
     long: "npm:^5.2.3"
-    uuid: "npm:^9.0.1"
-  checksum: 10c0/eb648080cb79254f5a8fde06abab29f0cad1e9aea081b01f41685d8220a07f53c48add676e58b2469880f9c37103e80e742ef28a9a45bfb8e9b7b56a05430eee
+    uuid: "npm:^11.1.0"
+  checksum: 10c0/1552db58a61c74b062ebbc9ea7f50f206c767176a08b7ada305d5e354ba96d56148b443ca066efbb3c773e55c59d4e415e8cf4c6cbe55abf7470d76fa87ca2ea
   languageName: node
   linkType: hard
 
-"@temporalio/common@npm:1.13.1":
-  version: 1.13.1
-  resolution: "@temporalio/common@npm:1.13.1"
+"@temporalio/common@npm:1.13.2":
+  version: 1.13.2
+  resolution: "@temporalio/common@npm:1.13.2"
   dependencies:
-    "@temporalio/proto": "npm:1.13.1"
+    "@temporalio/proto": "npm:1.13.2"
     long: "npm:^5.2.3"
     ms: "npm:3.0.0-canary.1"
     nexus-rpc: "npm:^0.0.1"
     proto3-json-serializer: "npm:^2.0.0"
-  checksum: 10c0/cbbab1e9e4ac0cbe6ba11762a69a6e26dadd10ce0ced8341f40f3b4ec89c78c1058df5034308097477816d917d210be9385ab6a40e8b7a8fb59e6df38ce030b6
+  checksum: 10c0/e8b57dc4dd3f51c1bc44430d1cd37c9d8625816c95c1b007cc0907c811712a3499630e6db12c99d4d857d7a5d3f6de77ad18d10ac177ba37082829d9aac84d9c
   languageName: node
   linkType: hard
 
-"@temporalio/proto@npm:1.13.1":
-  version: 1.13.1
-  resolution: "@temporalio/proto@npm:1.13.1"
+"@temporalio/proto@npm:1.13.2":
+  version: 1.13.2
+  resolution: "@temporalio/proto@npm:1.13.2"
   dependencies:
     long: "npm:^5.2.3"
     protobufjs: "npm:^7.2.5"
-  checksum: 10c0/3b2439b9ac3572ebed1bb77f3068e55a35ed76e0a97975e5705234b9e4ae6c3ccc8f72c0cf69cc8d569a23d53b6a229ba06391cf0eeb1763f3990fda5a6e1266
+  checksum: 10c0/87a6f7ede2cba073e18a81bdcf9c21f6523e7427583956543d53bc7268884209525e20024908e72c7cbafd68f1168494e00561059126233895d1b09803df91ee
   languageName: node
   linkType: hard
 
@@ -4779,12 +4779,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "uuid@npm:9.0.1"
+"uuid@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "uuid@npm:11.1.0"
   bin:
-    uuid: dist/bin/uuid
-  checksum: 10c0/1607dd32ac7fc22f2d8f77051e6a64845c9bce5cd3dd8aa0070c074ec73e666a1f63c7b4e0f4bf2bc8b9d59dc85a15e17807446d9d2b17c8485fbc2147b27f9b
+    uuid: dist/esm/bin/uuid
+  checksum: 10c0/34aa51b9874ae398c2b799c88a127701408cd581ee89ec3baa53509dd8728cbb25826f2a038f9465f8b7be446f0fbf11558862965b18d21c993684297628d4d3
   languageName: node
   linkType: hard
 
