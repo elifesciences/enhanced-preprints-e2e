@@ -2,4 +2,3 @@
 /test-results/
 /playwright-report/
 /playwright/.cache/
-.yarn/install-state.gz
