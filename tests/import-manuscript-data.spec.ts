@@ -135,6 +135,6 @@ test.describe('Import Manuscript Data with PDF Url', () => {
     await eppPage.gotoArticlePage({ version: 42 });
     await eppPage.reloadAndAssertStatus(200);
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
-    await eppPage.assertDownloadLink('https://pdf.com/dummy-1.pdf');
+    await eppPage.assertDownloadLink('/reviewed-preprints/import-manuscript-data-with-pdf-url-msidv42.pdf');
   });
 });
