@@ -137,7 +137,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-4311f113-20251121.1503
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-e992d482-20251124.1106
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -181,7 +181,7 @@ services:
       - 3005:3000
 
   worker: &worker-config
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-3ec269d9-20251122.0031
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-ce84ba18-20251122.0539
     depends_on:
       createbucket:
         condition: service_completed_successfully
