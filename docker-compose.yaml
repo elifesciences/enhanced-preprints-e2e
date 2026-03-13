@@ -57,7 +57,7 @@ services:
 
 
   temporal:
-    image: temporalio/auto-setup:1.29.1
+    image: temporalio/auto-setup:1.29.4
     ports:
       - 7233:7233
     environment:
@@ -92,7 +92,7 @@ services:
 
 
   temporal-ui:
-    image: temporalio/ui:2.43.3
+    image: temporalio/ui:2.45.0
     ports:
       - 8233:8233
     environment:
@@ -105,7 +105,7 @@ services:
         condition: service_healthy
 
   mongodb:
-    image: mongo:8.2.2
+    image: mongo:8.2.5
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: testtest
@@ -117,7 +117,7 @@ services:
       start_period: 2s
 
   api:
-    image: ghcr.io/elifesciences/enhanced-preprints-server:master-7b084caf-20251120.0432
+    image: ghcr.io/elifesciences/enhanced-preprints-server:master-74cb7c38-20260304.0238
     healthcheck:
       test: sh -c 'apk add curl; curl http://localhost:3000/'
       interval: 5s
@@ -137,7 +137,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-7ee5ee93-20251120.1438
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-378b7ede-20260217.1201
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -169,7 +169,7 @@ services:
       start_period: 5s
 
   encoda:
-    image: ghcr.io/elifesciences/enhanced-preprints-encoda:master-bfdad6ad-20250901.1948
+    image: ghcr.io/elifesciences/enhanced-preprints-encoda:master-0346a3c6-20251121.0919
     healthcheck:
       test: "wget --post-data '<test></test>' -O - http://localhost:3000/"
       interval: 10s
@@ -181,7 +181,7 @@ services:
       - 3005:3000
 
   worker: &worker-config
-    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-076654ed-20251120.1314
+    image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-5b3831a0-20260306.0852
     depends_on:
       createbucket:
         condition: service_completed_successfully
