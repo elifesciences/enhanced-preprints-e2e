@@ -1601,39 +1601,39 @@ __metadata:
   linkType: hard
 
 "@temporalio/client@npm:^1.8.5":
-  version: 1.14.1
-  resolution: "@temporalio/client@npm:1.14.1"
+  version: 1.15.0
+  resolution: "@temporalio/client@npm:1.15.0"
   dependencies:
     "@grpc/grpc-js": "npm:^1.12.4"
-    "@temporalio/common": "npm:1.14.1"
-    "@temporalio/proto": "npm:1.14.1"
+    "@temporalio/common": "npm:1.15.0"
+    "@temporalio/proto": "npm:1.15.0"
     abort-controller: "npm:^3.0.0"
     long: "npm:^5.2.3"
     uuid: "npm:^11.1.0"
-  checksum: 10c0/b6c14d11176669bc8d2e4251b92d51be42e7e59611ff1d437a932d7fdc629a23bf5c8b0a18a13a3d58a0463cb90c11f027464fbdf35eaa85f8ccf06d22598b8d
+  checksum: 10c0/e92b76218ecdf68e8cb7ecbd526f0be5e18f7273028596ea417ea6dd74e822c8b5d28fe1cf34926fb66e955a9b90c8266d9e197709aa54bdcee6fd21924682bb
   languageName: node
   linkType: hard
 
-"@temporalio/common@npm:1.14.1":
-  version: 1.14.1
-  resolution: "@temporalio/common@npm:1.14.1"
+"@temporalio/common@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@temporalio/common@npm:1.15.0"
   dependencies:
-    "@temporalio/proto": "npm:1.14.1"
+    "@temporalio/proto": "npm:1.15.0"
     long: "npm:^5.2.3"
     ms: "npm:3.0.0-canary.1"
     nexus-rpc: "npm:^0.0.1"
     proto3-json-serializer: "npm:^2.0.0"
-  checksum: 10c0/d99ea6a383a66a424467f9dad4661c55fc4325906242f5763e80c2d15b99d01a70d18182018e8b084f223529bded86d4a9523d25c9a448d2641a5b5cfa0c7b18
+  checksum: 10c0/4ca5e8c6af1680fcd4df72f3d0fabc2274496735053d3be365915fa76242c56be66b60b6ee74f5b729750784186517179c227016078a82c4dc052e39092ad8da
   languageName: node
   linkType: hard
 
-"@temporalio/proto@npm:1.14.1":
-  version: 1.14.1
-  resolution: "@temporalio/proto@npm:1.14.1"
+"@temporalio/proto@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@temporalio/proto@npm:1.15.0"
   dependencies:
     long: "npm:^5.2.3"
     protobufjs: "npm:^7.2.5"
-  checksum: 10c0/379f054ef360ea9610db14dd0150023cca58184e6c7138bd78739e900f6de13913bc00dc7b8106dc8d6d6aa2b8b05f13325c504c5067c79bb7754a83156fe345
+  checksum: 10c0/09b25c12aad4d65c3cb3a447879e790ee83967d0d4d46011d49e9156b468c605f57663dae088ecb47d75e0a6971d2ea072bb5840dda4163f6569448d164a90b0
   languageName: node
   linkType: hard
 
