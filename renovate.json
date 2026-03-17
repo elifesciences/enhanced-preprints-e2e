@@ -28,8 +28,8 @@
       "versioning": "regex:^master-(.*)-(?<minor>[\\d]+)\\.(?<patch>[\\d]+)$",
       "automerge": true,
       "automergeType": "pr",
-      "platformAutomerge": true
-
+      "platformAutomerge": true,
+      "prPriority": 100
     },
     {
       "packagePatterns": ["^minio"],
