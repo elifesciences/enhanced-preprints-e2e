@@ -6,7 +6,7 @@ import { EppPage } from './page-objects/epp-page';
 test.describe('GTM', () => {
   test('GTM is enabled when environment variable is set', async () => {
     const response = await axios.get(config.client_url);
-    expect(response.data).toContain('<script id="GTM">');
+    expect(response.data).toContain('<script id="GTM"');
     expect(response.data).toContain('\'notarealid\'');
   });
 
