@@ -23,6 +23,7 @@ test.describe('preview preprint', () => {
     const eppPage = new EppPage(page, name);
     await eppPage.gotoPreviewPage({ version: 1 });
     await eppPage.reloadAndAssertStatus(200);
+    await eppPage.assertCitationXmlUrlMetaTag(`/reviewed-preprints/${name}-msidv1.xml`);
     await eppPage.assertTitleVisibility();
     await eppPage.assertTitleText('OpenApePose: a database of annotated ape photographs for pose estimation');
     // eslint-disable-next-line max-len

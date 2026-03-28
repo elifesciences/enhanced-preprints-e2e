@@ -27,6 +27,8 @@ export class EppPage {
 
   readonly downloadLink: Locator;
 
+  readonly xmlMetaTag: Locator;
+
   constructor(thePage: Page, name: string) {
     this.page = thePage;
     this.name = name;
@@ -39,6 +41,7 @@ export class EppPage {
     this.metrics = this.page.locator('.metricsTable');
     this.metricsAside = this.page.locator('.contextual-data');
     this.downloadLink = this.page.locator('.button--icon-download');
+    this.xmlMetaTag = this.page.locator('head meta[name="citation_xml_url"]');
   }
 
   getName(): string {
@@ -181,6 +184,10 @@ export class EppPage {
 
   async assertNoDownloadLink(): Promise<void> {
     await expect(this.downloadLink).toHaveCount(0);
+  }
+
+  async assertCitationXmlUrlMetaTag(url: string): Promise<void> {
+    expect((await this.xmlMetaTag.getAttribute('content'))?.endsWith(url)).toBe(true);
   }
 
   async assertGTMPresent(): Promise<void> {
