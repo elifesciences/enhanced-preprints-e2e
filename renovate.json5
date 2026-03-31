@@ -25,14 +25,14 @@
         "ghcr.io/elifesciences/enhanced-preprints-import-controller",
         "ghcr.io/elifesciences/enhanced-preprints-encoda"
       ],
-      "versioning": "regex:^master-(.*)-(?<minor>[\d]+)\.(?<patch>[\d]+)$",
+      "versioning": "regex:^master-(.*)-(?<minor>[\\d]+)\.(?<patch>[\\d]+)$",
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true,
       "prPriority": 100
     },
     {
-      "versioning": "regex:^RELEASE\.(?<major>\d{4})-(?<minor>\d{2})-(?<patch>\d{2})T\d{2}-\d{2}-\d{2}Z$",
+      "versioning": "regex:^RELEASE\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})T\\d{2}-\\d{2}-\\d{2}Z$",
       "matchPackageNames": [
         "/^minio/"
       ]
