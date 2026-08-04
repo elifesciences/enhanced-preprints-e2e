@@ -1,4 +1,8 @@
 services:
+  import-controller:
+    environment:
+      TEMPORAL_UI: http://temporal-ui:8233
+
   test:
     build:
       context: .

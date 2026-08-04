@@ -49,12 +49,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: testmysql
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       start_period: 2s
       interval: 5s
       timeout: 5s
       retries: 10
-
 
   temporal:
     image: temporalio/auto-setup:1.29.4
@@ -89,7 +88,6 @@ services:
     depends_on:
       temporal:
         condition: service_healthy
-
 
   temporal-ui:
     image: temporalio/ui:2.45.0
@@ -137,7 +135,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-22314416-20260723.1536
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-8131b9d2-20260804.0835
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -252,7 +250,7 @@ services:
         condition: service_healthy
     environment:
       TEMPORAL_NAMESPACE: default
-      TEMPORAL_UI: http://temporal-ui:8233
+      TEMPORAL_UI: http://localhost:8233
       TEMPORAL_SERVER: temporal:7233
       TEMPORAL_TASK_QUEUE: epp
     healthcheck:
@@ -273,8 +271,7 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-    command:
-      --local-response-templating
+    command: --local-response-templating
     volumes:
       - ./wiremock/mappings:/home/wiremock/mappings
       - ./mock-data/docmaps:/home/wiremock/__files/docmaps
