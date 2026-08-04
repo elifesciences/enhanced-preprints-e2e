@@ -5,7 +5,7 @@
   ],
   "assigneesFromCodeOwners": true,
   "dependencyDashboardTitle":"Dependency Dashboard - EPP e2e tests",
-  "prConcurrentLimit": 0,
+  "prConcurrentLimit": 10,
   "packageRules": [
     {
       "matchUpdateTypes": [
