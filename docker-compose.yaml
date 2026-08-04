@@ -137,7 +137,7 @@ services:
       - 3000:3000
 
   client:
-    image: ghcr.io/elifesciences/enhanced-preprints-client:master-a5ba43f9-20260724.1113
+    image: ghcr.io/elifesciences/enhanced-preprints-client:master-22314416-20260723.1536
     healthcheck:
       test: sh -c 'apk add curl; curl -X POST http://client:3000/'
       interval: 10s
@@ -252,7 +252,7 @@ services:
         condition: service_healthy
     environment:
       TEMPORAL_NAMESPACE: default
-      TEMPORAL_UI: http://localhost:8233
+      TEMPORAL_UI: http://temporal-ui:8233
       TEMPORAL_SERVER: temporal:7233
       TEMPORAL_TASK_QUEUE: epp
     healthcheck:
