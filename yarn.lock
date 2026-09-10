@@ -1601,39 +1601,40 @@ __metadata:
   linkType: hard
 
 "@temporalio/client@npm:^1.8.5":
-  version: 1.15.0
-  resolution: "@temporalio/client@npm:1.15.0"
+  version: 1.23.0
+  resolution: "@temporalio/client@npm:1.23.0"
   dependencies:
     "@grpc/grpc-js": "npm:^1.12.4"
-    "@temporalio/common": "npm:1.15.0"
-    "@temporalio/proto": "npm:1.15.0"
+    "@temporalio/common": "npm:1.23.0"
+    "@temporalio/proto": "npm:1.23.0"
     abort-controller: "npm:^3.0.0"
-    long: "npm:^5.2.3"
+    long: "npm:^5.3.2"
+    nexus-rpc: "npm:^0.0.3"
     uuid: "npm:^11.1.0"
-  checksum: 10c0/e92b76218ecdf68e8cb7ecbd526f0be5e18f7273028596ea417ea6dd74e822c8b5d28fe1cf34926fb66e955a9b90c8266d9e197709aa54bdcee6fd21924682bb
+  checksum: 10c0/0381bc3cfb262d23159b0b326e9e71d5c066e629f38c8b227c5357cca19903137293f18018efe1b62e33dcbc66dcbbbdfc453ba4728c03a9420f5808d77773a6
   languageName: node
   linkType: hard
 
-"@temporalio/common@npm:1.15.0":
-  version: 1.15.0
-  resolution: "@temporalio/common@npm:1.15.0"
+"@temporalio/common@npm:1.23.0":
+  version: 1.23.0
+  resolution: "@temporalio/common@npm:1.23.0"
   dependencies:
-    "@temporalio/proto": "npm:1.15.0"
-    long: "npm:^5.2.3"
+    "@temporalio/proto": "npm:1.23.0"
+    long: "npm:^5.3.2"
     ms: "npm:3.0.0-canary.1"
-    nexus-rpc: "npm:^0.0.1"
-    proto3-json-serializer: "npm:^2.0.0"
-  checksum: 10c0/4ca5e8c6af1680fcd4df72f3d0fabc2274496735053d3be365915fa76242c56be66b60b6ee74f5b729750784186517179c227016078a82c4dc052e39092ad8da
+    nexus-rpc: "npm:^0.0.3"
+    protobufjs: "npm:^8.7.1"
+  checksum: 10c0/c74c3e34d441d05630835362e40cc67ba8f505b7913c8428ef8717eaf59492ae5739219929b91c59fc31ae079c53ab1d4572a10d216108c176efb3603d8fc55d
   languageName: node
   linkType: hard
 
-"@temporalio/proto@npm:1.15.0":
-  version: 1.15.0
-  resolution: "@temporalio/proto@npm:1.15.0"
+"@temporalio/proto@npm:1.23.0":
+  version: 1.23.0
+  resolution: "@temporalio/proto@npm:1.23.0"
   dependencies:
-    long: "npm:^5.2.3"
-    protobufjs: "npm:^7.2.5"
-  checksum: 10c0/09b25c12aad4d65c3cb3a447879e790ee83967d0d4d46011d49e9156b468c605f57663dae088ecb47d75e0a6971d2ea072bb5840dda4163f6569448d164a90b0
+    long: "npm:^5.3.2"
+    protobufjs: "npm:^8.7.1"
+  checksum: 10c0/704e2c0d9e47c66bcb65500c8120cee9fd59a3e755952917565ec80c898b3447f74fac8a30c093bd93f0fc5d0debbab0ad63663c0e1f03ddb09f10dd7d29d294
   languageName: node
   linkType: hard
 
@@ -3585,7 +3586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"long@npm:^5.0.0, long@npm:^5.2.3":
+"long@npm:^5.0.0, long@npm:^5.3.2":
   version: 5.3.2
   resolution: "long@npm:5.3.2"
   checksum: 10c0/7130fe1cbce2dca06734b35b70d380ca3f70271c7f8852c922a7c62c86c4e35f0c39290565eca7133c625908d40e126ac57c02b1b1a4636b9457d77e1e60b981
@@ -3805,10 +3806,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nexus-rpc@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "nexus-rpc@npm:0.0.1"
-  checksum: 10c0/60d9661d2fc53c0337d364b7baca29fe9dbf2473311c8e380fb29c729b8fa58191c7f01c18eb326559e7322edb4daed49b672cd7ae56691b6b80e5290a87881c
+"nexus-rpc@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "nexus-rpc@npm:0.0.3"
+  checksum: 10c0/36ca4aafe11391250f97cfd2ce7172dba0ccf19c0e47d319d683f18ac87b7fefc906e8070cc163d15ca50f0eb199c7202ecec2f7df8245fb42ff2d3901e0f3ad
   languageName: node
   linkType: hard
 
@@ -4098,15 +4099,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proto3-json-serializer@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "proto3-json-serializer@npm:2.0.2"
-  dependencies:
-    protobufjs: "npm:^7.2.5"
-  checksum: 10c0/802e6a34f6ebf07007b186768f1985494bdfa6dd92e14c89d10cda6c4cc14df707ad59b75054a17a582f481db12c7663d25f91f505d2a85d7d4174eb5d798628
-  languageName: node
-  linkType: hard
-
 "protobufjs@npm:^7.2.5":
   version: 7.5.4
   resolution: "protobufjs@npm:7.5.4"
@@ -4124,6 +4116,15 @@ __metadata:
     "@types/node": "npm:>=13.7.0"
     long: "npm:^5.0.0"
   checksum: 10c0/913b676109ffb3c05d3d31e03a684e569be91f3bba8613da4a683d69d9dba948daa2afd7d2e7944d1aa6c417890c35d9d9a8883c1160affafb0f9670d59ef722
+  languageName: node
+  linkType: hard
+
+"protobufjs@npm:^8.7.1":
+  version: 8.8.0
+  resolution: "protobufjs@npm:8.8.0"
+  dependencies:
+    long: "npm:^5.3.2"
+  checksum: 10c0/2aa7fc766dce41858ce45ad750d9bfb2d30e9121f8c4f581ee3e5deda21440cae6bb23f41ec599d33b34963164e85f38eace687ba025d804fe926ab057c05703
   languageName: node
   linkType: hard
 
