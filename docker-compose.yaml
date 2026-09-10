@@ -56,7 +56,7 @@ services:
       retries: 10
 
   temporal:
-    image: temporalio/auto-setup:1.29.4
+    image: temporalio/auto-setup:1.29.7
     ports:
       - 7233:7233
     environment:
