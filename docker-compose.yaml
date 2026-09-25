@@ -25,8 +25,8 @@ services:
       exit 0;
       "
     environment:
-      AWS_ACCESS_KEY_ID: minio
-      AWS_SECRET_ACCESS_KEY: miniotest
+      AWS_ACCESS_KEY_ID: s3mock
+      AWS_SECRET_ACCESS_KEY: s3mock
       AWS_DEFAULT_REGION: us-east-1
     volumes:
       - ./mock-data/meca:/mock-meca
@@ -188,14 +188,14 @@ services:
 
       # EPP S3 bucket
       S3_ENDPOINT: http://s3mock:9090
-      AWS_ACCESS_KEY_ID: minio
-      AWS_SECRET_ACCESS_KEY: miniotest
+      AWS_ACCESS_KEY_ID: s3mock
+      AWS_SECRET_ACCESS_KEY: s3mock
       BUCKET_NAME: epp
 
       # Meca S3 Bucket (on s3mock)
       MECA_S3_ENDPOINT: http://s3mock:9090
-      MECA_AWS_ACCESS_KEY_ID: minio
-      MECA_AWS_SECRET_ACCESS_KEY: miniotest
+      MECA_AWS_ACCESS_KEY_ID: s3mock
+      MECA_AWS_SECRET_ACCESS_KEY: s3mock
 
       # control concurrency
       TEMPORAL_MAX_CONCURRENT_ACTIVITY_TASK_EXECUTIONS: "25"
