@@ -41,14 +41,9 @@ jobs:
         run: |
           docker compose ps
 
-          echo "Docker logs for minio"
+          echo "Docker logs for s3mock"
           echo ""
-          docker compose logs minio
-          echo ""
-
-          echo "Docker logs for createbucket"
-          echo ""
-          docker compose logs createbucket
+          docker compose logs s3mock
           echo ""
 
           echo "Docker logs for loadbucket"

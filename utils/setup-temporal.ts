@@ -20,7 +20,7 @@ export const setupClientAndScheduleStores = () => {
 
   return {
     scheduleIds,
-    minioClient: createS3Client(),
+    s3Client: createS3Client(),
     scheduleHandles,
     workflowIds,
   };

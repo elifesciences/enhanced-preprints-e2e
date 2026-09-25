@@ -4,17 +4,17 @@ import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../u
 
 test.describe('reviewed preprint', () => {
   const name = 'reviews';
-  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
+  const { s3Client, scheduleIds } = setupClientAndScheduleStores();
 
   test.beforeEach(async () => {
-    const { scheduleId } = await setupTemporal({ name, s3Client: minioClient });
+    const { scheduleId } = await setupTemporal({ name, s3Client });
     scheduleIds[name] = scheduleId;
   });
 
   test.afterEach(async () => {
     await trashTemporal({
       name,
-      s3Client: minioClient,
+      s3Client,
       scheduleId: scheduleIds[name],
     });
   });
