@@ -56,6 +56,11 @@ jobs:
           docker compose logs temporal
           echo ""
 
+          echo "Docker logs for temporal-setup-search"
+          echo ""
+          docker compose logs temporal-setup-search
+          echo ""
+
           echo "Docker logs for mongodb"
           echo ""
           docker compose logs mongodb

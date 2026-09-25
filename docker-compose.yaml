@@ -72,7 +72,19 @@ services:
     image: temporalio/admin-tools:1.23.1.0
     environment:
       TEMPORAL_ADDRESS: temporal:7233
-    entrypoint: bash -c 'temporal operator search-attribute create --name ManuscriptId --type Text && temporal operator search-attribute create --name DocmapURL --type Text'
+    entrypoint: >
+      bash -c '
+      add() {
+        for i in $$(seq 1 10); do
+          out=$$(temporal operator search-attribute create --name "$$1" --type Text 2>&1) && { echo "$$out"; return 0; };
+          echo "$$out" | grep -qi "already exists" && { echo "$$1 already exists"; return 0; };
+          echo "Attempt $$i to create search attribute $$1 failed: $$out";
+          sleep 3;
+        done;
+        return 1;
+      };
+      add ManuscriptId && add DocmapURL
+      '
     depends_on:
       temporal:
         condition: service_healthy
