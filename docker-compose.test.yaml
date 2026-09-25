@@ -9,7 +9,7 @@ services:
     environment:
       client_url: 'http://client:3000'
       api_url: 'http://api:3000'
-      minio_url: 'http://minio:9000'
+      minio_url: 'http://s3mock:9090'
       wiremock_url: 'http://wiremock:8080'
       temporal_address: 'temporal:7233'
       temporal_ui_url: 'http://temporal-ui:8233'

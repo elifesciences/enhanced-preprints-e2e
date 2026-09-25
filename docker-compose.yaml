@@ -1,44 +1,33 @@
 services:
-  minio:
-    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+  # S3-compatible test double; minio's images are no longer publicly pullable
+  s3mock:
+    image: adobe/s3mock:5.2.3
     ports:
-      - 9100:9000
-      - 9101:9001
+      - 9100:9090
     environment:
-      MINIO_ROOT_USER: minio
-      MINIO_ROOT_PASSWORD: miniotest
-    command: server --console-address ":9001" /data
+      # creates both buckets on startup; epp is left empty, meca is populated by loadbucket below
+      COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: epp,meca
     healthcheck:
-      test: curl http://minio:9000/minio/health/live
+      test: wget -q -O /dev/null http://s3mock:9090/favicon.ico
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 2s
 
-  createbucket:
-    image: quay.io/minio/mc:RELEASE.2025-04-16T18-13-26Z
+  loadbucket:
+    image: amazon/aws-cli:2.31.20
     depends_on:
-      minio:
+      s3mock:
         condition: service_healthy
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio:9000 minio miniotest;
-      /usr/bin/mc mb myminio/epp;
-      /usr/bin/mc mb myminio/meca;
+      aws --endpoint-url http://s3mock:9090 s3 cp --recursive /mock-meca s3://meca/;
       exit 0;
       "
-
-  loadbucket:
-    image: quay.io/minio/mc:RELEASE.2025-04-16T18-13-26Z
-    depends_on:
-      createbucket:
-        condition: service_completed_successfully
-    entrypoint: >
-      /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio:9000 minio miniotest;
-      /usr/bin/mc cp --recursive /mock-meca/* myminio/meca/;
-      exit 0;
-      "
+    environment:
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: miniotest
+      AWS_DEFAULT_REGION: us-east-1
     volumes:
       - ./mock-data/meca:/mock-meca
 
@@ -180,8 +169,6 @@ services:
   worker: &worker-config
     image: ghcr.io/elifesciences/enhanced-preprints-import-worker:master-d6b04355-20260915.1309
     depends_on:
-      createbucket:
-        condition: service_completed_successfully
       loadbucket:
         condition: service_completed_successfully
       temporal:
@@ -200,13 +187,13 @@ services:
       TEMPORAL_TASK_QUEUE: epp
 
       # EPP S3 bucket
-      S3_ENDPOINT: http://minio:9000
+      S3_ENDPOINT: http://s3mock:9090
       AWS_ACCESS_KEY_ID: minio
       AWS_SECRET_ACCESS_KEY: miniotest
       BUCKET_NAME: epp
 
-      # Meca S3 Bucket (on minio)
-      MECA_S3_ENDPOINT: http://minio:9000
+      # Meca S3 Bucket (on s3mock)
+      MECA_S3_ENDPOINT: http://s3mock:9090
       MECA_AWS_ACCESS_KEY_ID: minio
       MECA_AWS_SECRET_ACCESS_KEY: miniotest
 

@@ -41,7 +41,7 @@ SERVER_DIR="../enhanced-preprints-server" CLIENT_DIR="../enhanced-preprints-clie
 
 Here is a list of some of the services (full list in [/docker-compose.yaml](/docker-compose.yaml)) and how to access them on the host environment:
 
-- **minio (mock for S3 buckets)**: Available at `http://localhost:9101`.
+- **s3mock (mock for S3 buckets)**: Available at `http://localhost:9100`.
 - **temporal (EPP import)**: Available at `http://localhost:8233`.
 - **api (EPP server)**: Available at `http://localhost:3000`.
 - **app (EPP client)**: Available at `http://localhost:3001`.
