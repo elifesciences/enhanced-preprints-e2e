@@ -9,7 +9,7 @@ import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../u
 test.describe('version no retry', () => {
   const name = 'version-no-retry';
   const {
-    minioClient,
+    s3Client,
     scheduleIds,
     scheduleHandles,
     workflowIds,
@@ -22,7 +22,7 @@ test.describe('version no retry', () => {
       workflowId,
     } = await setupTemporal({
       name,
-      s3Client: minioClient,
+      s3Client,
       duration: '1 minute',
       docMapThreshold: 1,
     });
@@ -34,7 +34,7 @@ test.describe('version no retry', () => {
   test.afterEach(async () => {
     await trashTemporal({
       name,
-      s3Client: minioClient,
+      s3Client,
       scheduleId: scheduleIds[name],
     });
   });

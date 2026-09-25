@@ -4,7 +4,7 @@ import { EppPage } from './page-objects/epp-page';
 import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../utils/setup-temporal';
 
 test.describe('progress a manuscript through the manifestations', () => {
-  const { minioClient, scheduleIds } = setupClientAndScheduleStores();
+  const { s3Client, scheduleIds } = setupClientAndScheduleStores();
 
   const checkEmpty = async (eppPage: EppPage) => {
     // Verify that no preview or article page available.
@@ -75,7 +75,7 @@ test.describe('progress a manuscript through the manifestations', () => {
 
   // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {
-    const { scheduleId } = await setupTemporal({ name: testInfo.title, s3Client: minioClient });
+    const { scheduleId } = await setupTemporal({ name: testInfo.title, s3Client });
     scheduleIds[testInfo.title] = scheduleId;
   });
 
@@ -83,7 +83,7 @@ test.describe('progress a manuscript through the manifestations', () => {
   test.afterEach(async ({}, testInfo) => {
     await trashTemporal({
       name: testInfo.title,
-      s3Client: minioClient,
+      s3Client,
       scheduleId: scheduleIds[testInfo.title],
     });
   });

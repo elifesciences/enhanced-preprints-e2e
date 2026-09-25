@@ -1,5 +1,4 @@
 services:
-  # S3-compatible test double; minio's images are no longer publicly pullable
   s3mock:
     image: adobe/s3mock:5.2.3
     ports:

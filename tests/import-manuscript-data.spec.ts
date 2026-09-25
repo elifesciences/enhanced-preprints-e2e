@@ -92,12 +92,12 @@ const prepareManuscriptData = (name: string, content?: string[]) => {
 test.describe('Import Manuscript Data', () => {
   const name = 'import-manuscript-data';
 
-  const { minioClient } = setupClientAndScheduleStores();
+  const { s3Client } = setupClientAndScheduleStores();
 
   test.afterEach(async () => {
     await trashTemporal({
       name,
-      s3Client: minioClient,
+      s3Client,
     });
   });
 
@@ -117,12 +117,12 @@ test.describe('Import Manuscript Data', () => {
 test.describe('Import Manuscript Data with PDF Url', () => {
   const name = 'import-manuscript-data-with-pdf-url';
 
-  const { minioClient } = setupClientAndScheduleStores();
+  const { s3Client } = setupClientAndScheduleStores();
 
   test.afterEach(async () => {
     await trashTemporal({
       name,
-      s3Client: minioClient,
+      s3Client,
     });
   });
 

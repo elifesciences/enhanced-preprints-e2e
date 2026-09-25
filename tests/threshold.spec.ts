@@ -9,7 +9,7 @@ import { setupClientAndScheduleStores, setupTemporal, trashTemporal } from '../u
 
 test.describe('threshold', () => {
   const {
-    minioClient,
+    s3Client,
     scheduleIds,
     scheduleHandles,
     workflowIds,
@@ -23,7 +23,7 @@ test.describe('threshold', () => {
       workflowId,
     } = await setupTemporal({
       name: testInfo.title,
-      s3Client: minioClient,
+      s3Client,
       duration: '1 minute',
       docMapThreshold: 1,
     });
@@ -37,13 +37,13 @@ test.describe('threshold', () => {
     await Promise.all([
       trashTemporal({
         name: testInfo.title,
-        s3Client: minioClient,
+        s3Client,
         scheduleId: scheduleIds[testInfo.title],
       }),
       // Because this is idempotent we can run for reject and approve.
       trashTemporal({
         name: testInfo.title,
-        s3Client: minioClient,
+        s3Client,
         msid: `${testInfo.title}-msid-2`,
       }),
     ]);
