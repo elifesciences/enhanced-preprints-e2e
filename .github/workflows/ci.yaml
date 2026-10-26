@@ -101,10 +101,9 @@ jobs:
       - name: Failure Slack Notification
         uses: slackapi/slack-github-action@v4.0.0
         if: failure()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
         with:
+          webhook: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "text": ":fire: EPP GitHub Action e2e test failure",
@@ -159,10 +158,9 @@ jobs:
           docker buildx imagetools create -t $ENCODA_IMAGE_AND_TAG-approved $ENCODA_IMAGE_AND_TAG
       - name: Success Slack Notification
         uses: slackapi/slack-github-action@v4.0.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
         with:
+          webhook: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "text": ":tada: EPP GitHub Action e2e test success and new images approved",
@@ -219,10 +217,9 @@ jobs:
       - name: Failure Slack Notification
         uses: slackapi/slack-github-action@v4.0.0
         if: failure()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
         with:
+          webhook: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "text": ":fire: EPP GitHub Action e2e test success, but new images failed to approved",
