@@ -73,7 +73,7 @@ services:
     environment:
       TEMPORAL_ADDRESS: temporal:7233
     entrypoint: >
-      bash -c '
+      sh -c '
       add() {
         for i in $$(seq 1 10); do
           out=$$(temporal operator search-attribute create --name "$$1" --type Text 2>&1) && { echo "$$out"; return 0; };
@@ -97,7 +97,7 @@ services:
       TEMPORAL_ADDRESS: temporal:7233
       TEMPORAL_UI_PORT: 8233
     healthcheck:
-      test: curl http://localhost:8233 -I
+      test: wget -q --spider http://localhost:8233
     depends_on:
       temporal:
         condition: service_healthy
