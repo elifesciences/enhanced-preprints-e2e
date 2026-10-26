@@ -99,12 +99,11 @@ jobs:
           name: playwright-report
           path: playwright-report/index.html
       - name: Failure Slack Notification
-        uses: slackapi/slack-github-action@v1.27.1
+        uses: slackapi/slack-github-action@v4.0.0
         if: failure()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
         with:
+          webhook: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "text": ":fire: EPP GitHub Action e2e test failure",
@@ -158,11 +157,10 @@ jobs:
           docker buildx imagetools create -t $XSLT_IMAGE_AND_TAG-approved $XSLT_IMAGE_AND_TAG
           docker buildx imagetools create -t $ENCODA_IMAGE_AND_TAG-approved $ENCODA_IMAGE_AND_TAG
       - name: Success Slack Notification
-        uses: slackapi/slack-github-action@v1.27.1
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        uses: slackapi/slack-github-action@v4.0.0
         with:
+          webhook: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "text": ":tada: EPP GitHub Action e2e test success and new images approved",
@@ -217,12 +215,11 @@ jobs:
               ]
             }
       - name: Failure Slack Notification
-        uses: slackapi/slack-github-action@v1.27.1
+        uses: slackapi/slack-github-action@v4.0.0
         if: failure()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
         with:
+          webhook: ${{ secrets.SLACK_E2E_NOTIFICATION_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "text": ":fire: EPP GitHub Action e2e test success, but new images failed to approved",
