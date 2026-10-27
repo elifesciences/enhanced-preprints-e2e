@@ -35,6 +35,16 @@
       "matchPackageNames": ["node"],
       "matchDatasources": ["docker"],
       "versioning": "node"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "rebaseWhen": "conflicted"
+    },
+    {
+      "matchPackageNames": ["temporalio/**"],
+      "matchDatasources": ["docker"],
+      "groupName": "temporal"
     }
   ]
 }
