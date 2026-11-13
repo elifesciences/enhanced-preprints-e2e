@@ -19,8 +19,8 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/client-s3@npm:^3.310.0":
-  version: 3.1167.0
-  resolution: "@aws-sdk/client-s3@npm:3.1167.0"
+  version: 3.1168.0
+  resolution: "@aws-sdk/client-s3@npm:3.1168.0"
   dependencies:
     "@aws-sdk/checksums": "npm:^3.1002.5"
     "@aws-sdk/core": "npm:^3.981.0"
@@ -33,7 +33,7 @@ __metadata:
     "@smithy/node-http-handler": "npm:^4.14.2"
     "@smithy/types": "npm:^4.20.0"
     tslib: "npm:^2.6.2"
-  checksum: 10c0/7e69738eaed3fc6ec315dacb034bda93e92bf98890d5d4a2fed59aa6c1225e450c512e70ddf4280cc70ae1f0099b4715236bb9791edead6bda8a6d3d2d520de4
+  checksum: 10c0/6ac306baa6af088ace2305b8fda21563989b80f9406b440d8d1515042e847ae4d9eed1546c3d7b73f7e45a72175b21fae32c32c42e39fcf5942c3acd6ca3b50d
   languageName: node
   linkType: hard
 
