@@ -166,7 +166,7 @@ services:
       start_period: 5s
 
   encoda:
-    image: ghcr.io/elifesciences/enhanced-preprints-encoda:master-db8d43eb-20261126.1548
+    image: ghcr.io/elifesciences/enhanced-preprints-encoda:master-910052a7-20261126.1654
     healthcheck:
       test: "wget --post-data '<test></test>' -O - http://localhost:3000/"
       interval: 10s
